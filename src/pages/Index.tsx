@@ -37,8 +37,12 @@ const Index = () => {
         >
           {currentPage === 0 ? (
             <HeroPage onNext={() => navigateTo(1)} />
+          ) : currentPage === 1 ? (
+            <JourneyPage />
+          ) : currentPage === 2 ? (
+            <CelebrationPage />
           ) : (
-            <CurrentPageComponent />
+            <ConnectionPage />
           )}
         </motion.div>
       </AnimatePresence>
