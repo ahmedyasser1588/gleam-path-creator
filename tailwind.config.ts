@@ -13,6 +13,10 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        display: ["Playfair Display", "serif"],
+        body: ["Montserrat", "sans-serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -47,6 +51,10 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        "rose-gold": "hsl(var(--rose-gold))",
+        "rose-gold-light": "hsl(var(--rose-gold-light))",
+        cream: "hsl(var(--cream))",
+        blush: "hsl(var(--blush))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -65,25 +73,58 @@ export default {
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-20px)" },
+        },
+        "float-slow": {
+          "0%, 100%": { transform: "translateY(0px) translateX(0px)" },
+          "33%": { transform: "translateY(-15px) translateX(10px)" },
+          "66%": { transform: "translateY(5px) translateX(-10px)" },
+        },
+        sparkle: {
+          "0%, 100%": { opacity: "0.3", transform: "scale(0.8)" },
+          "50%": { opacity: "1", transform: "scale(1.2)" },
+        },
+        "glow-pulse": {
+          "0%, 100%": { boxShadow: "0 0 20px hsla(350, 100%, 85%, 0.3)" },
+          "50%": { boxShadow: "0 0 40px hsla(350, 100%, 85%, 0.6)" },
+        },
+        "vinyl-spin": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
+        "draw-line": {
+          from: { height: "0%" },
+          to: { height: "100%" },
+        },
+        "candle-flicker": {
+          "0%, 100%": { transform: "scaleY(1) scaleX(1)" },
+          "25%": { transform: "scaleY(1.1) scaleX(0.9)" },
+          "75%": { transform: "scaleY(0.9) scaleX(1.1)" },
+        },
+        "scratch-reveal": {
+          from: { clipPath: "circle(0% at 50% 50%)" },
+          to: { clipPath: "circle(100% at 50% 50%)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        float: "float 6s ease-in-out infinite",
+        "float-slow": "float-slow 8s ease-in-out infinite",
+        sparkle: "sparkle 2s ease-in-out infinite",
+        "glow-pulse": "glow-pulse 3s ease-in-out infinite",
+        "vinyl-spin": "vinyl-spin 3s linear infinite",
+        "draw-line": "draw-line 2s ease-out forwards",
+        "candle-flicker": "candle-flicker 0.5s ease-in-out infinite",
       },
     },
   },
