@@ -1,7 +1,11 @@
 import { motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import Countdown from "@/components/Countdown";
 import FloatingText from "@/components/FloatingText";
-import { ChevronDown } from "lucide-react";
+import FloatingHearts from "@/components/FloatingHearts";
+import DailyScratchCard from "@/components/DailyScratchCard";
+import ProgressDots from "@/components/ProgressDots";
+import { BIRTHDAY_DATE, getDaysUntilBirthday, getDailyMessage, getBirthdayPhase, getParticleIntensity } from "@/lib/birthday-config";
 
 interface HeroPageProps {
   onNext: () => void;
@@ -18,19 +22,31 @@ const insideJokes = [
   "Your contagious laugh 😄",
 ];
 
-// Set birthday to a future date — adjust as needed
-const BIRTHDAY = new Date("2025-08-15T00:00:00");
-
 const HeroPage = ({ onNext }: HeroPageProps) => {
+  const days = getDaysUntilBirthday();
+  const phase = getBirthdayPhase();
+  const intensity = getParticleIntensity();
+  const dailyMessage = getDailyMessage();
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-4 bg-hero-gradient overflow-hidden">
       <FloatingText texts={insideJokes} />
+      <FloatingHearts intensity={intensity} />
 
-      {/* Decorative elements */}
-      <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-primary/20 blur-3xl animate-float" />
-      <div className="absolute bottom-32 right-16 w-40 h-40 rounded-full bg-accent/10 blur-3xl animate-float-slow" />
-      <div className="absolute top-1/3 right-1/4 w-2 h-2 rounded-full bg-accent animate-sparkle" />
-      <div className="absolute top-2/3 left-1/3 w-1.5 h-1.5 rounded-full bg-accent animate-sparkle" style={{ animationDelay: "0.5s" }} />
+      {/* Decorative elements - intensity scales with proximity */}
+      <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-primary/20 blur-3xl animate-float" style={{ opacity: 0.3 + intensity * 0.5 }} />
+      <div className="absolute bottom-32 right-16 w-40 h-40 rounded-full bg-accent/10 blur-3xl animate-float-slow" style={{ opacity: 0.2 + intensity * 0.6 }} />
+      {Array.from({ length: Math.floor(3 + intensity * 7) }, (_, i) => (
+        <div
+          key={i}
+          className="absolute w-1.5 h-1.5 rounded-full bg-accent animate-sparkle"
+          style={{
+            top: `${10 + Math.random() * 80}%`,
+            left: `${10 + Math.random() * 80}%`,
+            animationDelay: `${i * 0.3}s`,
+          }}
+        />
+      ))}
 
       <motion.div
         className="relative z-10 text-center"
@@ -44,7 +60,7 @@ const HeroPage = ({ onNext }: HeroPageProps) => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          You're Invited
+          {phase === "birthday" ? "🎉 Today is the Day! 🎉" : "You're Invited"}
         </motion.p>
 
         <motion.h1
@@ -53,11 +69,11 @@ const HeroPage = ({ onNext }: HeroPageProps) => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          Happy Birthday
+          {phase === "birthday" ? "Happy Birthday! 🎂" : "Happy Birthday"}
         </motion.h1>
 
         <motion.p
-          className="text-lg md:text-xl text-muted-foreground font-body font-light mb-12 max-w-md mx-auto"
+          className="text-lg md:text-xl text-muted-foreground font-body font-light mb-10 max-w-md mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
@@ -69,9 +85,38 @@ const HeroPage = ({ onNext }: HeroPageProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
+          className="mb-10"
         >
-          <Countdown targetDate={BIRTHDAY} />
+          <Countdown targetDate={BIRTHDAY_DATE} />
         </motion.div>
+
+        {/* Daily Scratch Card — only shows during 10-day window */}
+        {dailyMessage && (
+          <motion.div
+            className="mb-10"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.0, type: "spring" }}
+          >
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-body mb-4">
+              Today's Secret Card
+            </p>
+            <div className="flex justify-center">
+              <DailyScratchCard day={dailyMessage.day} title={dailyMessage.title} message={dailyMessage.message} />
+            </div>
+          </motion.div>
+        )}
+
+        {/* Progress Dots — shows during 10-day window */}
+        {days <= 10 && days > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2 }}
+          >
+            <ProgressDots daysUntilBirthday={days} />
+          </motion.div>
+        )}
       </motion.div>
 
       <motion.button

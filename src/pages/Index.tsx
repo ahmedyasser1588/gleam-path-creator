@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import CustomCursor from "@/components/CustomCursor";
@@ -7,24 +7,32 @@ import HeroPage from "@/pages/HeroPage";
 import JourneyPage from "@/pages/JourneyPage";
 import CelebrationPage from "@/pages/CelebrationPage";
 import ConnectionPage from "@/pages/ConnectionPage";
+import { getBirthdayPhase } from "@/lib/birthday-config";
 
 const Index = () => {
   const [currentPage, setCurrentPage] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const phase = useMemo(() => getBirthdayPhase(), []);
 
-  const pages = [HeroPage, JourneyPage, CelebrationPage, ConnectionPage];
-
-  const navigateTo = (page: number) => {
-    setCurrentPage(page);
-    containerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  // Phase locking: only Countdown/Hero visible pre-10-days
+  // Pre-birthday (10 days): Hero + scratch cards
+  // Birthday: Full site unlocked
+  const isPageLocked = (pageIndex: number) => {
+    if (phase === "birthday") return false; // All unlocked
+    if (phase === "pre-birthday") return false; // All accessible during 10-day countdown
+    // "countdown" phase — only hero accessible
+    return pageIndex > 0;
   };
 
-  const CurrentPageComponent = pages[currentPage];
+  const navigateTo = (page: number) => {
+    if (isPageLocked(page)) return;
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
-    <div ref={containerRef} className="relative min-h-screen overflow-x-hidden">
+    <div className="relative min-h-screen overflow-x-hidden">
       <CustomCursor />
-      <Navigation currentPage={currentPage} onNavigate={navigateTo} />
+      <Navigation currentPage={currentPage} onNavigate={navigateTo} lockedPages={phase === "countdown" ? [1, 2, 3] : []} />
       <MusicPlayer />
 
       <AnimatePresence mode="wait">

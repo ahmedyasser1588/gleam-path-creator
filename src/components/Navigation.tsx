@@ -1,14 +1,15 @@
 import { motion } from "framer-motion";
-import { Heart } from "lucide-react";
+import { Heart, Lock } from "lucide-react";
 
 interface NavigationProps {
   currentPage: number;
   onNavigate: (page: number) => void;
+  lockedPages?: number[];
 }
 
 const pages = ["Entrance", "Journey", "Celebration", "Connection"];
 
-const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
+const Navigation = ({ currentPage, onNavigate, lockedPages = [] }: NavigationProps) => {
   return (
     <motion.nav
       className="fixed top-0 left-0 right-0 z-50 glass py-3 px-6"
@@ -22,21 +23,27 @@ const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
           <span className="font-display text-sm font-semibold text-foreground">Birthday</span>
         </motion.div>
         <div className="flex gap-1">
-          {pages.map((page, i) => (
-            <motion.button
-              key={page}
-              onClick={() => onNavigate(i)}
-              className={`px-3 py-1.5 rounded-full text-xs font-body transition-colors ${
-                currentPage === i
-                  ? "bg-accent text-accent-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {page}
-            </motion.button>
-          ))}
+          {pages.map((page, i) => {
+            const locked = lockedPages.includes(i);
+            return (
+              <motion.button
+                key={page}
+                onClick={() => !locked && onNavigate(i)}
+                className={`px-3 py-1.5 rounded-full text-xs font-body transition-colors flex items-center gap-1 ${
+                  locked
+                    ? "text-muted-foreground/50 cursor-not-allowed"
+                    : currentPage === i
+                    ? "bg-accent text-accent-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+                whileHover={locked ? {} : { scale: 1.05 }}
+                whileTap={locked ? {} : { scale: 0.95 }}
+              >
+                {locked && <Lock className="w-3 h-3" />}
+                {page}
+              </motion.button>
+            );
+          })}
         </div>
       </div>
     </motion.nav>
