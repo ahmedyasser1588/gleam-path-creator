@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import VirtualCake from "@/components/VirtualCake";
 import ScratchCard from "@/components/ScratchCard";
 import Envelope from "@/components/Envelope";
+import DreamCollector from "@/components/DreamCollector";
 import { Gift } from "lucide-react";
 
 const wishlistItems = [
@@ -41,6 +42,11 @@ const CelebrationPage = () => {
         >
           <VirtualCake />
         </motion.div>
+
+        {/* Dream Collector */}
+        <div className="mb-20">
+          <DreamCollector />
+        </div>
 
         {/* Scratch Card */}
         <motion.div
