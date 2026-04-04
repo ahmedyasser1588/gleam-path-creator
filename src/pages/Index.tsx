@@ -1,16 +1,49 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Navigation from "@/components/Navigation";
+import CustomCursor from "@/components/CustomCursor";
+import MusicPlayer from "@/components/MusicPlayer";
+import HeroPage from "@/pages/HeroPage";
+import JourneyPage from "@/pages/JourneyPage";
+import CelebrationPage from "@/pages/CelebrationPage";
+import ConnectionPage from "@/pages/ConnectionPage";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const pages = [HeroPage, JourneyPage, CelebrationPage, ConnectionPage];
+
+  const navigateTo = (page: number) => {
+    setCurrentPage(page);
+    containerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const CurrentPageComponent = pages[currentPage];
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div ref={containerRef} className="relative min-h-screen overflow-x-hidden">
+      <CustomCursor />
+      <Navigation currentPage={currentPage} onNavigate={navigateTo} />
+      <MusicPlayer />
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentPage}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.4 }}
+        >
+          {currentPage === 0 ? (
+            <HeroPage onNext={() => navigateTo(1)} />
+          ) : (
+            <CurrentPageComponent />
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
