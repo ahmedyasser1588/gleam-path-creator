@@ -60,7 +60,7 @@ const HeroPage = ({ onNext }: HeroPageProps) => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          {phase === "birthday" ? "🎉 Today is the Day! 🎉" : "You're Invited"}
+          {phase === "birthday" ? "🎉 Today is the Day! 🎉" : "Level 21 Unlocked! 🔓"}
         </motion.p>
 
         <motion.h1
@@ -69,7 +69,7 @@ const HeroPage = ({ onNext }: HeroPageProps) => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          {phase === "birthday" ? "Happy Birthday! 🎂" : "1 Birthday"}
+          {phase === "birthday" ? "Happy Birthday! 🎂" : "Happy Birthday"}
         </motion.h1>
 
         <motion.p
@@ -78,7 +78,7 @@ const HeroPage = ({ onNext }: HeroPageProps) => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
         >
-          A celebration of love, laughter, and everything that makes you, <em className="text-accent font-medium">you</em>.
+          A year of joy, of shared dreams, and the light you bring to my life, <em className="text-accent font-medium">Happy 21st Eso</em>.
         </motion.p>
 
         <motion.div
