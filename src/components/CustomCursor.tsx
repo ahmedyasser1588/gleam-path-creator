@@ -25,7 +25,7 @@ const CustomCursor = () => {
     <motion.div
       className="custom-cursor"
       animate={{ x: pos.x, y: pos.y }}
-      transition={{ type: "spring", stiffness: 500, damping: 28, mass: 0.5 }}
+      transition={{ type: "tween", duration: 0.08, ease: "linear" }}
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <path
