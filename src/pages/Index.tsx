@@ -9,19 +9,22 @@ import CelebrationPage from "@/pages/CelebrationPage";
 import ConnectionPage from "@/pages/ConnectionPage";
 import { getBirthdayPhase } from "@/lib/birthday-config";
 import { BIRTHDAY_DATE } from "@/lib/birthday-config"; // تأكد من المسار حسب مشروعك
-// جوه ملف Index.tsx
 const Index = () => {
   const [currentPage, setCurrentPage] = useState(0);
-  
-  // نرجع نستخدم الدالة الأصلية لأننا عدلناها في ملف الـ config
-  const phase = useMemo(() => getBirthdayPhase(), []); 
+    const phase = useMemo(() => {
+      const now = new Date();
+      
+      // تأكد إن السنة هنا 2026 عشان تفتح بكرة
+      const birthday = new Date("2026-04-06T00:00:00"); 
 
-  const isPageLocked = (pageIndex: number) => {
-    if (phase === "birthday") return false; 
-    return pageIndex > 0;
-  };
-
-  // ... باقي الكود كما هو
+      if (now >= birthday) {
+        return "birthday"; // دي اللي بتفتح الموقع
+      } else {
+        // جرب ترجع "countdown" بدل "locked" 
+        // لأن أغلب البروجكتس دي بتستخدم كلمة countdown للحالة اللي قبل العيد
+        return "countdown"; 
+      }
+    }, []);
 
   // Phase locking: only Countdown/Hero visible pre-10-days
   // Pre-birthday (10 days): Hero + scratch cards
