@@ -117,6 +117,8 @@
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
+  will-change: left, top;
+  transition: opacity 0.2s ease;
 }
 
 /* Scrollbar */

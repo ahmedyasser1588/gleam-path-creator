@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 const CustomCursor = () => {
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [visible, setVisible] = useState(false);
+  const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const move = (e: MouseEvent) => {
-      setPos({ x: e.clientX, y: e.clientY });
-      setVisible(true);
+      if (cursorRef.current) {
+        cursorRef.current.style.left = `${e.clientX}px`;
+        cursorRef.current.style.top = `${e.clientY}px`;
+        cursorRef.current.style.opacity = "1";
+      }
     };
-    const leave = () => setVisible(false);
+    const leave = () => {
+      if (cursorRef.current) cursorRef.current.style.opacity = "0";
+    };
     window.addEventListener("mousemove", move);
     window.addEventListener("mouseleave", leave);
     return () => {
@@ -19,14 +22,8 @@ const CustomCursor = () => {
     };
   }, []);
 
-  if (!visible) return null;
-
   return (
-    <motion.div
-      className="custom-cursor"
-      animate={{ x: pos.x, y: pos.y }}
-      transition={{ type: "tween", duration: 0.08, ease: "linear" }}
-    >
+    <div ref={cursorRef} className="custom-cursor" style={{ opacity: 0 }}>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <path
           d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
@@ -34,7 +31,7 @@ const CustomCursor = () => {
           opacity="0.8"
         />
       </svg>
-    </motion.div>
+    </div>
   );
 };
 
