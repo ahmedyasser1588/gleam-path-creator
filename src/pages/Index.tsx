@@ -11,7 +11,7 @@ import { getBirthdayPhase } from "@/lib/birthday-config";
 
 const Index = () => {
   const [currentPage, setCurrentPage] = useState(0);
-  const phase = useMemo(() => getBirthdayPhase(), []);
+  const phase = "birthday";
 
   // Phase locking: only Countdown/Hero visible pre-10-days
   // Pre-birthday (10 days): Hero + scratch cards
