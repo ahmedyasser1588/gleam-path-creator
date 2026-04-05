@@ -7,11 +7,20 @@ import HeroPage from "@/pages/HeroPage";
 import JourneyPage from "@/pages/JourneyPage";
 import CelebrationPage from "@/pages/CelebrationPage";
 import ConnectionPage from "@/pages/ConnectionPage";
-import { getBirthdayPhase } from "@/lib/birthday-config";
-
+import { BIRTHDAY_DATE } from "@/lib/birthday-config"; // تأكد من المسار حسب مشروعك
 const Index = () => {
   const [currentPage, setCurrentPage] = useState(0);
-  const phase = "birthday";
+const phase = useMemo(() => {
+  const now = new Date();
+  const birthday = new Date(BIRTHDAY_DATE);
+  
+  // لو الوقت الحالي أكبر من أو يساوي وقت عيد الميلاد
+  if (now >= birthday) {
+    return "birthday";
+  } else {
+    return "locked"; // أو أي حالة تانية أنت معرفها في الـ Config
+  }
+}, []);
 
   // Phase locking: only Countdown/Hero visible pre-10-days
   // Pre-birthday (10 days): Hero + scratch cards
