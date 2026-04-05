@@ -17,9 +17,8 @@ const Index = () => {
   // Pre-birthday (10 days): Hero + scratch cards
   // Birthday: Full site unlocked
   const isPageLocked = (pageIndex: number) => {
-    if (phase === "birthday") return false; // All unlocked
-    if (phase === "pre-birthday") return false; // All accessible during 10-day countdown
-    // "countdown" phase — only hero accessible
+    if (phase === "birthday") return false; // All unlocked on the day
+    // Before birthday — only hero/entrance accessible
     return pageIndex > 0;
   };
 
