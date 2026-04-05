@@ -15,7 +15,7 @@ const Index = () => {
       const now = new Date();
       
       // تأكد إن السنة هنا 2026 عشان تفتح بكرة
-      const birthday = new Date("2026-04-06T00:00:00"); 
+      const birthday = new Date("2026-04-04T00:00:00"); 
 
       if (now >= birthday) {
         return "birthday"; // دي اللي بتفتح الموقع
