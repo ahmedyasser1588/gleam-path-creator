@@ -8,7 +8,7 @@ export const DAILY_MESSAGES = [
   { day: 8, title: "Day 8 🌸", message: "Eight days until the world celebrates YOU. Start practicing your birthday smile!" },
   { day: 7, title: "Day 7 🦋", message: "One week to go! If I could gift you anything, it would be a mirror that shows how everyone sees you — absolutely radiant." },
   { day: 6, title: "Day 6 💝", message: "Fun fact: On this day, somewhere in the world, someone is smiling because of a memory with you." },
-  { day: 5, title: "Day 5 🎵", message: "Five more days! Remember that song that always makes us laugh? It's playing in my heart right now." },
+  { day: 5, title: "Day 5 🎵", message: "DDDDplASDASDaying in my heart right now." },
   { day: 4, title: "Day 4 🌙", message: "Four days left! The stars are getting ready to shine extra bright for you." },
   { day: 3, title: "Day 3 🎀", message: "Three days! I'm running out of ways to say how special you are... just kidding, there are infinite ways." },
   { day: 2, title: "Day 2 💐", message: "Tomorrow is almost here! The butterflies in my heart are doing a full choreography for you." },
