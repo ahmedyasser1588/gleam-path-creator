@@ -38,9 +38,18 @@ export function getDailyMessage(): typeof DAILY_MESSAGES[0] | null {
 export type BirthdayPhase = "countdown" | "pre-birthday" | "birthday";
 
 export function getBirthdayPhase(): BirthdayPhase {
+  const now = new Date();
+  const birthday = new Date(BIRTHDAY_DATE);
+
+  // لو الوقت الحالي جه أو عدى ميعاد ميلاد "إيسو"
+  if (now >= birthday) {
+    return "birthday";
+  }
+  
+  // لو لسه فاضل أقل من 10 أيام
   const days = getDaysUntilBirthday();
-  if (days === 0) return "birthday";
-  if (days <= 10) return "pre-birthday";
+  if (days <= 10 && days > 0) return "pre-birthday";
+  
   return "countdown";
 }
 
