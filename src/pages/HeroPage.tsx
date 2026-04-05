@@ -69,7 +69,7 @@ const HeroPage = ({ onNext }: HeroPageProps) => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          {phase === "birthday" ? "Happy Birthday! 🎂" : "Happy Birthday"}
+          {phase === "birthday" ? "Happy Birthday! 🎂" : "1 Birthday"}
         </motion.h1>
 
         <motion.p
