@@ -31,7 +31,7 @@ const Index = () => {
   return (
     <div className="relative min-h-screen overflow-x-hidden">
       <CustomCursor />
-      <Navigation currentPage={currentPage} onNavigate={navigateTo} lockedPages={phase === "countdown" ? [1, 2, 3] : []} />
+      <Navigation currentPage={currentPage} onNavigate={navigateTo} lockedPages={phase !== "birthday" ? [1, 2, 3] : []} />
       <MusicPlayer />
 
       <AnimatePresence mode="wait">
