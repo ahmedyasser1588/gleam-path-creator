@@ -1,5 +1,5 @@
 // Birthday configuration - change this date to the actual birthday
-export const BIRTHDAY_DATE = new Date("2025-08-15T00:00:00");
+export const BIRTHDAY_DATE = new Date("2025-05-05T00:00:00");
 
 // Daily messages for the 10-day countdown
 export const DAILY_MESSAGES = [
