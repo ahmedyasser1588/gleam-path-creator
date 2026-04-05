@@ -17,9 +17,8 @@ const Index = () => {
   // Pre-birthday (10 days): Hero + scratch cards
   // Birthday: Full site unlocked
   const isPageLocked = (pageIndex: number) => {
-    if (phase === "birthday") return false; // All unlocked
-    if (phase === "pre-birthday") return false; // All accessible during 10-day countdown
-    // "countdown" phase — only hero accessible
+    if (phase === "birthday") return false; // All unlocked on the day
+    // Before birthday — only hero/entrance accessible
     return pageIndex > 0;
   };
 
@@ -32,7 +31,7 @@ const Index = () => {
   return (
     <div className="relative min-h-screen overflow-x-hidden">
       <CustomCursor />
-      <Navigation currentPage={currentPage} onNavigate={navigateTo} lockedPages={phase === "countdown" ? [1, 2, 3] : []} />
+      <Navigation currentPage={currentPage} onNavigate={navigateTo} lockedPages={phase !== "birthday" ? [1, 2, 3] : []} />
       <MusicPlayer />
 
       <AnimatePresence mode="wait">
