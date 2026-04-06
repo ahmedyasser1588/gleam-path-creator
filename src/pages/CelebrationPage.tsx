@@ -3,7 +3,8 @@ import VirtualCake from "@/components/VirtualCake";
 import ScratchCard from "@/components/ScratchCard";
 import Envelope from "@/components/Envelope";
 import DreamCollector from "@/components/DreamCollector";
-import { Gift } from "lucide-react";
+import TimeMachineButton from "@/components/TimeMachineButton";
+import { Gift, Heart } from "lucide-react";
 
 const wishlistItems = [
   { name: "Cozy Blanket Set", emoji: "🧣", reserved: false },
