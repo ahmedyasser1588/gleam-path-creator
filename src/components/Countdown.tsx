@@ -9,21 +9,21 @@ interface CountdownProps {
 
 const Countdown = ({ targetDate, onComplete }: CountdownProps) => {
   const [time, setTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const [isComplete, setIsComplete] = useState(false);
+  
+  // هنا التعديل: بنشوف لو الوقت خلص عشان نعرض الزرار بس من غير "Auto-trigger"
+  const nowMs = Date.now();
+  const isComplete = nowMs >= targetDate.getTime();
 
-  // Calculate heart progress: fills over the last 10 days
+  // Calculate heart progress
   const TEN_DAYS_MS = 10 * 86400000;
-  const now = Date.now();
-  const diff = targetDate.getTime() - now;
+  const diff = targetDate.getTime() - nowMs;
   const heartProgress = diff <= 0 ? 1 : diff >= TEN_DAYS_MS ? 0 : 1 - diff / TEN_DAYS_MS;
 
   useEffect(() => {
+    if (isComplete) return; // لو الوقت خلص مفيش داعي للـ Interval
+
     const tick = () => {
       const remaining = Math.max(0, targetDate.getTime() - Date.now());
-      if (remaining === 0 && !isComplete) {
-        setIsComplete(true);
-        onComplete?.();
-      }
       setTime({
         days: Math.floor(remaining / 86400000),
         hours: Math.floor((remaining % 86400000) / 3600000),
@@ -31,10 +31,11 @@ const Countdown = ({ targetDate, onComplete }: CountdownProps) => {
         seconds: Math.floor((remaining % 60000) / 1000),
       });
     };
+
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
-  }, [targetDate, isComplete, onComplete]);
+  }, [targetDate, isComplete]);
 
   const units = [
     { label: "Days", value: time.days },
@@ -78,13 +79,13 @@ const Countdown = ({ targetDate, onComplete }: CountdownProps) => {
         ) : (
           <motion.button
             key="celebrate"
-            onClick={onComplete}
+            // الزرار ده هو الوحيد اللي هيشغل الـ onComplete لما تضغط عليه
+            onClick={() => onComplete?.()} 
             className="relative group"
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.3 }}
           >
-            {/* Pulsing glow ring */}
             <motion.div
               className="absolute -inset-3 rounded-full bg-primary/20 blur-xl"
               animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.7, 0.4] }}

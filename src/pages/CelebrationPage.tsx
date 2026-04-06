@@ -80,7 +80,7 @@ const CelebrationPage = () => {
         >
           <h3 className="font-display text-2xl font-semibold text-foreground mb-6">The Time Machine</h3>
           <div className="flex justify-center">
-            <TimeMachineButton url="https://example.com" />
+            <TimeMachineButton url="https://ahmedyasser1588.github.io/Brith-Day-Esraa/" />
           </div>
         </motion.div>
 
