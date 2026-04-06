@@ -62,13 +62,15 @@ const HeroPage = ({ onNext, birthday }: HeroPageProps) => {
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <motion.p
-          className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-body mb-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          {isBirthday ? "🎉 Today is the Day! 🎉" : "Level 21 Unlocked! 🔓"}
-        </motion.p>
+  className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-body mb-4"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ delay: 0.3 }}
+>
+  🎉 Today is the Day! 🎉
+  <br />
+  Level 21 Unlocked! 🔓
+</motion.p>
 
         <motion.h1
           className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-gradient-rose mb-6"
