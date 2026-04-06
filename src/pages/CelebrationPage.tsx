@@ -6,12 +6,6 @@ import DreamCollector from "@/components/DreamCollector";
 import TimeMachineButton from "@/components/TimeMachineButton";
 import { Gift, Heart } from "lucide-react";
 
-const wishlistItems = [
-  { name: "Cozy Blanket Set", emoji: "🧣", reserved: false },
-  { name: "Scented Candle Collection", emoji: "🕯️", reserved: true },
-  { name: "Polaroid Camera", emoji: "📷", reserved: false },
-  { name: "Journal & Pen Set", emoji: "📝", reserved: false },
-];
 
 const envelopes = [
   { title: "Open When You're Happy", message: "I just want you to know — your happiness is the most beautiful thing in the world. Keep shining! 🌟", condition: "For your happiest moments", isUnlocked: true },

@@ -6,9 +6,8 @@ import MusicPlayer from "@/components/MusicPlayer";
 import HeroPage from "@/pages/HeroPage";
 import JourneyPage from "@/pages/JourneyPage";
 import CelebrationPage from "@/pages/CelebrationPage";
-import ConnectionPage from "@/pages/ConnectionPage";
 import { getBirthdayPhase } from "@/lib/birthday-config";
-import { BIRTHDAY_DATE } from "@/lib/birthday-config"; // تأكد من المسار حسب مشروعك
+import { BIRTHDAY_DATE } from "@/lib/birthday-config";
 const Index = () => {
   const [currentPage, setCurrentPage] = useState(0);
     const phase = useMemo(() => {
