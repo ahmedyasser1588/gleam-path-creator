@@ -43,24 +43,24 @@ const Index = () => {
         lockedPages={!isBirthday ? [1, 2] : []}
       />
       <MusicPlayer />
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentPage}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4 }}
-            >
-              {currentPage === 0 ? (
-                <HeroPage onNext={() => navigateTo(1)} birthday={BIRTHDAY} />
-              ) : currentPage === 1 ? (
-                /* السطر اللي تحت ده هو اللي اتعدل عشان يشغل زرار Let's Celebrate */
-                <JourneyPage onNext={() => navigateTo(2)} /> 
-              ) : (
-                <CelebrationPage />
-              )}
-            </motion.div>
-          </AnimatePresence>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentPage}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.4 }}
+        >
+          {currentPage === 0 ? (
+            <HeroPage onNext={() => navigateTo(1)} birthday={BIRTHDAY} />
+          ) : currentPage === 1 ? (
+            <JourneyPage />
+          ) : (
+            <CelebrationPage />
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };
