@@ -42,6 +42,7 @@ const HeroPage = ({ onNext, birthday }: HeroPageProps) => {
 
       <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-primary/20 blur-3xl animate-float" style={{ opacity: 0.3 + intensity * 0.5 }} />
       <div className="absolute bottom-32 right-16 w-40 h-40 rounded-full bg-accent/10 blur-3xl animate-float-slow" style={{ opacity: 0.2 + intensity * 0.6 }} />
+      
       {Array.from({ length: Math.floor(3 + intensity * 7) }, (_, i) => (
         <div
           key={i}
@@ -93,7 +94,8 @@ const HeroPage = ({ onNext, birthday }: HeroPageProps) => {
           transition={{ delay: 0.8 }}
           className="mb-10"
         >
-          <Countdown targetDate={birthday} onComplete={onNext} />
+          {/* تم مسح onComplete من هنا لمنع التحويل التلقائي المتكرر */}
+          <Countdown targetDate={birthday} />
         </motion.div>
 
         {dailyMessage && (
