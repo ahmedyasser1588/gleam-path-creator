@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react"; // ضفنا useEffect
 import { AnimatePresence, motion } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import CustomCursor from "@/components/CustomCursor";
@@ -7,19 +7,28 @@ import HeroPage from "@/pages/HeroPage";
 import JourneyPage from "@/pages/JourneyPage";
 import CelebrationPage from "@/pages/CelebrationPage";
 
-// ✏️ غيّر التاريخ ده لتاريخ عيد الميلاد اللي انت عايزه
+// التاريخ والوقت المظبوط
 const BIRTHDAY = new Date("2026-04-06T10:52:00");
 
 const Index = () => {
   const [currentPage, setCurrentPage] = useState(0);
+  const [now, setNow] = useState(new Date());
 
-  const isBirthday = useMemo(() => {
-    return new Date() >= BIRTHDAY;
+  // تحديث الوقت كل ثانية عشان الـ Countdown والـ Lock يفكوا أوتوماتيك
+  useEffect(() => {
+    const timer = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(timer);
   }, []);
 
+  // المقارنة دلوقتي بتعتمد على الوقت الحالي المحدث
+  const isBirthday = useMemo(() => {
+    return now >= BIRTHDAY;
+  }, [now]);
+
   const navigateTo = (page: number) => {
-    // قبل عيد الميلاد: بس صفحة Entrance مفتوحة
+    // لو لسه مجاش عيد الميلاد، مسموح بس بصفحة الـ Entrance (رقم 0)
     if (!isBirthday && page > 0) return;
+    
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -30,6 +39,7 @@ const Index = () => {
       <Navigation
         currentPage={currentPage}
         onNavigate={navigateTo}
+        // الـ Lock هيفك لوحده أول ما الساعة تيجي 10:52
         lockedPages={!isBirthday ? [1, 2] : []}
       />
       <MusicPlayer />
