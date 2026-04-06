@@ -8,7 +8,7 @@ import JourneyPage from "@/pages/JourneyPage";
 import CelebrationPage from "@/pages/CelebrationPage";
 
 // ✏️ غيّر التاريخ ده لتاريخ عيد الميلاد اللي انت عايزه
-const BIRTHDAY = new Date("2026-04-06T10:36:00");
+const BIRTHDAY = new Date("2026-04-06T10:46:00");
 
 const Index = () => {
   const [currentPage, setCurrentPage] = useState(0);
