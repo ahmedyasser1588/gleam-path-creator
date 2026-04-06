@@ -1,6 +1,11 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Camera, Heart, Star, MapPin } from "lucide-react";
+import { Camera, Heart, Star, MapPin, Sparkles } from "lucide-react";
+
+// ضفنا الـ Interface عشان الصفحة تقبل الـ onNext
+interface JourneyPageProps {
+  onNext?: () => void;
+}
 
 const milestones = [
   { date: "Day 1", title: "The Day We Met", desc: "The beginning of something beautiful.", icon: Heart },
@@ -47,7 +52,8 @@ const TimelineItem = ({ item, index }: { item: typeof milestones[0]; index: numb
   );
 };
 
-const JourneyPage = () => {
+// ضفنا الـ onNext هنا
+const JourneyPage = ({ onNext }: JourneyPageProps) => {
   return (
     <section className="min-h-screen py-24 px-4 bg-hero-gradient">
       <div className="max-w-5xl mx-auto">
@@ -86,7 +92,7 @@ const JourneyPage = () => {
         </div>
 
         {/* Timeline */}
-        <div className="relative">
+        <div className="relative mb-24">
           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-border -translate-x-1/2" />
           <div className="space-y-12">
             {milestones.map((item, i) => (
@@ -94,6 +100,27 @@ const JourneyPage = () => {
             ))}
           </div>
         </div>
+
+        {/* --------------------------------------------------------- */}
+        {/* الزرار اللي كان ناقص - Let's Celebrate Button */}
+        {/* --------------------------------------------------------- */}
+        <motion.div 
+          className="flex justify-center mt-20"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          <button
+            onClick={onNext}
+            className="group relative px-8 py-4 bg-accent text-accent-foreground rounded-full font-display font-bold text-xl overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-lg shadow-accent/20"
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              Let's Celebrate <Sparkles className="w-5 h-5 animate-pulse" />
+            </span>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+          </button>
+        </motion.div>
+
       </div>
     </section>
   );
