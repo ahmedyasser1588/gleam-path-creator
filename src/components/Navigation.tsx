@@ -38,8 +38,22 @@ const Navigation = ({ currentPage, onNavigate, lockedPages = [] }: NavigationPro
                 }`}
                 whileHover={locked ? {} : { scale: 1.05 }}
                 whileTap={locked ? {} : { scale: 0.95 }}
+                layout
+                animate={locked ? { opacity: 0.5 } : { opacity: 1 }}
+                transition={{ duration: 0.5 }}
               >
-                {locked && <Lock className="w-3 h-3" />}
+                <AnimatePresence>
+                  {locked && (
+                    <motion.span
+                      initial={{ width: 12, opacity: 1 }}
+                      exit={{ width: 0, opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="overflow-hidden inline-flex"
+                    >
+                      <Lock className="w-3 h-3" />
+                    </motion.span>
+                  )}
+                </AnimatePresence>
                 {page}
               </motion.button>
             );
