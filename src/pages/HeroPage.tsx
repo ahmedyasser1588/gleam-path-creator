@@ -93,7 +93,7 @@ const HeroPage = ({ onNext, birthday }: HeroPageProps) => {
           transition={{ delay: 0.8 }}
           className="mb-10"
         >
-          <Countdown targetDate={birthday} />
+          <Countdown targetDate={birthday} onComplete={onNext} />
         </motion.div>
 
         {dailyMessage && (
