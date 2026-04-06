@@ -8,7 +8,7 @@ import JourneyPage from "@/pages/JourneyPage";
 import CelebrationPage from "@/pages/CelebrationPage";
 
 // التاريخ والوقت المظبوط
-const BIRTHDAY = new Date("2026-04-06T12:03:00");
+const BIRTHDAY = new Date("2026-04-06T12:12:00");
 
 const Index = () => {
   const [currentPage, setCurrentPage] = useState(0);
