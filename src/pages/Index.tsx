@@ -6,9 +6,8 @@ import MusicPlayer from "@/components/MusicPlayer";
 import HeroPage from "@/pages/HeroPage";
 import JourneyPage from "@/pages/JourneyPage";
 import CelebrationPage from "@/pages/CelebrationPage";
-import ConnectionPage from "@/pages/ConnectionPage";
 import { getBirthdayPhase } from "@/lib/birthday-config";
-import { BIRTHDAY_DATE } from "@/lib/birthday-config"; // تأكد من المسار حسب مشروعك
+import { BIRTHDAY_DATE } from "@/lib/birthday-config";
 const Index = () => {
   const [currentPage, setCurrentPage] = useState(0);
     const phase = useMemo(() => {
@@ -44,7 +43,7 @@ const Index = () => {
   return (
     <div className="relative min-h-screen overflow-x-hidden">
       <CustomCursor />
-      <Navigation currentPage={currentPage} onNavigate={navigateTo} lockedPages={phase !== "birthday" ? [1, 2, 3] : []} />
+      <Navigation currentPage={currentPage} onNavigate={navigateTo} lockedPages={phase !== "birthday" ? [1, 2] : []} />
       <MusicPlayer />
 
       <AnimatePresence mode="wait">
@@ -59,10 +58,8 @@ const Index = () => {
             <HeroPage onNext={() => navigateTo(1)} />
           ) : currentPage === 1 ? (
             <JourneyPage />
-          ) : currentPage === 2 ? (
-            <CelebrationPage />
           ) : (
-            <ConnectionPage />
+            <CelebrationPage />
           )}
         </motion.div>
       </AnimatePresence>

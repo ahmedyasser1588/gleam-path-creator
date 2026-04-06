@@ -7,7 +7,7 @@ interface NavigationProps {
   lockedPages?: number[];
 }
 
-const pages = ["Entrance", "Journey", "Celebration", "Connection"];
+const pages = ["Entrance", "Journey", "Celebration"];
 
 const Navigation = ({ currentPage, onNavigate, lockedPages = [] }: NavigationProps) => {
   return (
