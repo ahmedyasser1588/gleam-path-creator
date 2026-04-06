@@ -1,140 +1,102 @@
-import { useMemo } from "react";
-import { motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import Countdown from "@/components/Countdown";
-import FloatingText from "@/components/FloatingText";
-import FloatingHearts from "@/components/FloatingHearts";
-import DailyScratchCard from "@/components/DailyScratchCard";
-import ProgressDots from "@/components/ProgressDots";
-import { DAILY_MESSAGES } from "@/lib/birthday-config";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { Camera, Heart, Star, MapPin } from "lucide-react";
 
-interface HeroPageProps {
-  onNext: () => void;
-  birthday: Date;
-}
-
-const insideJokes = [
-  "Remember the coffee incident? ☕",
-  "That time we got lost 🗺️",
-  "Your legendary dance moves 💃",
-  "The pizza debate 🍕",
-  "3 AM conversations 🌙",
-  "That photo we never posted 📸",
-  "The song that plays on repeat 🎵",
-  "Your contagious laugh 😄",
+const milestones = [
+  { date: "Day 1", title: "The Day We Met", desc: "The beginning of something beautiful.", icon: Heart },
+  { date: "Month 3", title: "First Adventure", desc: "When we explored the unknown together.", icon: MapPin },
+  { date: "Month 6", title: "Unforgettable Summer", desc: "Sunsets, laughter, and golden memories.", icon: Star },
+  { date: "Year 1", title: "A Year of Magic", desc: "365 days of making the impossible possible.", icon: Camera },
 ];
 
-const HeroPage = ({ onNext, birthday }: HeroPageProps) => {
-  const { days, isBirthday, dailyMessage, intensity } = useMemo(() => {
-    const now = new Date();
-    const diff = birthday.getTime() - now.getTime();
-    const d = Math.max(0, Math.ceil(diff / 86400000));
-    const isB = now >= birthday;
-    const msg = d >= 1 && d <= 10 ? DAILY_MESSAGES.find((m) => m.day === d) || null : null;
-    const int = isB ? 1 : d > 10 ? 0.1 : 0.2 + (10 - d) * 0.078;
-    return { days: d, isBirthday: isB, dailyMessage: msg, intensity: int };
-  }, [birthday]);
+const galleryImages = [
+  { id: 1, span: "col-span-2 row-span-2", label: "Our favorite moment" },
+  { id: 2, span: "col-span-1 row-span-1", label: "That sunset" },
+  { id: 3, span: "col-span-1 row-span-1", label: "Laughing together" },
+  { id: 4, span: "col-span-1 row-span-2", label: "Adventure time" },
+  { id: 5, span: "col-span-1 row-span-1", label: "Cozy days" },
+  { id: 6, span: "col-span-1 row-span-1", label: "Making memories" },
+];
+
+const TimelineItem = ({ item, index }: { item: typeof milestones[0]; index: number }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const Icon = item.icon;
+  const isLeft = index % 2 === 0;
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 bg-hero-gradient overflow-hidden">
-      <FloatingText texts={insideJokes} />
-      <FloatingHearts intensity={intensity} />
+    <motion.div
+      ref={ref}
+      className={`flex items-center gap-6 ${isLeft ? "flex-row" : "flex-row-reverse"}`}
+      initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
+      animate={inView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 0.6, delay: 0.2 }}
+    >
+      <div className={`flex-1 ${isLeft ? "text-right" : "text-left"}`}>
+        <div className="glass-card p-5 inline-block">
+          <p className="text-xs text-accent font-body uppercase tracking-widest mb-1">{item.date}</p>
+          <h3 className="font-display text-lg font-semibold text-foreground mb-1">{item.title}</h3>
+          <p className="text-sm text-muted-foreground">{item.desc}</p>
+        </div>
+      </div>
+      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center relative z-10">
+        <Icon className="w-4 h-4 text-accent" />
+      </div>
+      <div className="flex-1" />
+    </motion.div>
+  );
+};
 
-      <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-primary/20 blur-3xl animate-float" style={{ opacity: 0.3 + intensity * 0.5 }} />
-      <div className="absolute bottom-32 right-16 w-40 h-40 rounded-full bg-accent/10 blur-3xl animate-float-slow" style={{ opacity: 0.2 + intensity * 0.6 }} />
-      
-      {Array.from({ length: Math.floor(3 + intensity * 7) }, (_, i) => (
-        <div
-          key={i}
-          className="absolute w-1.5 h-1.5 rounded-full bg-accent animate-sparkle"
-          style={{
-            top: `${10 + Math.random() * 80}%`,
-            left: `${10 + Math.random() * 80}%`,
-            animationDelay: `${i * 0.3}s`,
-          }}
-        />
-      ))}
-
-      <motion.div
-        className="relative z-10 text-center"
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-      >
-        <motion.p
-          className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-body mb-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          {isBirthday ? "🎉 Today is the Day! 🎉" : "Level 21 Unlocked! 🔓"}
-        </motion.p>
-
-        <motion.h1
-          className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-gradient-rose mb-6"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-        >
-          {isBirthday ? "Happy Birthday! 🎂" : "Happy Birthday"}
-        </motion.h1>
-
-        <motion.p
-          className="text-lg md:text-xl text-muted-foreground font-body font-light mb-10 max-w-md mx-auto"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-        >
-          A year of joy, of shared dreams, and the light you bring to my life, <em className="text-accent font-medium">Happy 21st Eso</em>.
-        </motion.p>
-
+const JourneyPage = () => {
+  return (
+    <section className="min-h-screen py-24 px-4 bg-hero-gradient">
+      <div className="max-w-5xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          className="mb-10"
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
         >
-          {/* تم مسح onComplete من هنا لمنع التحويل التلقائي المتكرر */}
-          <Countdown targetDate={birthday} />
+          <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-body mb-3">Chapter Two</p>
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-gradient-rose mb-4">Our Journey</h2>
+          <p className="text-muted-foreground font-body max-w-md mx-auto">Every moment together has been a masterpiece.</p>
         </motion.div>
 
-        {dailyMessage && (
-          <motion.div
-            className="mb-10"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.0, type: "spring" }}
-          >
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-body mb-4">
-              Today's Secret Card
-            </p>
-            <div className="flex justify-center">
-              <DailyScratchCard day={dailyMessage.day} title={dailyMessage.title} message={dailyMessage.message} />
-            </div>
-          </motion.div>
-        )}
+        {/* Gallery */}
+        <div className="grid grid-cols-3 gap-3 mb-24">
+          {galleryImages.map((img) => (
+            <motion.div
+              key={img.id}
+              className={`${img.span} rounded-xl overflow-hidden relative group`}
+              whileHover={{ scale: 1.02 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+            >
+              <div className="w-full h-full min-h-[120px] bg-gradient-to-br from-primary/40 to-accent/20 flex items-center justify-center">
+                <Camera className="w-8 h-8 text-accent/40" />
+              </div>
+              <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/20 transition-colors flex items-end p-3">
+                <span className="text-xs font-body opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "hsl(0, 0%, 100%)" }}>
+                  {img.label}
+                </span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
 
-        {days <= 10 && days > 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2 }}
-          >
-            <ProgressDots daysUntilBirthday={days} />
-          </motion.div>
-        )}
-      </motion.div>
-
-      <motion.button
-        onClick={onNext}
-        className="absolute bottom-10 text-muted-foreground"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <ChevronDown className="w-6 h-6" />
-      </motion.button>
+        {/* Timeline */}
+        <div className="relative">
+          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-border -translate-x-1/2" />
+          <div className="space-y-12">
+            {milestones.map((item, i) => (
+              <TimelineItem key={i} item={item} index={i} />
+            ))}
+          </div>
+        </div>
+      </div>
     </section>
   );
 };
 
-export default HeroPage;
+export default JourneyPage;
