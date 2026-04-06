@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Countdown from "@/components/Countdown";
@@ -5,10 +6,11 @@ import FloatingText from "@/components/FloatingText";
 import FloatingHearts from "@/components/FloatingHearts";
 import DailyScratchCard from "@/components/DailyScratchCard";
 import ProgressDots from "@/components/ProgressDots";
-import { BIRTHDAY_DATE, getDaysUntilBirthday, getDailyMessage, getBirthdayPhase, getParticleIntensity } from "@/lib/birthday-config";
+import { DAILY_MESSAGES } from "@/lib/birthday-config";
 
 interface HeroPageProps {
   onNext: () => void;
+  birthday: Date;
 }
 
 const insideJokes = [
@@ -22,18 +24,22 @@ const insideJokes = [
   "Your contagious laugh 😄",
 ];
 
-const HeroPage = ({ onNext }: HeroPageProps) => {
-  const days = getDaysUntilBirthday();
-  const phase = getBirthdayPhase();
-  const intensity = getParticleIntensity();
-  const dailyMessage = getDailyMessage();
+const HeroPage = ({ onNext, birthday }: HeroPageProps) => {
+  const { days, isBirthday, dailyMessage, intensity } = useMemo(() => {
+    const now = new Date();
+    const diff = birthday.getTime() - now.getTime();
+    const d = Math.max(0, Math.ceil(diff / 86400000));
+    const isB = now >= birthday;
+    const msg = d >= 1 && d <= 10 ? DAILY_MESSAGES.find((m) => m.day === d) || null : null;
+    const int = isB ? 1 : d > 10 ? 0.1 : 0.2 + (10 - d) * 0.078;
+    return { days: d, isBirthday: isB, dailyMessage: msg, intensity: int };
+  }, [birthday]);
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-4 bg-hero-gradient overflow-hidden">
       <FloatingText texts={insideJokes} />
       <FloatingHearts intensity={intensity} />
 
-      {/* Decorative elements - intensity scales with proximity */}
       <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-primary/20 blur-3xl animate-float" style={{ opacity: 0.3 + intensity * 0.5 }} />
       <div className="absolute bottom-32 right-16 w-40 h-40 rounded-full bg-accent/10 blur-3xl animate-float-slow" style={{ opacity: 0.2 + intensity * 0.6 }} />
       {Array.from({ length: Math.floor(3 + intensity * 7) }, (_, i) => (
@@ -60,7 +66,7 @@ const HeroPage = ({ onNext }: HeroPageProps) => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          {phase === "birthday" ? "🎉 Today is the Day! 🎉" : "Level 21 Unlocked! 🔓"}
+          {isBirthday ? "🎉 Today is the Day! 🎉" : "Level 21 Unlocked! 🔓"}
         </motion.p>
 
         <motion.h1
@@ -69,7 +75,7 @@ const HeroPage = ({ onNext }: HeroPageProps) => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          {phase === "birthday" ? "Happy Birthday! 🎂" : "Happy Birthday"}
+          {isBirthday ? "Happy Birthday! 🎂" : "Happy Birthday"}
         </motion.h1>
 
         <motion.p
@@ -87,10 +93,9 @@ const HeroPage = ({ onNext }: HeroPageProps) => {
           transition={{ delay: 0.8 }}
           className="mb-10"
         >
-          <Countdown targetDate={BIRTHDAY_DATE} />
+          <Countdown targetDate={birthday} />
         </motion.div>
 
-        {/* Daily Scratch Card — only shows during 10-day window */}
         {dailyMessage && (
           <motion.div
             className="mb-10"
@@ -107,7 +112,6 @@ const HeroPage = ({ onNext }: HeroPageProps) => {
           </motion.div>
         )}
 
-        {/* Progress Dots — shows during 10-day window */}
         {days <= 10 && days > 0 && (
           <motion.div
             initial={{ opacity: 0 }}

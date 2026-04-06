@@ -6,36 +6,20 @@ import MusicPlayer from "@/components/MusicPlayer";
 import HeroPage from "@/pages/HeroPage";
 import JourneyPage from "@/pages/JourneyPage";
 import CelebrationPage from "@/pages/CelebrationPage";
-import { getBirthdayPhase } from "@/lib/birthday-config";
-import { BIRTHDAY_DATE } from "@/lib/birthday-config";
+
+// ✏️ غيّر التاريخ ده لتاريخ عيد الميلاد اللي انت عايزه
+const BIRTHDAY = new Date("2026-04-10T00:00:00");
+
 const Index = () => {
   const [currentPage, setCurrentPage] = useState(0);
-    const phase = useMemo(() => {
-      const now = new Date();
-      
-      // تأكد إن السنة هنا 2026 عشان تفتح بكرة
-      const birthday = new Date("2026-04-06T00:00:00"); 
 
-      if (now >= birthday) {
-        return "birthday"; // دي اللي بتفتح الموقع
-      } else {
-        // جرب ترجع "countdown" بدل "locked" 
-        // لأن أغلب البروجكتس دي بتستخدم كلمة countdown للحالة اللي قبل العيد
-        return "countdown"; 
-      }
-    }, []);
-
-  // Phase locking: only Countdown/Hero visible pre-10-days
-  // Pre-birthday (10 days): Hero + scratch cards
-  // Birthday: Full site unlocked
-  const isPageLocked = (pageIndex: number) => {
-    if (phase === "birthday") return false; // All unlocked on the day
-    // Before birthday — only hero/entrance accessible
-    return pageIndex > 0;
-  };
+  const isBirthday = useMemo(() => {
+    return new Date() >= BIRTHDAY;
+  }, []);
 
   const navigateTo = (page: number) => {
-    if (isPageLocked(page)) return;
+    // قبل عيد الميلاد: بس صفحة Entrance مفتوحة
+    if (!isBirthday && page > 0) return;
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -43,7 +27,11 @@ const Index = () => {
   return (
     <div className="relative min-h-screen overflow-x-hidden">
       <CustomCursor />
-      <Navigation currentPage={currentPage} onNavigate={navigateTo} lockedPages={phase !== "birthday" ? [1, 2] : []} />
+      <Navigation
+        currentPage={currentPage}
+        onNavigate={navigateTo}
+        lockedPages={!isBirthday ? [1, 2] : []}
+      />
       <MusicPlayer />
 
       <AnimatePresence mode="wait">
@@ -55,7 +43,7 @@ const Index = () => {
           transition={{ duration: 0.4 }}
         >
           {currentPage === 0 ? (
-            <HeroPage onNext={() => navigateTo(1)} />
+            <HeroPage onNext={() => navigateTo(1)} birthday={BIRTHDAY} />
           ) : currentPage === 1 ? (
             <JourneyPage />
           ) : (
