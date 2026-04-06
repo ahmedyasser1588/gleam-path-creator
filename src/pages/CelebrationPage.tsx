@@ -76,38 +76,30 @@ const CelebrationPage = () => {
           </div>
         </motion.div>
 
-        {/* Gift Registry */}
+        {/* Time Machine */}
         <motion.div
+          className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h3 className="font-display text-2xl font-semibold text-foreground text-center mb-8">Wishlist</h3>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {wishlistItems.map((item, i) => (
-              <motion.div
-                key={i}
-                className="glass-card p-5 flex items-center justify-between"
-                whileHover={{ scale: 1.02 }}
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">{item.emoji}</span>
-                  <span className="font-body text-sm text-foreground">{item.name}</span>
-                </div>
-                <button
-                  className={`px-4 py-1.5 rounded-full text-xs font-body transition-colors ${
-                    item.reserved
-                      ? "bg-muted text-muted-foreground"
-                      : "bg-accent text-accent-foreground hover:opacity-90"
-                  }`}
-                  disabled={item.reserved}
-                >
-                  {item.reserved ? "Reserved" : "Reserve"}
-                </button>
-              </motion.div>
-            ))}
+          <h3 className="font-display text-2xl font-semibold text-foreground mb-6">The Time Machine</h3>
+          <div className="flex justify-center">
+            <TimeMachineButton url="https://example.com" />
           </div>
         </motion.div>
+
+        {/* Footer */}
+        <motion.footer
+          className="text-center pt-12 border-t border-border"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          <p className="font-display text-lg text-foreground mb-1">Made with</p>
+          <Heart className="w-5 h-5 text-accent fill-accent mx-auto mb-1 animate-float" />
+          <p className="text-xs text-muted-foreground font-body">For the most special person</p>
+        </motion.footer>
       </div>
     </section>
   );

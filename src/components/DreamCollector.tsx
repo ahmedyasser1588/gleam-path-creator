@@ -89,12 +89,6 @@ const DreamCollector = () => {
             className="glass-card p-6 max-w-lg mx-auto space-y-5"
             exit={{ opacity: 0, scale: 0.9 }}
           >
-            <input
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              placeholder="Your name (optional)"
-              className="w-full bg-background/50 rounded-lg px-4 py-2.5 text-sm font-body text-foreground placeholder:text-muted-foreground border border-border focus:outline-none focus:ring-2 focus:ring-ring"
-            />
             <div>
               <label className="text-xs text-muted-foreground font-body uppercase tracking-wider mb-1.5 block">
                 🌟 Next Year's Wish
