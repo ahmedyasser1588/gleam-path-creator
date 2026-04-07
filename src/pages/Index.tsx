@@ -53,7 +53,7 @@ const Index = () => {
           {currentPage === 0 ? (
             <HeroPage onNext={() => navigateTo(1)} birthday={BIRTHDAY} />
           ) : currentPage === 1 ? (
-            <JourneyPage onNext={() => navigateTo(2)} /> 
+            <JourneyPage /> 
           ) : (
             <CelebrationPage />
           )}
