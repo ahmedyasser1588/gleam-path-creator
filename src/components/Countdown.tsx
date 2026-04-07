@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import confetti from "canvas-confetti";
 import HeartProgress from "@/components/HeartProgress";
 
 interface CountdownProps {
@@ -19,8 +20,22 @@ const Countdown = ({ targetDate, onComplete }: CountdownProps) => {
   const diff = targetDate.getTime() - nowMs;
   const heartProgress = diff <= 0 ? 1 : diff >= TEN_DAYS_MS ? 0 : 1 - diff / TEN_DAYS_MS;
 
+  const fireConfetti = useCallback(() => {
+    const end = Date.now() + 3000;
+    const colors = ["#ff6b8a", "#c084fc", "#fbbf24", "#34d399"];
+    const frame = () => {
+      confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors });
+      confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors });
+      if (Date.now() < end) requestAnimationFrame(frame);
+    };
+    frame();
+  }, []);
+
   useEffect(() => {
-    if (isComplete) return; // لو الوقت خلص مفيش داعي للـ Interval
+    if (isComplete) {
+      fireConfetti();
+      return;
+    }
 
     const tick = () => {
       const remaining = Math.max(0, targetDate.getTime() - Date.now());
@@ -35,7 +50,7 @@ const Countdown = ({ targetDate, onComplete }: CountdownProps) => {
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
-  }, [targetDate, isComplete]);
+  }, [targetDate, isComplete, fireConfetti]);
 
   const units = [
     { label: "Days", value: time.days },
