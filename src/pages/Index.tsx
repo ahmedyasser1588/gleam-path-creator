@@ -7,7 +7,7 @@ import HeroPage from "@/pages/HeroPage";
 import JourneyPage from "@/pages/JourneyPage";
 import CelebrationPage from "@/pages/CelebrationPage";
 import MemoriesPage from "@/pages/MemoriesPage";
-import WhyILoveYou from "@/components/WhyILoveYou";
+
 import EsoBot from "@/components/EsoBot";
 import FlowerGarden from "@/components/FlowerGarden";
 
@@ -67,7 +67,7 @@ const Index = () => {
         </motion.div>
       </AnimatePresence>
 
-      <WhyILoveYou />
+      
       <EsoBot />
     </div>
   );
