@@ -122,7 +122,7 @@ const FlowerGarden = () => {
         style={{ height: 280 }}
       >
         {/* Grass */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-green-200/40 to-transparent rounded-b-2xl" />
+        <div className="absolute bottom-0 left-0 right-0 h-16 rounded-b-2xl" style={{ background: "linear-gradient(to top, hsla(120, 30%, 75%, 0.3), transparent)" }} />
 
         {flowers.map((f) => {
           const FlowerComp = flowerTypes[f.type];
