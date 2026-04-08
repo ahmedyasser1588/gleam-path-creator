@@ -39,7 +39,7 @@ const Index = () => {
       <Navigation
         currentPage={currentPage}
         onNavigate={navigateTo}
-        lockedPages={!isBirthday ? [1, 2] : []}
+        lockedPages={!isBirthday ? [1, 2, 3] : []}
       />
       <MusicPlayer />
 
@@ -55,8 +55,10 @@ const Index = () => {
             <HeroPage onNext={() => navigateTo(1)} birthday={BIRTHDAY} />
           ) : currentPage === 1 ? (
             <JourneyPage /> 
-          ) : (
+          ) : currentPage === 2 ? (
             <CelebrationPage />
+          ) : (
+            <MemoriesPage />
           )}
         </motion.div>
       </AnimatePresence>
