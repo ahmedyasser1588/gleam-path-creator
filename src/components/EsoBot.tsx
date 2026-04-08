@@ -58,7 +58,7 @@ const findResponse = (input: string): string => {
 const EsoBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { from: "bot", text: "أهلًا يا إيسو! 💕 أنا قلب أحمد الرقمي، موجود هنا لما أحمد يبقى مشغول 😄" },
+    { from: "bot", text: "Hi Eso, I'm Ahmed's Digital Heart. What's on your mind today? 💕" },
   ]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
@@ -89,7 +89,7 @@ const EsoBot = () => {
         {!isOpen && (
           <motion.button
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center shadow-lg"
+            className="fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center shadow-lg"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             initial={{ scale: 0 }}
@@ -105,7 +105,7 @@ const EsoBot = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed bottom-4 right-4 z-[100] w-[340px] max-w-[calc(100vw-2rem)] rounded-2xl border border-border bg-card shadow-2xl overflow-hidden flex flex-col"
+            className="fixed bottom-4 left-4 z-[100] w-[340px] max-w-[calc(100vw-2rem)] rounded-2xl border border-border bg-card shadow-2xl overflow-hidden flex flex-col"
             style={{ height: 460 }}
             initial={{ opacity: 0, y: 40, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
