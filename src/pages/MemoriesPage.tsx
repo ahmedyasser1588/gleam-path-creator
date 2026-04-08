@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Heart, MapPin } from "lucide-react";
+import WhyILoveYouCard from "@/components/WhyILoveYou";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -104,7 +105,7 @@ const MemoriesPage = () => {
 
       {/* Legend */}
       <motion.div
-        className="pb-12 px-4 max-w-5xl mx-auto"
+        className="pb-8 px-4 max-w-5xl mx-auto"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6 }}
@@ -124,6 +125,11 @@ const MemoriesPage = () => {
           ))}
         </div>
       </motion.div>
+
+      {/* Secret for Eso Card */}
+      <div className="pb-12 px-4">
+        <WhyILoveYouCard />
+      </div>
     </div>
   );
 };
