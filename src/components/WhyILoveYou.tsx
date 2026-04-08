@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Heart, X } from "lucide-react";
+import { motion } from "framer-motion";
+import { Heart, Sparkles } from "lucide-react";
 
 const reasons = [
   "عشان ضحكتك بتنور الدنيا يا إيسو 💛",
@@ -25,10 +25,9 @@ const reasons = [
   "عشان ببساطة… أنتِ أحلى حاجة حصلتلي 💗",
 ];
 
-const WhyILoveYou = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentReason, setCurrentReason] = useState("");
-  const [lastIndex, setLastIndex] = useState(-1);
+const WhyILoveYouCard = () => {
+  const [currentReason, setCurrentReason] = useState(reasons[0]);
+  const [lastIndex, setLastIndex] = useState(0);
 
   const showReason = useCallback(() => {
     let idx: number;
@@ -37,78 +36,40 @@ const WhyILoveYou = () => {
     } while (idx === lastIndex && reasons.length > 1);
     setLastIndex(idx);
     setCurrentReason(reasons[idx]);
-    setIsOpen(true);
   }, [lastIndex]);
 
   return (
-    <>
-      {/* Floating Button */}
+    <motion.div
+      className="glass-card p-6 md:p-8 text-center max-w-md mx-auto"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.4 }}
+    >
+      <Heart className="w-8 h-8 text-accent fill-accent mx-auto mb-3 animate-pulse" />
+      <h3 className="font-display text-xl font-bold text-foreground mb-2">
+        Secret for Eso 💕
+      </h3>
+      <motion.p
+        key={currentReason}
+        className="font-body text-foreground/80 text-base leading-relaxed mb-5"
+        dir="rtl"
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        {currentReason}
+      </motion.p>
       <motion.button
         onClick={showReason}
-        className="fixed bottom-6 left-6 z-50 flex items-center gap-2 rounded-full bg-accent text-accent-foreground px-5 py-3 font-body text-sm shadow-lg"
-        whileHover={{ scale: 1.08 }}
+        className="inline-flex items-center gap-2 rounded-full bg-accent text-accent-foreground px-6 py-2.5 font-body text-sm shadow-md"
+        whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1 }}
       >
-        <Heart className="w-5 h-5 fill-current animate-pulse" />
-        <span className="hidden sm:inline">Secret for Eso</span>
+        <Sparkles className="w-4 h-4" />
+        سر تاني ✨
       </motion.button>
-
-      {/* Modal */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <div
-              className="absolute inset-0 bg-foreground/20 backdrop-blur-sm"
-              onClick={() => setIsOpen(false)}
-            />
-            <motion.div
-              className="relative glass-card p-8 max-w-sm w-full text-center"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ type: "spring", damping: 20 }}
-            >
-              <button
-                onClick={() => setIsOpen(false)}
-                className="absolute top-3 right-3 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-              <Heart className="w-10 h-10 text-accent fill-accent mx-auto mb-4" />
-              <h3 className="font-display text-xl font-bold text-foreground mb-4">
-                ليكي يا إيسو 💕
-              </h3>
-              <motion.p
-                key={currentReason}
-                className="font-body text-foreground/80 text-base leading-relaxed"
-                dir="rtl"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                {currentReason}
-              </motion.p>
-              <motion.button
-                onClick={showReason}
-                className="mt-6 text-sm text-accent hover:text-accent/80 font-body transition-colors"
-                whileTap={{ scale: 0.95 }}
-              >
-                سر تاني ✨
-              </motion.button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+    </motion.div>
   );
 };
 
-export default WhyILoveYou;
+export default WhyILoveYouCard;

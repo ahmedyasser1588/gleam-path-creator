@@ -58,7 +58,7 @@ const findResponse = (input: string): string => {
 const EsoBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { from: "bot", text: "أهلًا يا إيسو! 💕 أنا قلب أحمد الرقمي، موجود هنا لما أحمد يبقى مشغول 😄" },
+    { from: "bot", text: "Hi Eso, I'm Ahmed's Digital Heart. What's on your mind today? 💕" },
   ]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
