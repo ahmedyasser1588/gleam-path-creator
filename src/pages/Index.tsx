@@ -7,6 +7,9 @@ import HeroPage from "@/pages/HeroPage";
 import JourneyPage from "@/pages/JourneyPage";
 import CelebrationPage from "@/pages/CelebrationPage";
 import MemoriesPage from "@/pages/MemoriesPage";
+import WhyILoveYou from "@/components/WhyILoveYou";
+import EsoBot from "@/components/EsoBot";
+import FlowerGarden from "@/components/FlowerGarden";
 
 // التاريخ والوقت المظبوط
 const BIRTHDAY = new Date("2026-04-06T12:12:00");
