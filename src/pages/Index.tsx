@@ -6,6 +6,7 @@ import MusicPlayer from "@/components/MusicPlayer";
 import HeroPage from "@/pages/HeroPage";
 import JourneyPage from "@/pages/JourneyPage";
 import CelebrationPage from "@/pages/CelebrationPage";
+import MemoriesPage from "@/pages/MemoriesPage";
 
 // التاريخ والوقت المظبوط
 const BIRTHDAY = new Date("2026-04-06T12:12:00");
@@ -38,7 +39,7 @@ const Index = () => {
       <Navigation
         currentPage={currentPage}
         onNavigate={navigateTo}
-        lockedPages={!isBirthday ? [1, 2] : []}
+        lockedPages={!isBirthday ? [1, 2, 3] : []}
       />
       <MusicPlayer />
 
@@ -54,8 +55,10 @@ const Index = () => {
             <HeroPage onNext={() => navigateTo(1)} birthday={BIRTHDAY} />
           ) : currentPage === 1 ? (
             <JourneyPage /> 
-          ) : (
+          ) : currentPage === 2 ? (
             <CelebrationPage />
+          ) : (
+            <MemoriesPage />
           )}
         </motion.div>
       </AnimatePresence>

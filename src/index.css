@@ -141,3 +141,72 @@
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Leaflet custom styles */
+.heart-pin {
+  filter: drop-shadow(0 2px 6px hsla(350, 40%, 60%, 0.5));
+  animation: heartBounce 2s ease-in-out infinite;
+}
+@keyframes heartBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.romantic-popup .leaflet-popup-content-wrapper {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px hsla(350, 40%, 60%, 0.2);
+  padding: 0;
+  overflow: hidden;
+}
+.romantic-popup .leaflet-popup-tip {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+}
+.romantic-popup .leaflet-popup-content {
+  margin: 0;
+  width: 240px !important;
+}
+.memory-popup {
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+.memory-popup-img-wrapper {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  background: hsl(var(--muted));
+}
+.memory-popup-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.memory-popup-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: hsl(var(--blush));
+}
+.memory-popup-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  margin: 0.6rem 0.8rem 0.2rem;
+}
+.memory-popup-text {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  margin: 0 0.8rem 0.8rem;
+  line-height: 1.5;
+}
+
+.leaflet-control-zoom a {
+  background: hsl(var(--card)) !important;
+  color: hsl(var(--foreground)) !important;
+  border-color: hsl(var(--border)) !important;
+}
