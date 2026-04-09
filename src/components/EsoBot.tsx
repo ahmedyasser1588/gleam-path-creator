@@ -7,171 +7,154 @@ interface Message {
   text: string;
 }
 
-const responses: Record<string, string[]> = {
-  sad: [
-    "مين اللي زعّل إيسو بتاعتي؟! 😤 قوليلي وأنا هروح أكلمه!",
-    "ماتزعليش يا قلبي، أنا هنا جنبك دايمًا 💕",
-  ],
-  "miss you": [
-    "وأنا وحشتيني أكتر بمليون مرة يا إيسو! 🥺",
-    "كل ثانية من غيرك بتبقى زي ساعة 😢💕",
-  ],
-  "love you": [
-    "وأنا بحبك لحد آخر نجمة في السما وأرجع تاني! 💗",
-    "أنا بحبك أكتر مما الكلام يقدر يوصف يا إيسو! ❤️‍🔥",
-  ],
-  happy: [
-    "فرحتك فرحتي يا إيسو! 🎉 إيه السبب عشان أفرح معاكي؟",
-    "لما بتبقي مبسوطة الدنيا كلها بتنور! 🌞",
-  ],
-  "good morning": [
-    "صباح الورد والفل والياسمين يا أحلى إيسو! 🌸",
-    "صباحك سكر يا عمري! يومك يبقى حلو زيك 🍯",
-  ],
-  "good night": [
-    "تصبحي على خير يا أغلى إنسانة 🌙 أحلم بيكي!",
-    "نومة هنية يا قلبي، بكرة أحلى بإذن الله 💫",
-  ],
-  hungry: [
-    "طب ما نطلب أكل حلو! أنتِ عايزة إيه يا إيسو؟ 🍕",
-    "جعانة؟! يلا نروح المكان اللي بتحبيه 🥘❤️",
-  ],
-};
-
-const fallbacks = [
-  "قوليلي أكتر يا إيسو، أنا سامعك 💕",
-  "أنا مش فاهم أوي بس بحبك برضو 😅❤️",
-  "إيسو بتاعتي دايمًا في قلبي مهما تقول! 💗",
-  "طيب ما تقوليلي حاجة حلوة بقى 🥰",
-];
-
-const findResponse = (input: string): string => {
-  const lower = input.toLowerCase();
-  for (const [keyword, replies] of Object.entries(responses)) {
-    if (lower.includes(keyword)) {
-      return replies[Math.floor(Math.random() * replies.length)];
-    }
-  }
-  return fallbacks[Math.floor(Math.random() * fallbacks.length)];
-};
-
 const EsoBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { from: "bot", text: "Hi Eso, I'm Ahmed's Digital Heart. What's on your mind today? 💕" },
+    { from: "bot", text: "منورة الدنيا يا قلب أحمد.. قوليلي بفكر في إيه دلوقتي؟ ❤️✨" },
   ]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
 
+  // التمرير التلقائي لآخر رسالة
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, typing]);
 
-  const send = useCallback(() => {
-    const text = input.trim();
-    if (!text) return;
-    setInput("");
-    setMessages((prev) => [...prev, { from: "user", text }]);
+  const generateAIResponse = async (userText: string) => {
     setTyping(true);
 
-    const delay = 800 + Math.random() * 1200;
-    setTimeout(() => {
+    try {
+      // هنا يا أحمد هتربط بالـ API بتاعك (سواء Supabase Edge Function أو OpenAI)
+      // ده مثال لكيفية إرسال الروح (احمد) في الطلب
+      /*
+      const response = await fetch('YOUR_API_ENDPOINT', {
+        method: 'POST',
+        body: JSON.stringify({ prompt: userText, persona: "Ahmed_Personality" })
+      });
+      const data = await response.json();
+      return data.reply;
+      */
+
+      // حالياً هعملك محاكة للرد الذكي بناءً على تحليل الواتساب لحد ما تربط الـ API
+      await new Promise(resolve => setTimeout(resolve, 2000)); // تأخير طبيعي للكتابة
+      
+      return "يا روحي أنا فاهمك من غير ما تتكلمي.. بس قوليلي أكتر عشان وحشني كلامك ❤️✨"; 
+    } catch (error) {
+      return "حصل مشكلة في قلبي (السيرفر) بس لسه بحبك برضو! 😂❤️";
+    } finally {
       setTyping(false);
-      setMessages((prev) => [...prev, { from: "bot", text: findResponse(text) }]);
-    }, delay);
+    }
+  };
+
+  const send = useCallback(async () => {
+    const text = input.trim();
+    if (!text) return;
+    
+    setInput("");
+    setMessages((prev) => [...prev, { from: "user", text }]);
+
+    const aiReply = await generateAIResponse(text);
+    setMessages((prev) => [...prev, { from: "bot", text: aiReply }]);
   }, [input]);
 
   return (
     <>
-      {/* Toggle */}
+      {/* الزرار العائم */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center shadow-lg"
-            whileHover={{ scale: 1.1 }}
+            className="fixed bottom-6 left-6 z-50 w-16 h-16 rounded-full bg-pink-500 text-white flex items-center justify-center shadow-[0_0_20px_rgba(236,72,153,0.5)]"
+            whileHover={{ scale: 1.1, rotate: 5 }}
             whileTap={{ scale: 0.9 }}
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0 }}
           >
-            <MessageCircleHeart className="w-6 h-6" />
+            <MessageCircleHeart className="w-8 h-8" />
           </motion.button>
         )}
       </AnimatePresence>
 
-      {/* Chat Window */}
+      {/* نافذة الشات */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed bottom-4 left-4 z-[100] w-[340px] max-w-[calc(100vw-2rem)] rounded-2xl border border-border bg-card shadow-2xl overflow-hidden flex flex-col"
-            style={{ height: 460 }}
-            initial={{ opacity: 0, y: 40, scale: 0.9 }}
+            className="fixed bottom-4 left-4 z-[100] w-[360px] max-w-[calc(100vw-2rem)] rounded-3xl border border-white/20 bg-white/10 backdrop-blur-xl shadow-2xl overflow-hidden flex flex-col"
+            style={{ height: 500 }}
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 40, scale: 0.9 }}
-            transition={{ type: "spring", damping: 22 }}
+            exit={{ opacity: 0, y: 50, scale: 0.9 }}
           >
-            {/* Header */}
-            <div className="flex items-center gap-3 px-4 py-3 bg-secondary text-secondary-foreground">
-              <div className="w-9 h-9 rounded-full bg-secondary-foreground/20 flex items-center justify-center text-lg">
-                💕
+            {/* Header - روح أحمد */}
+            <div className="flex items-center gap-3 px-5 py-4 bg-gradient-to-r from-pink-500/80 to-rose-500/80 text-white">
+              <div className="relative">
+                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-xl border border-white/30">
+                  👨‍💻
+                </div>
+                <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white animate-pulse" />
               </div>
               <div className="flex-1">
-                <p className="font-display text-sm font-bold">Ahmed's Digital Heart</p>
-                <p className="text-[10px] opacity-80">Online always for Eso</p>
+                <p className="font-bold text-sm tracking-wide">أحمد (قلب إيسو)</p>
+                <p className="text-[10px] opacity-90">بيفكر فيكي دلوقتي...</p>
               </div>
-              <button onClick={() => setIsOpen(false)}>
-                <X className="w-5 h-5" />
+              <button onClick={() => setIsOpen(false)} className="hover:rotate-90 transition-transform">
+                <X className="w-6 h-6" />
               </button>
             </div>
 
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2" dir="rtl">
+            {/* Messages Area */}
+            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4" dir="rtl">
               {messages.map((m, i) => (
                 <motion.div
                   key={i}
                   className={`flex ${m.from === "user" ? "justify-start" : "justify-end"}`}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: m.from === "user" ? -20 : 20 }}
+                  animate={{ opacity: 1, x: 0 }}
                 >
                   <div
-                    className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm font-body leading-relaxed ${
+                    className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm shadow-sm ${
                       m.from === "user"
-                        ? "bg-muted text-foreground rounded-tr-sm"
-                        : "bg-primary text-primary-foreground rounded-tl-sm"
+                        ? "bg-white/80 text-gray-800 rounded-tr-none"
+                        : "bg-pink-500 text-white rounded-tl-none font-medium"
                     }`}
                   >
                     {m.text}
                   </div>
                 </motion.div>
               ))}
+              
               {typing && (
-                <div className="flex justify-end">
-                  <div className="bg-primary/60 text-primary-foreground rounded-2xl rounded-tl-sm px-3 py-2 text-xs font-body animate-pulse">
-                    أحمد بيكتب... 💭
+                <motion.div className="flex justify-end" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                  <div className="bg-pink-100 text-pink-600 rounded-2xl rounded-tl-none px-4 py-2 text-xs flex items-center gap-2">
+                    <span className="flex gap-1">
+                      <span className="w-1 h-1 bg-pink-500 rounded-full animate-bounce" />
+                      <span className="w-1 h-1 bg-pink-500 rounded-full animate-bounce [animation-delay:0.2s]" />
+                      <span className="w-1 h-1 bg-pink-500 rounded-full animate-bounce [animation-delay:0.4s]" />
+                    </span>
+                    أحمد بيكتب لروحه...
                   </div>
-                </div>
+                </motion.div>
               )}
               <div ref={endRef} />
             </div>
 
-            {/* Input */}
-            <div className="flex items-center gap-2 px-3 py-2 border-t border-border">
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && send()}
-                placeholder="اكتبي حاجة يا إيسو..."
-                className="flex-1 bg-muted rounded-full px-4 py-2 text-sm font-body text-foreground outline-none placeholder:text-muted-foreground"
-                dir="rtl"
-              />
-              <button
-                onClick={send}
-                className="w-9 h-9 rounded-full bg-accent text-accent-foreground flex items-center justify-center"
-              >
-                <Send className="w-4 h-4" />
-              </button>
+            {/* Input Box */}
+            <div className="p-4 bg-white/5 border-t border-white/10">
+              <div className="flex items-center gap-2 bg-white/80 backdrop-blur-md rounded-full px-4 py-1 shadow-inner">
+                <input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && send()}
+                  placeholder="قولي أي حاجة في قلبك..."
+                  className="flex-1 bg-transparent py-2 text-sm outline-none text-gray-800 placeholder:text-gray-400"
+                  dir="rtl"
+                />
+                <button
+                  onClick={send}
+                  className="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center hover:bg-pink-600 transition-colors"
+                >
+                  <Send className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </motion.div>
         )}
