@@ -6,20 +6,19 @@ interface Message {
   from: "bot" | "user";
   text: string;
 }
-
 const getAhmedResponse = async (userText: string) => {
-  // 1. المفتاح الجديد (لازم يكون لسه معمول حالا ومتبعتهوش هنا)
+  // تأكد يا أحمد إنك ناسخ الـ Key بالظبط من غير أي مسافات
   const apiKey = "AIzaSyA6dbHG_CFfQwvedtWuDV67OgWd6e7nhgk"; 
   
-  // 2. الرابط ده هو المسار العالمي لموديل Gemini 1.5 Flash
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  // غيرنا الموديل لنسخة الـ latest عشان نتفادى الـ 404
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
   const body = {
-    contents: [
-      {
-        parts: [{ text: `أنت "أحمد"، مبرمج وحبيب "إسراء". رد بالعامية المصرية الدافئة وبحب. ردي على: ${userText}` }]
-      }
-    ]
+    contents: [{
+      parts: [{
+        text: `أنت "أحمد"، مبرمج وحبيب "إسراء". رد بالعامية المصرية الدافئة وبحب. ردي على: ${userText}`
+      }]
+    }]
   };
 
   try {
@@ -30,19 +29,19 @@ const getAhmedResponse = async (userText: string) => {
     });
 
     const data = await response.json();
-    
-    // فحص دقيق للرد
-    if (response.ok && data.candidates && data.candidates[0].content.parts[0].text) {
+
+    if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
       return data.candidates[0].content.parts[0].text;
     } else {
-      console.error("API Error Detailed:", data);
+      // لو لسه فيه 404، هنطبع الرد كامل عشان نعرف العطل فين بالظبط
+      console.log("Full Response if Error:", data);
       return "يا روحي النت هنج بس قلبي معاكي.. قولي تاني؟ ❤️";
     }
   } catch (error) {
+    console.error("Fetch Error:", error);
     return "حصلت مشكلة في الربط يا قلبي..";
   }
 };
-
 export const EsoBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
