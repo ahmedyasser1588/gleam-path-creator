@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Heart, MapPin } from "lucide-react";
 import WhyILoveYouCard from "@/components/WhyILoveYou";
+import FlowerGarden from "@/components/FlowerGarden";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -127,9 +128,12 @@ const MemoriesPage = () => {
       </motion.div>
 
       {/* Secret for Eso Card */}
-      <div className="pb-12 px-4">
+      <div className="pb-8 px-4">
         <WhyILoveYouCard />
       </div>
+
+      {/* Flower Garden */}
+      <FlowerGarden />
     </div>
   );
 };
