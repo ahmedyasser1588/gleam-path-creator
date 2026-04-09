@@ -10,7 +10,7 @@ interface Message {
 const getAhmedResponse = async (userText: string) => {
   // 1. المفتاح الجديد (قسمه نصين هنا)
   const p1 = "AIzaSy"; 
-  const p2 = "حط_باقي_المفتاح_هنا"; 
+  const p2 = "BayIjJqiCwF9trgKTxAAuDJVcgRSOC5ew"; 
   const apiKey = p1 + p2;
 
   // 2. الرابط المعتمد 100% لموديلات الفلاش والبرو
