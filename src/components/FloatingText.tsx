@@ -10,36 +10,39 @@ const FloatingText = ({ texts }: FloatingTextProps) => {
     () =>
       texts.map((text, i) => ({
         text,
-        x: Math.random() * 80 + 10,
-        y: Math.random() * 80 + 10,
-        size: Math.random() * 0.6 + 0.7,
-        duration: Math.random() * 4 + 6,
-        delay: i * 0.3,
+        x: Math.random() * 70 + 15,
+        y: Math.random() * 60 + 20,
+        size: Math.random() * 0.5 + 0.85,
+        duration: Math.random() * 3 + 5,
+        delay: i * 0.5,
       })),
     [texts]
   );
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-50">
       {items.map((item, i) => (
         <motion.span
-          key={i}
-          className="absolute font-display text-accent/20 whitespace-nowrap select-none"
+          key={`${item.text}-${i}`}
+          className="absolute font-display text-accent whitespace-nowrap select-none drop-shadow-md"
+          dir="rtl"
           style={{
             left: `${item.x}%`,
             top: `${item.y}%`,
             fontSize: `${item.size}rem`,
           }}
+          initial={{ opacity: 0, scale: 0.5, y: 0 }}
           animate={{
-            y: [0, -30, 10, -20, 0],
-            x: [0, 15, -10, 20, 0],
-            opacity: [0.15, 0.3, 0.15, 0.25, 0.15],
+            opacity: [0, 0.9, 0.85, 0],
+            y: [0, -60, -120, -200],
+            x: [0, 20, -15, 30],
+            scale: [0.5, 1.1, 1, 0.8],
+            rotate: [0, 3, -3, 5],
           }}
           transition={{
             duration: item.duration,
-            repeat: Infinity,
             delay: item.delay,
-            ease: "easeInOut",
+            ease: "easeOut",
           }}
         >
           {item.text}

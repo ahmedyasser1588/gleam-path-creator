@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 
@@ -41,65 +41,15 @@ const Flower3 = ({ color, size }: { color: string; size: number }) => (
 
 const flowerTypes = [Flower1, Flower2, Flower3];
 
-// Pixel font for "I LOVE YOU" — each letter is a 5-row grid
-// 1 = flower, 0 = empty
 const letterPatterns: Record<string, number[][]> = {
-  I: [
-    [1,1,1],
-    [0,1,0],
-    [0,1,0],
-    [0,1,0],
-    [1,1,1],
-  ],
-  L: [
-    [1,0,0],
-    [1,0,0],
-    [1,0,0],
-    [1,0,0],
-    [1,1,1],
-  ],
-  O: [
-    [1,1,1],
-    [1,0,1],
-    [1,0,1],
-    [1,0,1],
-    [1,1,1],
-  ],
-  V: [
-    [1,0,1],
-    [1,0,1],
-    [1,0,1],
-    [0,1,0],
-    [0,1,0],
-  ],
-  E: [
-    [1,1,1],
-    [1,0,0],
-    [1,1,0],
-    [1,0,0],
-    [1,1,1],
-  ],
-  Y: [
-    [1,0,1],
-    [1,0,1],
-    [0,1,0],
-    [0,1,0],
-    [0,1,0],
-  ],
-  U: [
-    [1,0,1],
-    [1,0,1],
-    [1,0,1],
-    [1,0,1],
-    [1,1,1],
-  ],
-  " ": [
-    [0],
-    [0],
-    [0],
-    [0],
-    [0],
-  ],
+  I: [[1,1,1],[0,1,0],[0,1,0],[0,1,0],[1,1,1]],
+  L: [[1,0,0],[1,0,0],[1,0,0],[1,0,0],[1,1,1]],
+  O: [[1,1,1],[1,0,1],[1,0,1],[1,0,1],[1,1,1]],
+  V: [[1,0,1],[1,0,1],[1,0,1],[0,1,0],[0,1,0]],
+  E: [[1,1,1],[1,0,0],[1,1,0],[1,0,0],[1,1,1]],
+  U: [[1,0,1],[1,0,1],[1,0,1],[1,0,1],[1,1,1]],
+  S: [[1,1,1],[1,0,0],[1,1,1],[0,0,1],[1,1,1]],
+  " ": [[0],[0],[0],[0],[0]],
 };
 
 interface FlowerPos {
@@ -112,7 +62,7 @@ interface FlowerPos {
 }
 
 const buildFlowerPositions = (): FlowerPos[] => {
-  const text = "I LOVE YOU";
+  const text = "I LOVE U ESO";
   const positions: FlowerPos[] = [];
   let colOffset = 0;
   let id = 0;
@@ -133,7 +83,7 @@ const buildFlowerPositions = (): FlowerPos[] => {
         }
       }
     }
-    colOffset += (pattern[0]?.length || 1) + 1; // 1 col gap between letters
+    colOffset += (pattern[0]?.length || 1) + 1;
   }
 
   return positions;
@@ -144,19 +94,21 @@ const MAX_FLOWERS = allPositions.length;
 
 const FlowerGarden = () => {
   const [visitCount, setVisitCount] = useState(0);
+  const hasTracked = useRef(false);
 
   useEffect(() => {
+    // Only track once per full site load (not per page navigation)
+    if (hasTracked.current) return;
+    hasTracked.current = true;
+
     const prev = parseInt(localStorage.getItem(STORAGE_KEY) || "0", 10);
-    // Each visit reveals more flowers — scale so ~20 visits fills it
-    const flowersPerVisit = Math.max(1, Math.ceil(MAX_FLOWERS / 20));
-    const next = Math.min(prev + flowersPerVisit, MAX_FLOWERS);
+    // One flower per visit; reset when phrase is complete
+    const next = prev >= MAX_FLOWERS ? 1 : prev + 1;
     localStorage.setItem(STORAGE_KEY, String(next));
     setVisitCount(next);
   }, []);
 
   const visibleFlowers = allPositions.slice(0, visitCount);
-
-  // Calculate grid bounds for responsive positioning
   const maxCol = allPositions.reduce((m, p) => Math.max(m, p.x), 0) + 1;
   const maxRow = 5;
 
@@ -171,7 +123,7 @@ const FlowerGarden = () => {
           <Heart className="w-5 h-5 text-accent fill-accent" />
         </div>
         <p className="font-body text-muted-foreground text-sm" dir="rtl">
-          كل مرة بتزوري الصفحة، ورود جديدة بتكبر وبتكتب رسالة ليكي 🌸
+          كل مرة بتزوري الصفحة، وردة جديدة بتكبر وبتكتب رسالة ليكي 🌸
         </p>
         <p className="font-body text-xs text-muted-foreground mt-1">
           {visitCount} / {MAX_FLOWERS} 🌷
@@ -182,17 +134,12 @@ const FlowerGarden = () => {
         className="max-w-4xl mx-auto relative rounded-2xl border border-border bg-card/50 overflow-hidden"
         style={{ height: 280 }}
       >
-        {/* Grass */}
         <div
           className="absolute bottom-0 left-0 right-0 h-16 rounded-b-2xl"
           style={{ background: "linear-gradient(to top, hsla(120, 30%, 75%, 0.3), transparent)" }}
         />
 
-        {/* Flowers forming text */}
-        <div
-          className="absolute inset-0 flex items-center justify-center"
-          style={{ padding: "20px" }}
-        >
+        <div className="absolute inset-0 flex items-center justify-center" style={{ padding: "20px" }}>
           <div
             className="relative"
             style={{
