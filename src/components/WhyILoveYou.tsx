@@ -51,10 +51,6 @@ const WhyILoveYouCard = () => {
 
   return (
     <>
-      {floatingText && (
-        <FloatingText key={animKey} texts={[floatingText]} />
-      )}
-
       <motion.div
         className="glass-card p-6 md:p-8 text-center max-w-md mx-auto"
         initial={{ opacity: 0, y: 20 }}
@@ -74,6 +70,10 @@ const WhyILoveYouCard = () => {
           <Sparkles className="w-4 h-4" />
           Tell me why ✨
         </motion.button>
+
+        {floatingText && (
+          <FloatingText key={animKey} texts={[floatingText]} />
+        )}
       </motion.div>
     </>
   );
