@@ -155,4 +155,4 @@ const EsoBot = () => {
       </AnimatePresence>
     </>
   );
-};
+};export default EsoBot;
