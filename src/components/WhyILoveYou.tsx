@@ -27,21 +27,32 @@ const reasons = [
 ];
 
 const WhyILoveYouCard = () => {
-  const [floatingTexts, setFloatingTexts] = useState<string[]>([]);
+  const [floatingText, setFloatingText] = useState<string | null>(null);
   const [animKey, setAnimKey] = useState(0);
+  const [remaining, setRemaining] = useState<number[]>(() => {
+    return reasons.map((_, i) => i);
+  });
 
-  const showFloatingReasons = useCallback(() => {
-    // Pick 3-5 random unique reasons to float
-    const count = Math.floor(Math.random() * 3) + 3;
-    const shuffled = [...reasons].sort(() => Math.random() - 0.5);
-    setFloatingTexts(shuffled.slice(0, count));
+  const showFloatingReason = useCallback(() => {
+    let pool = remaining;
+    // Reset when all reasons have been shown
+    if (pool.length === 0) {
+      pool = reasons.map((_, i) => i);
+    }
+
+    const randomIdx = Math.floor(Math.random() * pool.length);
+    const chosenReasonIdx = pool[randomIdx];
+    const newPool = pool.filter((_, i) => i !== randomIdx);
+
+    setRemaining(newPool);
+    setFloatingText(reasons[chosenReasonIdx]);
     setAnimKey((k) => k + 1);
-  }, []);
+  }, [remaining]);
 
   return (
     <>
-      {floatingTexts.length > 0 && (
-        <FloatingText key={animKey} texts={floatingTexts} />
+      {floatingText && (
+        <FloatingText key={animKey} texts={[floatingText]} />
       )}
 
       <motion.div
@@ -55,7 +66,7 @@ const WhyILoveYouCard = () => {
           Why I love u? 💕
         </h3>
         <motion.button
-          onClick={showFloatingReasons}
+          onClick={showFloatingReason}
           className="inline-flex items-center gap-2 rounded-full bg-accent text-accent-foreground px-6 py-2.5 font-body text-sm shadow-md"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}

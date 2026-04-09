@@ -127,9 +127,12 @@ const MemoriesPage = () => {
       </motion.div>
 
       {/* Secret for Eso Card */}
-      <div className="pb-12 px-4">
+      <div className="pb-8 px-4">
         <WhyILoveYouCard />
       </div>
+
+      {/* Flower Garden */}
+      <FlowerGarden />
     </div>
   );
 };

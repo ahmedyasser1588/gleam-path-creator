@@ -63,7 +63,7 @@ const Index = () => {
           ) : (
             <MemoriesPage />
           )}
-          {currentPage !== 0 && <FlowerGarden />}
+          
         </motion.div>
       </AnimatePresence>
 
