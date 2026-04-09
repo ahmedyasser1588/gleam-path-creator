@@ -4,7 +4,7 @@ import { Music, Pause, SkipForward, Heart } from "lucide-react";
 
 const MusicPlayer = () => {
   // 1. قايمة الأغاني (تأكد إن الملفات دي في فولدر public)
-  const songs = ["/yalla 7alan balan.mp3", "/3id milad elila.mp3", "/Kol Sana w enta.mp3","/elwala wala.mp3","/elyoum 3id.mp3","/happy brithday to you.m4a","/sana 7elwa.mp3","/yalla 7alan balan.mp3"],;
+  const songs = ["/yalla 7alan balan.mp3", "/3id milad elila.mp3", "/Kol Sana w enta.mp3","/elwala wala.mp3","/elyoum 3id.mp3","/happy brithday to you.m4a","/sana 7elwa.mp3","/yalla 7alan balan.mp3"];
   
   const [playing, setPlaying] = useState(false);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
