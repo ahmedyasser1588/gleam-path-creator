@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Heart, Sparkles } from "lucide-react";
+import FloatingText from "./FloatingText";
 
 const reasons = [
   "عشان ضحكتك بتنور الدنيا يا إيسو 💛",
@@ -26,49 +27,44 @@ const reasons = [
 ];
 
 const WhyILoveYouCard = () => {
-  const [currentReason, setCurrentReason] = useState(reasons[0]);
-  const [lastIndex, setLastIndex] = useState(0);
+  const [floatingTexts, setFloatingTexts] = useState<string[]>([]);
+  const [animKey, setAnimKey] = useState(0);
 
-  const showReason = useCallback(() => {
-    let idx: number;
-    do {
-      idx = Math.floor(Math.random() * reasons.length);
-    } while (idx === lastIndex && reasons.length > 1);
-    setLastIndex(idx);
-    setCurrentReason(reasons[idx]);
-  }, [lastIndex]);
+  const showFloatingReasons = useCallback(() => {
+    // Pick 3-5 random unique reasons to float
+    const count = Math.floor(Math.random() * 3) + 3;
+    const shuffled = [...reasons].sort(() => Math.random() - 0.5);
+    setFloatingTexts(shuffled.slice(0, count));
+    setAnimKey((k) => k + 1);
+  }, []);
 
   return (
-    <motion.div
-      className="glass-card p-6 md:p-8 text-center max-w-md mx-auto"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.4 }}
-    >
-      <Heart className="w-8 h-8 text-accent fill-accent mx-auto mb-3 animate-pulse" />
-      <h3 className="font-display text-xl font-bold text-foreground mb-2">
-        Secret for Eso 💕
-      </h3>
-      <motion.p
-        key={currentReason}
-        className="font-body text-foreground/80 text-base leading-relaxed mb-5"
-        dir="rtl"
-        initial={{ opacity: 0, y: 8 }}
+    <>
+      {floatingTexts.length > 0 && (
+        <FloatingText key={animKey} texts={floatingTexts} />
+      )}
+
+      <motion.div
+        className="glass-card p-6 md:p-8 text-center max-w-md mx-auto"
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
       >
-        {currentReason}
-      </motion.p>
-      <motion.button
-        onClick={showReason}
-        className="inline-flex items-center gap-2 rounded-full bg-accent text-accent-foreground px-6 py-2.5 font-body text-sm shadow-md"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <Sparkles className="w-4 h-4" />
-        سر تاني ✨
-      </motion.button>
-    </motion.div>
+        <Heart className="w-8 h-8 text-accent fill-accent mx-auto mb-3 animate-pulse" />
+        <h3 className="font-display text-xl font-bold text-foreground mb-4">
+          Why I love u? 💕
+        </h3>
+        <motion.button
+          onClick={showFloatingReasons}
+          className="inline-flex items-center gap-2 rounded-full bg-accent text-accent-foreground px-6 py-2.5 font-body text-sm shadow-md"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Sparkles className="w-4 h-4" />
+          Tell me why ✨
+        </motion.button>
+      </motion.div>
+    </>
   );
 };
 
