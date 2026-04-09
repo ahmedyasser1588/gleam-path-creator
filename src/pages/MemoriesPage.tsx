@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Heart, MapPin } from "lucide-react";
 import WhyILoveYouCard from "@/components/WhyILoveYou";
+import FlowerGarden from "@/components/FlowerGarden";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
