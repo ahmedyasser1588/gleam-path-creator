@@ -9,7 +9,7 @@ const MusicPlayer = () => {
   const [playing, setPlaying] = useState(false);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
+//
   // وظيفة تغيير الأغنية بشكل عشوائي (لزرار السهم)
   const changeRandomSong = () => {
     if (audioRef.current) {
