@@ -13,16 +13,7 @@ interface HeroPageProps {
   birthday: Date;
 }
 
-const insideJokes = [
-  "Remember the coffee incident? ☕",
-  "That time we got lost 🗺️",
-  "Your legendary dance moves 💃",
-  "The pizza debate 🍕",
-  "3 AM conversations 🌙",
-  "That photo we never posted 📸",
-  "The song that plays on repeat 🎵",
-  "Your contagious laugh 😄",
-];
+
 
 const HeroPage = ({ onNext, birthday }: HeroPageProps) => {
   const { days, isBirthday, dailyMessage, intensity } = useMemo(() => {
@@ -37,7 +28,7 @@ const HeroPage = ({ onNext, birthday }: HeroPageProps) => {
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-4 bg-hero-gradient overflow-hidden">
-      <FloatingText texts={insideJokes} />
+      
       <FloatingHearts intensity={intensity} />
 
       <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-primary/20 blur-3xl animate-float" style={{ opacity: 0.3 + intensity * 0.5 }} />
