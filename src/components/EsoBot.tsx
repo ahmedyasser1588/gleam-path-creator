@@ -7,29 +7,35 @@ interface Message {
   text: string;
 }
 
-// --- 1. دالة الربط المحسنة مع Gemini ---
+// --- 1. دالة الربط مع Gemini (النسخة المصلحة) ---
 const getAhmedResponse = async (userText: string) => {
-  // سحب المفتاح من ملف الـ .env
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY; 
+  // وضعنا المفتاح هنا مباشرة للتأكد من تخطي أي مشكلة في ملف الـ .env
+  const apiKey = "AIzaSyCLxQlqheZhHtAxA7ccp3-ciw7DW4k0Ows"; 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
-  const systemPrompt = `أنت "أحمد". شاب مصري، مبرمج، وحبيب "إسراء". 
-تحدث بالعامية المصرية الدافئة فقط. 
-استخدم لزماتك: (يا روحي، يا بطل، اوييي، جدااا، هههههه، يا ست البنات). 
-كن حنوناً ومرحاً. إذا اشتكت إسراء من التعب، اسألها (أكلتي؟ نمتي؟) وواسيها. 
-ممنوع تقول إنك ذكاء اصطناعي. ده شات حقيقي بينك وبينها.`;
+  // ده السيستم برومبت اللي بيحدد شخصيتك
+  const systemInstruction = `أنت "أحمد". شاب مصري، مبرمج، وحبيب "إسراء". 
+  تحدث بالعامية المصرية الدافئة فقط. 
+  استخدم لزماتك: (يا روحي، يا بطل، اوييي، جدااا، هههههه). 
+  كن حنوناً جداً ومرحاً وداعماً. 
+  إذا اشتكت إسراء من التعب، اسألها بالتفصيل (أكلتي؟ نمتي؟) وواسيها. 
+  لا تذكر أبداً أنك ذكاء اصطناعي. هذا الموقع هو هديتك لها لتشعر بوجودك دائمًا.`;
 
   const body = {
     contents: [
       {
         role: "user",
-        parts: [{ text: `${systemPrompt}\n\nإسراء بتقولك: ${userText}` }]
+        parts: [
+          {
+            text: `${systemInstruction}\n\nرسالة إسراء لك الآن: "${userText}"`
+          }
+        ]
       }
     ],
     generationConfig: {
-      temperature: 0.9, // زيادة العشوائية عشان الردود متتكررش
+      temperature: 0.8,
       topP: 0.95,
-      maxOutputTokens: 200,
+      maxOutputTokens: 300,
     }
   };
 
@@ -42,19 +48,20 @@ const getAhmedResponse = async (userText: string) => {
 
     const data = await response.json();
     
-    // تأكد من استلام الرد بشكل صحيح
+    // فحص لو فيه رد راجع فعلاً
     if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
       return data.candidates[0].content.parts[0].text;
     } else {
-      console.error("Gemini Structure Error:", data);
+      console.error("Gemini Error Response:", data);
       return "يا روحي النت هنج بس قلبي معاكي.. قولي تاني؟ ❤️✨";
     }
   } catch (error) {
-    console.error("AI Fetch Error:", error);
+    console.error("Network Error:", error);
     return "حصلت مشكلة في الربط يا قلبي بس أنا موجود دايماً.. ❤️";
   }
 };
 
+// --- 2. الـ Component الأساسي ---
 const EsoBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -64,22 +71,27 @@ const EsoBot = () => {
   const [typing, setTyping] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
 
+  // التمرير التلقائي لأسفل
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, typing]);
 
-  const send = async () => {
+  const handleSend = async () => {
     const text = input.trim();
-    if (!text || typing) return; // منع الإرسال المتكرر أثناء التحميل
+    if (!text || typing) return;
     
     setInput("");
     setMessages((prev) => [...prev, { from: "user", text }]);
     setTyping(true);
 
-    const aiReply = await getAhmedResponse(text);
-    
-    setTyping(false);
-    setMessages((prev) => [...prev, { from: "bot", text: aiReply }]);
+    try {
+      const aiReply = await getAhmedResponse(text);
+      setMessages((prev) => [...prev, { from: "bot", text: aiReply }]);
+    } catch (err) {
+      setMessages((prev) => [...prev, { from: "bot", text: "يا روحي النت هنج شوية، قوليلي تاني؟" }]);
+    } finally {
+      setTyping(false);
+    }
   };
 
   return (
@@ -92,6 +104,8 @@ const EsoBot = () => {
             className="fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full bg-pink-500 text-white flex items-center justify-center shadow-lg"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
           >
             <MessageCircleHeart className="w-6 h-6" />
           </motion.button>
@@ -102,37 +116,49 @@ const EsoBot = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed bottom-4 left-4 z-[100] w-[340px] max-w-[calc(100vw-2rem)] rounded-2xl border border-border bg-white shadow-2xl overflow-hidden flex flex-col"
-            style={{ height: 460 }}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 40 }}
+            className="fixed bottom-4 left-4 z-[100] w-[340px] max-w-[calc(100vw-2rem)] rounded-2xl border border-pink-100 bg-white shadow-2xl overflow-hidden flex flex-col"
+            style={{ height: 480 }}
+            initial={{ opacity: 0, y: 40, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 40, scale: 0.9 }}
           >
             {/* Header */}
             <div className="flex items-center gap-3 px-4 py-3 bg-pink-500 text-white">
-              <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">👨‍💻</div>
+              <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-lg">👨‍💻</div>
               <div className="flex-1 text-right">
                 <p className="font-bold text-sm">أحمد (قلب إيسو)</p>
                 <p className="text-[10px] opacity-80">بيفكر فيكي دلوقتي...</p>
               </div>
-              <button onClick={() => setIsOpen(false)}><X className="w-5 h-5" /></button>
+              <button onClick={() => setIsOpen(false)}>
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
             {/* Messages Area */}
-            <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2 bg-[#fdf2f8]" dir="rtl">
+            <div className="flex-1 overflow-y-auto px-3 py-3 space-y-3 bg-[#fff5f7]" dir="rtl">
               {messages.map((m, i) => (
-                <div key={i} className={`flex ${m.from === "user" ? "justify-start" : "justify-end"}`}>
-                  <div className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm ${
-                      m.from === "user" ? "bg-white text-gray-800 border" : "bg-pink-500 text-white"
-                    }`}>
+                <motion.div
+                  key={i}
+                  className={`flex ${m.from === "user" ? "justify-start" : "justify-end"}`}
+                  initial={{ opacity: 0, x: m.from === "user" ? -10 : 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                >
+                  <div
+                    className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm shadow-sm ${
+                      m.from === "user"
+                        ? "bg-white text-gray-700 rounded-tr-none border border-pink-50"
+                        : "bg-pink-500 text-white rounded-tl-none"
+                    }`}
+                  >
                     {m.text}
                   </div>
-                </div>
+                </motion.div>
               ))}
+              
               {typing && (
                 <div className="flex justify-end">
-                  <div className="bg-pink-100 text-pink-600 rounded-2xl px-3 py-2 text-xs animate-bounce">
-                    أحمد بيكتب... 💭
+                  <div className="bg-pink-100 text-pink-600 rounded-2xl px-3 py-2 text-xs animate-pulse">
+                    أحمد بيكتبلك... 💭
                   </div>
                 </div>
               )}
@@ -140,16 +166,20 @@ const EsoBot = () => {
             </div>
 
             {/* Input Area */}
-            <div className="flex items-center gap-2 px-3 py-2 border-t bg-white">
+            <div className="flex items-center gap-2 px-3 py-3 border-t border-pink-50 bg-white">
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && send()}
+                onKeyDown={(e) => e.key === "Enter" && handleSend()}
                 placeholder="قولي أي حاجة في قلبك..."
-                className="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm outline-none text-right"
+                className="flex-1 bg-pink-50/50 rounded-full px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-pink-300 transition-all text-right"
                 dir="rtl"
               />
-              <button onClick={send} className="w-9 h-9 rounded-full bg-pink-500 text-white flex items-center justify-center">
+              <button
+                onClick={handleSend}
+                disabled={typing}
+                className={`w-10 h-10 rounded-full bg-pink-500 text-white flex items-center justify-center transition-transform active:scale-90 ${typing ? 'opacity-50' : 'hover:bg-pink-600'}`}
+              >
                 <Send className="w-4 h-4" />
               </button>
             </div>
