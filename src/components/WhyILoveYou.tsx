@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Heart, Sparkles } from "lucide-react";
-import FloatingText from "./FloatingText";
 
 const reasons = [
   "عشان ضحكتك بتنور الدنيا يا إيسو 💛",
@@ -27,55 +26,65 @@ const reasons = [
 ];
 
 const WhyILoveYouCard = () => {
-  const [floatingText, setFloatingText] = useState<string | null>(null);
+  const [currentReason, setCurrentReason] = useState<string | null>(null);
   const [animKey, setAnimKey] = useState(0);
-  const [remaining, setRemaining] = useState<number[]>(() => {
-    return reasons.map((_, i) => i);
-  });
+  const [remaining, setRemaining] = useState<number[]>(() =>
+    reasons.map((_, i) => i)
+  );
 
-  const showFloatingReason = useCallback(() => {
+  const showReason = useCallback(() => {
     let pool = remaining;
-    // Reset when all reasons have been shown
     if (pool.length === 0) {
       pool = reasons.map((_, i) => i);
     }
-
     const randomIdx = Math.floor(Math.random() * pool.length);
     const chosenReasonIdx = pool[randomIdx];
     const newPool = pool.filter((_, i) => i !== randomIdx);
 
     setRemaining(newPool);
-    setFloatingText(reasons[chosenReasonIdx]);
+    setCurrentReason(reasons[chosenReasonIdx]);
     setAnimKey((k) => k + 1);
   }, [remaining]);
 
   return (
-    <>
-      <motion.div
-        className="glass-card p-6 md:p-8 text-center max-w-md mx-auto"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
+    <motion.div
+      className="glass-card p-6 md:p-8 text-center max-w-md mx-auto"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.4 }}
+    >
+      <Heart className="w-8 h-8 text-accent fill-accent mx-auto mb-3 animate-pulse" />
+      <h3 className="font-display text-xl font-bold text-foreground mb-4">
+        Why I love u? 💕
+      </h3>
+      <motion.button
+        onClick={showReason}
+        className="inline-flex items-center gap-2 rounded-full bg-accent text-accent-foreground px-6 py-2.5 font-body text-sm shadow-md"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       >
-        <Heart className="w-8 h-8 text-accent fill-accent mx-auto mb-3 animate-pulse" />
-        <h3 className="font-display text-xl font-bold text-foreground mb-4">
-          Why I love u? 💕
-        </h3>
-        <motion.button
-          onClick={showFloatingReason}
-          className="inline-flex items-center gap-2 rounded-full bg-accent text-accent-foreground px-6 py-2.5 font-body text-sm shadow-md"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Sparkles className="w-4 h-4" />
-          Tell me why ✨
-        </motion.button>
+        <Sparkles className="w-4 h-4" />
+        Tell me why ✨
+      </motion.button>
 
-        {floatingText && (
-          <FloatingText key={animKey} texts={[floatingText]} />
+      <AnimatePresence mode="wait">
+        {currentReason && (
+          <motion.div
+            key={animKey}
+            className="mt-5 rounded-2xl border border-accent/30 bg-accent/10 backdrop-blur-sm px-5 py-4 shadow-sm"
+            dir="rtl"
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          >
+            <p className="font-display text-base text-foreground leading-relaxed">
+              {currentReason}
+            </p>
+          </motion.div>
         )}
-      </motion.div>
-    </>
+      </AnimatePresence>
+    </motion.div>
   );
 };
 
