@@ -9,55 +9,42 @@ interface Message {
 
 // --- 1. دالة الربط مع Gemini (النسخة المصلحة) ---
 const getAhmedResponse = async (userText: string) => {
-  // وضعنا المفتاح هنا مباشرة للتأكد من تخطي أي مشكلة في ملف الـ .env
   const apiKey = "AIzaSyCLxQlqheZhHtAxA7ccp3-ciw7DW4k0Ows"; 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-
-  // ده السيستم برومبت اللي بيحدد شخصيتك
-  const systemInstruction = `أنت "أحمد". شاب مصري، مبرمج، وحبيب "إسراء". 
-  تحدث بالعامية المصرية الدافئة فقط. 
-  استخدم لزماتك: (يا روحي، يا بطل، اوييي، جدااا، هههههه). 
-  كن حنوناً جداً ومرحاً وداعماً. 
-  إذا اشتكت إسراء من التعب، اسألها بالتفصيل (أكلتي؟ نمتي؟) وواسيها. 
-  لا تذكر أبداً أنك ذكاء اصطناعي. هذا الموقع هو هديتك لها لتشعر بوجودك دائمًا.`;
+  // التعديل هنا: استخدام v1 بدلاً من v1beta والتأكد من الصيغة
+  const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
   const body = {
     contents: [
       {
-        role: "user",
         parts: [
           {
-            text: `${systemInstruction}\n\nرسالة إسراء لك الآن: "${userText}"`
+            text: `أنت "أحمد". مبرمج مصري وحبيب "إسراء". تحدث بالعامية المصرية فقط. كن حنوناً وداعماً جداً. ردي على: ${userText}`
           }
         ]
       }
-    ],
-    generationConfig: {
-      temperature: 0.8,
-      topP: 0.95,
-      maxOutputTokens: 300,
-    }
+    ]
   };
 
   try {
     const response = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(body)
     });
 
     const data = await response.json();
-    
-    // فحص لو فيه رد راجع فعلاً
-    if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+
+    if (response.ok && data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
       return data.candidates[0].content.parts[0].text;
     } else {
-      console.error("Gemini Error Response:", data);
-      return "يا روحي النت هنج بس قلبي معاكي.. قولي تاني؟ ❤️✨";
+      console.error("Detailed Error:", data); // عشان نشوف لو فيه سبب تاني
+      return "يا روحي النت هنج بس قلبي معاكي.. قولي تاني؟ ❤️";
     }
   } catch (error) {
-    console.error("Network Error:", error);
-    return "حصلت مشكلة في الربط يا قلبي بس أنا موجود دايماً.. ❤️";
+    console.error("Fetch Catch:", error);
+    return "فيه مشكلة في الاتصال يا قلبي، أنا جنبك دايماً..";
   }
 };
 
