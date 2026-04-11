@@ -77,7 +77,7 @@ const JourneyPage = () => {
                 <p className="text-base text-muted-foreground max-w-3xl mx-auto leading-7">{journeyVideo.description}</p>
               </div>
             </div>
-            <div className="aspect-video bg-black">
+            <div className="mx-auto w-full max-w-[420px] aspect-[9/16] overflow-hidden rounded-[2rem] bg-black shadow-xl shadow-black/20">
               <iframe
                 title="Journey video"
                 src={journeyVideo.previewUrl}
