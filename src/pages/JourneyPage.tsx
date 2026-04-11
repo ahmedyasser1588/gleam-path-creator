@@ -9,14 +9,11 @@ const milestones = [
   { date: "Year 1", title: "A Year of Magic", desc: "365 days of making the impossible possible.", icon: Camera },
 ];
 
-const galleryImages = [
-  { id: 1, span: "col-span-2 row-span-2", label: "Our favorite moment" },
-  { id: 2, span: "col-span-1 row-span-1", label: "That sunset" },
-  { id: 3, span: "col-span-1 row-span-1", label: "Laughing together" },
-  { id: 4, span: "col-span-1 row-span-2", label: "Adventure time" },
-  { id: 5, span: "col-span-1 row-span-1", label: "Cozy days" },
-  { id: 6, span: "col-span-1 row-span-1", label: "Making memories" },
-];
+const journeyVideo = {
+  src: "/videos/journey.mp4",
+  title: "Our journey in motion",
+  description: "A special memory captured on video, showing the moments that shaped our story.",
+};
 
 const TimelineItem = ({ item, index }: { item: typeof milestones[0]; index: number }) => {
   const ref = useRef(null);
@@ -62,27 +59,24 @@ const JourneyPage = () => {
           <p className="text-muted-foreground font-body max-w-md mx-auto">Every moment together has been a masterpiece.</p>
         </motion.div>
 
-        {/* Gallery */}
-        <div className="grid grid-cols-3 gap-3 mb-24">
-          {galleryImages.map((img) => (
-            <motion.div
-              key={img.id}
-              className={`${img.span} rounded-xl overflow-hidden relative group`}
-              whileHover={{ scale: 1.02 }}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-            >
-              <div className="w-full h-full min-h-[120px] bg-gradient-to-br from-primary/40 to-accent/20 flex items-center justify-center">
-                <Camera className="w-8 h-8 text-accent/40" />
-              </div>
-              <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/20 transition-colors flex items-end p-3">
-                <span className="text-xs font-body opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "hsl(0, 0%, 100%)" }}>
-                  {img.label}
-                </span>
-              </div>
-            </motion.div>
-          ))}
+        {/* Video section */}
+        <div className="mb-24">
+          <motion.div
+            className="rounded-[2rem] overflow-hidden border border-border bg-muted/30 shadow-2xl"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <video className="w-full min-h-[320px] object-cover bg-black" controls>
+              <source src={journeyVideo.src} type="video/mp4" />
+              Your browser does not support HTML5 video.
+            </video>
+            <div className="p-8 bg-background">
+              <h3 className="text-3xl font-semibold text-foreground mb-3">{journeyVideo.title}</h3>
+              <p className="text-base text-muted-foreground max-w-3xl">{journeyVideo.description}</p>
+            </div>
+          </motion.div>
         </div>
 
         {/* Timeline */}
