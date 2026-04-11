@@ -10,7 +10,8 @@ const milestones = [
 ];
 
 const journeyVideo = {
-  src: "/videos/journey.mp4",
+  previewUrl: "https://drive.google.com/file/d/1xKYEqjOAv2EOmgbnIqD-HL0PgPLGxGCj/preview",
+  shareUrl: "https://drive.google.com/file/d/1xKYEqjOAv2EOmgbnIqD-HL0PgPLGxGCj/view?usp=sharing",
   title: "Our journey in motion",
   description: "A special memory captured on video, showing the moments that shaped our story.",
 };
@@ -62,19 +63,41 @@ const JourneyPage = () => {
         {/* Video section */}
         <div className="mb-24">
           <motion.div
-            className="rounded-[2rem] overflow-hidden border border-border bg-muted/30 shadow-2xl"
+            className="rounded-[2rem] overflow-hidden border border-border bg-muted/50 shadow-2xl ring-1 ring-white/10"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <video className="w-full min-h-[320px] object-cover bg-black" controls>
-              <source src={journeyVideo.src} type="video/mp4" />
-              Your browser does not support HTML5 video.
-            </video>
-            <div className="p-8 bg-background">
-              <h3 className="text-3xl font-semibold text-foreground mb-3">{journeyVideo.title}</h3>
-              <p className="text-base text-muted-foreground max-w-3xl">{journeyVideo.description}</p>
+            <div className="relative overflow-hidden bg-gradient-to-br from-rose-500/10 via-fuchsia-500/10 to-sky-500/10 p-8">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(236,72,153,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.16),transparent_30%)]" />
+              <div className="relative max-w-4xl mx-auto text-center">
+                <p className="text-sm uppercase tracking-[0.3em] text-accent font-body mb-3">Memories in motion</p>
+                <h3 className="text-3xl md:text-4xl font-display font-semibold text-foreground mb-4">{journeyVideo.title}</h3>
+                <p className="text-base text-muted-foreground max-w-3xl mx-auto leading-7">{journeyVideo.description}</p>
+              </div>
+            </div>
+            <div className="aspect-video bg-black">
+              <iframe
+                title="Journey video"
+                src={journeyVideo.previewUrl}
+                className="w-full h-full"
+                allow="autoplay; fullscreen; picture-in-picture"
+                loading="lazy"
+              />
+            </div>
+            <div className="p-8 bg-background flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div>
+                <p className="text-sm text-muted-foreground">Click below to open the full Drive preview and relive our special moment.</p>
+              </div>
+              <a
+                href={journeyVideo.shareUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-background transition hover:bg-accent/90"
+              >
+                Watch on Google Drive
+              </a>
             </div>
           </motion.div>
         </div>
