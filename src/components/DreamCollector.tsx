@@ -96,7 +96,7 @@ const DreamCollector = () => {
               <textarea
                 value={form.wish}
                 onChange={(e) => setForm({ ...form, wish: e.target.value })}
-                placeholder="What do you wish for next year?"
+                placeholder="اكتبي امنيه تتمني تبقي متحققه السنه الجايه (كل الرسايل دي مش هقدر اشوفها)"
                 rows={2}
                 className="w-full bg-background/50 rounded-lg px-4 py-2.5 text-sm font-body text-foreground placeholder:text-muted-foreground border border-border focus:outline-none focus:ring-2 focus:ring-ring resize-none"
               />
@@ -108,7 +108,7 @@ const DreamCollector = () => {
               <textarea
                 value={form.dream}
                 onChange={(e) => setForm({ ...form, dream: e.target.value })}
-                placeholder="What's your biggest dream?"
+                placeholder="اكتبي امنيه تتمني تتحق علي المدي الطويل "
                 rows={2}
                 className="w-full bg-background/50 rounded-lg px-4 py-2.5 text-sm font-body text-foreground placeholder:text-muted-foreground border border-border focus:outline-none focus:ring-2 focus:ring-ring resize-none"
               />
@@ -120,7 +120,7 @@ const DreamCollector = () => {
               <textarea
                 value={form.letter}
                 onChange={(e) => setForm({ ...form, letter: e.target.value })}
-                placeholder="Write a message to future you..."
+                placeholder="اكتبي رساله طويله لنفسك كمان سنه تقدري بقي تسالي علي كل حاجه نفسك تتحقق اتحققت ولا لا او تحذريها من حاجه خدي راحتك وبرضو مش هقدر اشوفها خالص"
                 rows={3}
                 className="w-full bg-background/50 rounded-lg px-4 py-2.5 text-sm font-body text-foreground placeholder:text-muted-foreground border border-border focus:outline-none focus:ring-2 focus:ring-ring resize-none"
               />
