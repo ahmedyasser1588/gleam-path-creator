@@ -7,7 +7,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 const memories = [
-  { coords: [30.0622555, 31.2709438] as [number, number], title: "بوشينكي الزمالك", photo: "images/zamalek.jpg", text: "أحلى تمشية في الزمالك يا إيسو ❤️" },
+  { coords: [30.0622555, 31.2709438] as [number, number], title: "بوشينكي الزمالك", photo: "images/zamalek.jpg", text: "أحلى تمشية في الزمالك يddddddddddddddddddddddddddا إيسو ❤️" },
   { coords: [30.0908598, 31.3229569] as [number, number], title: "الكوربة", photo: "images/korba.jpg", text: "مصر الجديدة والكوربة وجمالها معاكي" },
   { coords: [30.0932644, 31.3256038] as [number, number], title: "حديقة الأهرام", photo: "images/ahram_garden.jpg", text: "ذكرى حلوة في حديقة الأهرام" },
   { coords: [30.1393376, 31.7310905] as [number, number], title: "مدينة بدر", photo: "images/badr_city.jpg", text: "حتى مدينة بدر نورت بوجودك" },
