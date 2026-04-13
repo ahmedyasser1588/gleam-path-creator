@@ -12,7 +12,7 @@ const milestones = [
 const journeyVideo = {
   previewUrl: "https://drive.google.com/file/d/1xKYEqjOAv2EOmgbnIqD-HL0PgPLGxGCj/preview",
   shareUrl: "https://drive.google.com/file/d/1xKYEqjOAv2EOmgbnIqD-HL0PgPLGxGCj/view?usp=sharing",
-  title: "Our journey in motion",
+  title: "Our journey in video",
   description: "A special memory captured on video, showing the moments that shaped our story.",
 };
 
@@ -72,7 +72,7 @@ const JourneyPage = () => {
             <div className="relative overflow-hidden bg-gradient-to-br from-rose-500/10 via-fuchsia-500/10 to-sky-500/10 p-8">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(236,72,153,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.16),transparent_30%)]" />
               <div className="relative max-w-4xl mx-auto text-center">
-                <p className="text-sm uppercase tracking-[0.3em] text-accent font-body mb-3">Memories in motion</p>
+                <p className="text-sm uppercase tracking-[0.3em] text-accent font-body mb-3">Memories in video</p>
                 <h3 className="text-3xl md:text-4xl font-display font-semibold text-foreground mb-4">{journeyVideo.title}</h3>
                 <p className="text-base text-muted-foreground max-w-3xl mx-auto leading-7">{journeyVideo.description}</p>
               </div>
