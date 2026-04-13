@@ -7,15 +7,27 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 const memories = [
-  { coords: [30.0622555, 31.2709438] as [number, number], title: "بوشينكي الزمالك", photo: "images/zamalek.jpg", text: "أحلى تمشية في الزمالك يddddddddddddddddddddddddddا إيسو ❤️" },
-  { coords: [30.0908598, 31.3229569] as [number, number], title: "الكوربة", photo: "images/korba.jpg", text: "مصر الجديدة والكوربة وجمالها معاكي" },
-  { coords: [30.0932644, 31.3256038] as [number, number], title: "حديقة الأهرام", photo: "images/ahram_garden.jpg", text: "ذكرى حلوة في حديقة الأهرام" },
-  { coords: [30.1393376, 31.7310905] as [number, number], title: "مدينة بدر", photo: "images/badr_city.jpg", text: "حتى مدينة بدر نورت بوجودك" },
-  { coords: [30.0335807, 31.2119212] as [number, number], title: "الدقي", photo: "images/dokki.jpg", text: "خروجات الدقي اللي مابتتنسيش" },
-  { coords: [30.0525548, 31.2009516] as [number, number], title: "المهندسين", photo: "images/mohandessin.jpg", text: "يومنا الجميل في المهندسين يا إيسو" },
-  { coords: [30.0268743, 31.2345072] as [number, number], title: "القصر العيني", photo: "images/kasr_elainy.jpg", text: "ذكريات القصر العيني" },
-  { coords: [30.0527616, 31.2497858] as [number, number], title: "العتبة", photo: "images/ataba.jpg", text: "وسط الزحمة مابشوفش غيرك" },
-  { coords: [30.0473538, 31.2347103] as [number, number], title: "وسط البلد", photo: "images/downtown.jpg", text: "روح القاهرة وروح قلبي في وسط البلد" },
+
+  { coords: [30.0622555, 31.2709438] as [number, number], title: " الزمالك", photo: "images/zamalk.jpeg", text: "كانت احلييي قعده علي النيل مع من اُحب ❤️" },
+
+  { coords: [30.0908598, 31.3229569] as [number, number], title: "الكوربة", photo: "images/korba.jpeg", text: "تقريبا جربنا هناك كل حاجه حرفيااا♥️😂" },
+
+  { coords: [30.0932644, 31.3256038] as [number, number], title: "حديقة الأهرام", photo: "images/ahram.jpeg", text: "منقدرش ننسي مكانا المعتمددد♥️♥️😂" },
+
+  { coords: [30.1393376, 31.7310905] as [number, number], title: "مدينة بدر", photo: "images/badr_city.jpeg", text: "الصحرراء الجردااااء بس مميزه عموما علشان كان اول مره ادوووق اكلك ☝️(مليون من مليون ونجمه وبوسه)" },
+
+  { coords: [30.0335807, 31.2119212] as [number, number], title: "الدقي", photo: "images/dokki.jpg.jpeg", text: "من اول خروجاتناااااا سوااا" },
+
+  { coords: [30.0525548, 31.2009516] as [number, number], title: "المهندسين", photo: "images/mohandessen.jpeg", text: "المهندسين ورخروجات الصبح المريبه دي ♥️😂" },
+
+  { coords: [30.0268743, 31.2345072] as [number, number], title: "القصر العيني", photo: "images/3ani.jpeg", text: "القصر العيني والمشروع البايظ بس عموما حابب اننا كنا في الحوارات دي سوا ♥️😂" },
+
+  { coords: [30.0527616, 31.2497858] as [number, number], title: "العتبة", photo: "images/attaba.jpeg", text: "وسط الزحمة مابشوفش غيرك😘😘♥️" },
+
+  { coords: [30.0473538, 31.2347103] as [number, number], title: "وسط البلد", photo: "images/elbalad.jpeg", text: "السينماااا ومشكلتنا الكبيره اننا مش هنرووووووح سواا😘😘♥️" },
+
+  { coords: [30.0808317, 31.3649451] as [number, number], title: "الماظه مول", photo: "images/almaza.jpeg", text: "المول اللي عرفنا ان الكار دا مش كارناا" },
+
 ];
 
 const heartIcon = L.divIcon({
