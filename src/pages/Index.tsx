@@ -12,7 +12,7 @@ import EsoBot from "@/components/EsoBot";
 import FlowerGarden from "@/components/FlowerGarden";
 
 // التاريخ والوقت المظبوط
-const BIRTHDAY = new Date("2026-04-18T20:40:00");
+const BIRTHDAY = new Date("2026-04-19T12:12:00");
 
 const Index = () => {
   const [currentPage, setCurrentPage] = useState(0);
