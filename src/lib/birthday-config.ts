@@ -3,7 +3,13 @@ export const BIRTHDAY_DATE = new Date("2026-04-6T00:00:00");
 
 // Daily messages for the 10-day countdown
 export const DAILY_MESSAGES = [
-  { day: 10, title: "Day 10 ✨", message: "The countdown begins! Something magical is about to happen. Every great story starts with anticipation..." },
+  { day: 10, title: "Day 10 ✨", message: "10 Days left ya Esoooooooooo 😘♥️♥️♥️
+فاضل بالظبط عشر ايام علي عيد ميلادك كل يوم هنا من اول دلوقتي لحد عيد ميلادك هيكون ليكي ماسدج مني😘🫂
+بعد ست سنين معرفه و3 سنين علي الاقل عايشين نايمين واكلين شاربين مع بعض وسنه ارتباط ومكالمات كتير كتير كتيييييييييييييييييييييييييير بالساعات والشيفتات احب اقولك اني اسعد انسان ان معايا بنوته زيك حلاوه ورقه ورومانسيه وتقدير وكل حاجه تحفه ♥️🫂🫂
+محظوظ ان في حياتي حد معايا السنين دي كلها حافظني وحافظه فاهمني وفاهمه حضن ليا وبحاول ابقي سند ليه ♥️♥️🫂
+بينا حاجات كتير معملنهاش ولا هنعملها غير مع بعض اول حد اجيبله ويجيبلي هدايا اول حد اخش معاه سينما اول حد اخرج معاه كم الخروجات دي كللها وابقي مبسوط ♥️♥️🫂
+كل فتره بتحلوي في عيني اكتر واكتررررر والله 😘♥️♥️
+بحبك وبموت فيكي يا اايسوو وعقبال العمر كله يارب وعقبال ما احتفل بعيد ميلادك في بيتنا ونعمل احلي ليله واحلي احتفال لحبيبه عمري كله 🫂♥️" },
   { day: 9, title: "Day 9 💫", message: "Did you know? The universe aligned in the most perfect way to create someone as amazing as you." },
   { day: 8, title: "Day 8 🌸", message: "Eight days until the world celebrates YOU. Start practicing your birthday smile!" },
   { day: 7, title: "Day 7 🦋", message: "One week to go! If I could gift you anything, it would be a mirror that shows how everyone sees you — absolutely radiant." },
