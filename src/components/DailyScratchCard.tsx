@@ -1,5 +1,6 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface DailyScratchCardProps {
   day: number;
@@ -98,9 +99,14 @@ const DailyScratchCard = ({ day, title, message }: DailyScratchCardProps) => {
     >
       <h4 className="font-display text-lg font-semibold text-foreground text-center mb-4">{title}</h4>
       <div className="relative rounded-xl overflow-hidden" style={{ width, height }}>
-        {/* Hidden message underneath */}
-        <div className="absolute inset-0 flex items-center justify-center p-6 bg-gradient-to-br from-blush to-primary/30">
-          <p className="font-body text-sm text-foreground text-center leading-relaxed">{message}</p>
+        
+        {/* Hidden message underneath - ScrollArea added here */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blush to-primary/30">
+          <ScrollArea className="h-full w-full p-4">
+            <p className="font-body text-sm text-foreground text-right leading-relaxed whitespace-pre-line dir-rtl">
+              {message}
+            </p>
+          </ScrollArea>
         </div>
 
         {/* Scratch canvas overlay */}
@@ -116,7 +122,7 @@ const DailyScratchCard = ({ day, title, message }: DailyScratchCardProps) => {
               exit={{ opacity: 0 }}
               width={width}
               height={height}
-              className="absolute inset-0 rounded-xl"
+              className="absolute inset-0 rounded-xl z-10"
               style={{ cursor: "crosshair" }}
               onMouseDown={() => { isDrawing.current = true; }}
               onMouseUp={() => { isDrawing.current = false; }}
