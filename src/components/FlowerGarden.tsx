@@ -123,7 +123,7 @@ const FlowerGarden = () => {
           <Heart className="w-5 h-5 text-accent fill-accent" />
         </div>
         <p className="font-body text-muted-foreground text-sm" dir="rtl">
-          كل مرة بتزوري الصفحة، وردة جديدة بتكبر وبتكتب رسالة ليكي 🌸
+          كل مرة بتزوري الصفحة، وردة جديدة بتكبر  🌸
         </p>
         <p className="font-body text-xs text-muted-foreground mt-1">
           {visitCount} / {MAX_FLOWERS} 🌷
