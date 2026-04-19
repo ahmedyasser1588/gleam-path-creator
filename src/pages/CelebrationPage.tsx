@@ -6,11 +6,26 @@ import DreamCollector from "@/components/DreamCollector";
 import TimeMachineButton from "@/components/TimeMachineButton";
 import { Gift, Heart } from "lucide-react";
 
-
 const envelopes = [
-  { title: "Open When You're Happy", message: "I just want you to know — your happiness is the most beautiful thing in the world. Keep shining! 🌟", condition: "For your happiest moments", isUnlocked: true },
-  { title: "Open When You Miss Me", message: "Close your eyes. Take a deep breath. I'm always with you, even when we're apart. 💕", condition: "When distance feels too much", isUnlocked: true },
-  { title: "Open On Your Next Adventure", message: "Go explore! Take pictures! Eat weird food! Life is too short for boring stories. 🗺️", condition: "Before your next trip", isUnlocked: false },
+  { 
+    title: "Open When You're Happy", 
+    message: "I just want you to know — your happiness is the most beautiful thing in the world. Keep shining! 🌟", 
+    condition: "For your happiest moments", 
+    isUnlocked: true 
+  },
+  { 
+    title: "Open When You Miss Me", 
+    message: "Close your eyes. Take a deep breath. I'm always with you, even when we're apart. 💕", 
+    condition: "When distance feels too much", 
+    isUnlocked: true 
+  },
+  { 
+    title: "Open When You're Overwhelmed", 
+    // ملاحظة: الرسالة هنا بالإنجليزية للحفاظ على شكل الموقع، والنص العربي هو اللي كتبتهولك فوق
+    message: "I know things are heavy right now. Just breathe. You don't have to be strong all the time. I'm right here by your side, holding your hand. You are enough, and I am so proud of you. 🫂❤️", 
+    condition: "When life feels like too much", 
+    isUnlocked: true // جعلتها true لتكون متاحة لها دائماً عند الحاجة
+  },
 ];
 
 const CelebrationPage = () => {
