@@ -18,7 +18,7 @@ const milestones = [
   },
   { 
     date: "April 12, 2025", 
-    title: "Confessed Our Love", 
+    title: "The Best Day ", 
     desc: "The moment we shared our true feelings.", 
     icon: Heart 
   },
