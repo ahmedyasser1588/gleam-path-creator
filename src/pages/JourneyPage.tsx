@@ -1,19 +1,40 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Camera, Heart, Star, MapPin } from "lucide-react";
+import { Camera, Heart, Star, MapPin, MessageCircle, Calendar } from "lucide-react";
 
+// التعديل تم هنا في مصفوفة الـ milestones
 const milestones = [
-  { date: "Day 1", title: "The Day We Met", desc: "The beginning of something beautiful.", icon: Heart },
-  { date: "Month 3", title: "First Adventure", desc: "When we explored the unknown together.", icon: MapPin },
-  { date: "Month 6", title: "Unforgettable Summer", desc: "Sunsets, laughter, and golden memories.", icon: Star },
-  { date: "Year 1", title: "A Year of Magic", desc: "365 days of making the impossible possible.", icon: Camera },
+  { 
+    date: "2020", 
+    title: "بداية تعارفنا", 
+    desc: "أول خطوة في رحلتنا، حين بدأت قصتنا بكلمات بسيطة.", 
+    icon: MessageCircle 
+  },
+  { 
+    date: "2023", 
+    title: "أول لقاء", 
+    desc: "اليوم الذي التقت فيه أعيننا لأول مرة وتأكدنا أن القادم أجمل.", 
+    icon: MapPin 
+  },
+  { 
+    date: "12 / 4 / 2025", 
+    title: "اعترافنا بالحب", 
+    desc: "اللحظة التي نطق فيها القلب بما كان يكتمه طويلاً.", 
+    icon: Heart 
+  },
+  { 
+    date: "12 / 4 / 2026", 
+    title: "تمينا سنة حب", 
+    desc: "عام كامل من السعادة، الدعم، والمواقف التي لا تُنسى.", 
+    icon: Star 
+  },
 ];
 
 const journeyVideo = {
   previewUrl: "https://drive.google.com/file/d/1xKYEqjOAv2EOmgbnIqD-HL0PgPLGxGCj/preview",
   shareUrl: "https://drive.google.com/file/d/1xKYEqjOAv2EOmgbnIqD-HL0PgPLGxGCj/view?usp=sharing",
-  title: "Our journey in video",
-  description: "A special memory captured on video, showing the moments that shaped our story.",
+  title: "رحلتنا في فيديو",
+  description: "لحظات خاصة وثقتها الكاميرا، تحكي تفاصيل قصتنا التي نبنيها معاً.",
 };
 
 const TimelineItem = ({ item, index }: { item: typeof milestones[0]; index: number }) => {
@@ -55,9 +76,9 @@ const JourneyPage = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-body mb-3">Chapter Two</p>
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-gradient-rose mb-4">Our Journey</h2>
-          <p className="text-muted-foreground font-body max-w-md mx-auto">Every moment together has been a masterpiece.</p>
+          <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-body mb-3">الفصل الثاني</p>
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-gradient-rose mb-4">رحلتنا معاً</h2>
+          <p className="text-muted-foreground font-body max-w-md mx-auto">كل لحظة قضيناها معاً هي لوحة فنية فريدة.</p>
         </motion.div>
 
         {/* Video section */}
@@ -72,7 +93,7 @@ const JourneyPage = () => {
             <div className="relative overflow-hidden bg-gradient-to-br from-rose-500/10 via-fuchsia-500/10 to-sky-500/10 p-8">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(236,72,153,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.16),transparent_30%)]" />
               <div className="relative max-w-4xl mx-auto text-center">
-                <p className="text-sm uppercase tracking-[0.3em] text-accent font-body mb-3">Memories in video</p>
+                <p className="text-sm uppercase tracking-[0.3em] text-accent font-body mb-3">ذكريات مصورة</p>
                 <h3 className="text-3xl md:text-4xl font-display font-semibold text-foreground mb-4">{journeyVideo.title}</h3>
                 <p className="text-base text-muted-foreground max-w-3xl mx-auto leading-7">{journeyVideo.description}</p>
               </div>
@@ -88,7 +109,7 @@ const JourneyPage = () => {
             </div>
             <div className="p-8 bg-background flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Click below to open the full Drive preview and relive our special moment.</p>
+                <p className="text-sm text-muted-foreground">اضغط بالأسفل لفتح الفيديو بالكامل على Google Drive واسترجاع ذكرياتنا.</p>
               </div>
               <a
                 href={journeyVideo.shareUrl}
@@ -96,7 +117,7 @@ const JourneyPage = () => {
                 rel="noreferrer"
                 className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-background transition hover:bg-accent/90"
               >
-                Watch on Google Drive
+                شاهد على Google Drive
               </a>
             </div>
           </motion.div>
