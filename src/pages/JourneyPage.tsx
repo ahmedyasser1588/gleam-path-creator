@@ -24,7 +24,7 @@ const milestones = [
   },
   { 
     date: "April 12, 2026", 
-    title: "One Year Anniversary", 
+    title: "One Year Of Ovr Love", 
     desc: "Celebrating 365 days of love and happiness.", 
     icon: Star 
   },
