@@ -20,7 +20,7 @@ const Navigation = ({ currentPage, onNavigate, lockedPages = [] }: NavigationPro
       <div className="max-w-5xl mx-auto flex items-center justify-between">
         <motion.div whileHover={{ scale: 1.1 }} className="flex items-center gap-2">
           <Heart className="w-5 h-5 text-accent fill-accent" />
-          <span className="font-display text-sm font-semibold text-foreground">Birthday</span>
+          <span className="font-display text-sm font-semibold text-foreground">Special Birthday</span>
         </motion.div>
         <div className="flex gap-1">
           {pages.map((page, i) => {
