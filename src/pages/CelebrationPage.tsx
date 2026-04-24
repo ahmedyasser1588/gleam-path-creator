@@ -15,8 +15,8 @@ const envelopes = [
   },
   { 
     title: "Open When You Miss Me", 
-    message: "Close your eyes. Take a deep breath. I'm always with you, even when we're apart. 💕", 
-    condition: "When distance feels too much", 
+    message: "والله انتي كمان علي طول وحشاااااااااااني يا ايسو🫂🫂♥️ حرفيا دا الطبيعي والله رغم انك دايما بتحاولي تحسسيني انك معايا دايما وانا والله بحاول برضو اعمل دا ♥️♥️🫂بس متعرفيش بتوحشيني قد اي وازاي اصلا متوحشنيش وانا بقالي ست سنين كل يوم مش بيعدي يوم الا وبكلمك حتي لو متخانقين حتي لو بكلمك من تحت درسي زي ما بتقولي بس 6 سنين كل يوم بكلمك طبيععي لما تغيبي عني ساعتين توحشيني😘♥️♥️بموت فيكي وبحببببببببببببك ♥️🫂",
+    condition: "When you want to hug me 🫂♥️", 
     isUnlocked: true 
   },
   { 
