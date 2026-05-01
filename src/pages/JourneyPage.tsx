@@ -68,17 +68,17 @@ const TimelineItem = ({ item, index }: { item: typeof milestones[0]; index: numb
 
 const JourneyPage = () => {
   return (
-    <section className="min-h-screen py-24 px-4 bg-hero-gradient">
+    <section className="min-h-screen pt-20 pb-16 sm:py-24 px-4 bg-hero-gradient">
       <div className="max-w-5xl mx-auto">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-body mb-3">Chapter Two</p>
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-gradient-rose mb-4">Our Journey</h2>
-          <p className="text-muted-foreground font-body max-w-md mx-auto">Every moment together has been a masterpiece.</p>
+          <p className="text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] text-muted-foreground font-body mb-3">Chapter Two</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-gradient-rose mb-4">Our Journey</h2>
+          <p className="text-sm sm:text-base text-muted-foreground font-body max-w-md mx-auto px-2">Every moment together has been a masterpiece.</p>
         </motion.div>
 
         {/* Video section */}
