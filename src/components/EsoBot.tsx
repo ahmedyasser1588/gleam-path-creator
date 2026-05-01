@@ -1,30 +1,12 @@
-import React from "react";
-
 const EsoBot = () => {
   return (
-    <div 
+    <button
       onClick={() => window.open("https://ai-embrace-craft.lovable.app/", "_blank")}
-      style={{
-        position: 'fixed',
-        bottom: '30px',
-        left: '30px',
-        zIndex: 99999,
-        width: '60px',
-        height: '60px',
-        borderRadius: '50%',
-        backgroundColor: '#ff4d88',
-        color: 'white',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: '30px',
-        cursor: 'pointer',
-        boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
-        border: '2px solid white'
-      }}
+      aria-label="Open Eso-Bot chat"
+      className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-40 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-2xl sm:text-3xl text-white bg-accent shadow-lg border-2 border-white hover:scale-110 transition-transform"
     >
       ❤️
-    </div>
+    </button>
   );
 };
 
