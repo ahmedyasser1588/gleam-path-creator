@@ -90,12 +90,12 @@ const JourneyPage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="relative overflow-hidden bg-gradient-to-br from-rose-500/10 via-fuchsia-500/10 to-sky-500/10 p-8">
+            <div className="relative overflow-hidden bg-gradient-to-br from-rose-500/10 via-fuchsia-500/10 to-sky-500/10 p-5 sm:p-8">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(236,72,153,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.16),transparent_30%)]" />
               <div className="relative max-w-4xl mx-auto text-center">
-                <p className="text-sm uppercase tracking-[0.3em] text-accent font-body mb-3">Memories in video</p>
-                <h3 className="text-3xl md:text-4xl font-display font-semibold text-foreground mb-4">{journeyVideo.title}</h3>
-                <p className="text-base text-muted-foreground max-w-3xl mx-auto leading-7">{journeyVideo.description}</p>
+                <p className="text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] text-accent font-body mb-2 sm:mb-3">Memories in video</p>
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-display font-semibold text-foreground mb-3 sm:mb-4">{journeyVideo.title}</h3>
+                <p className="text-sm sm:text-base text-muted-foreground max-w-3xl mx-auto leading-6 sm:leading-7">{journeyVideo.description}</p>
               </div>
             </div>
             <div className="aspect-video bg-black">
@@ -107,15 +107,15 @@ const JourneyPage = () => {
                 loading="lazy"
               />
             </div>
-            <div className="p-8 bg-background flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="p-5 sm:p-8 bg-background flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Click below to open the full Drive preview and relive our special moment.</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Click below to open the full Drive preview and relive our special moment.</p>
               </div>
               <a
                 href={journeyVideo.shareUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-background transition hover:bg-accent/90"
+                className="inline-flex items-center justify-center rounded-full bg-accent px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-background transition hover:bg-accent/90"
               >
                 Watch on Google Drive
               </a>
