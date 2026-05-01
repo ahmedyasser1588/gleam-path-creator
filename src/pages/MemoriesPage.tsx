@@ -84,22 +84,22 @@ const MemoriesPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background pt-16">
+    <div className="min-h-screen bg-background pt-20 sm:pt-24">
       {/* Header */}
       <motion.div
-        className="text-center py-8 px-4"
+        className="text-center py-6 sm:py-8 px-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
         <div className="flex items-center justify-center gap-2 mb-3">
-          <Heart className="w-6 h-6 text-accent fill-accent" />
-          <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground">
+          <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-accent fill-accent" />
+          <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">
             Our Memories
           </h1>
-          <Heart className="w-6 h-6 text-accent fill-accent" />
+          <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-accent fill-accent" />
         </div>
-        <p className="font-body text-muted-foreground text-sm md:text-base max-w-md mx-auto">
+        <p className="font-body text-muted-foreground text-sm md:text-base max-w-md mx-auto px-2">
           كل مكان فيه ذكرى حلوة معاكي يا إيسو 💕
         </p>
       </motion.div>

@@ -65,26 +65,26 @@ const Countdown = ({ targetDate, onComplete }: CountdownProps) => {
         {!isComplete ? (
           <motion.div
             key="countdown"
-            className="flex items-center gap-4 md:gap-6 justify-center"
+            className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 md:gap-6 justify-center"
             exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.5 } }}
           >
             <HeartProgress progress={heartProgress} />
-            <div className="flex gap-3 md:gap-5">
+            <div className="flex gap-2 sm:gap-3 md:gap-5 flex-wrap justify-center">
               {units.map((unit) => (
                 <motion.div
                   key={unit.label}
-                  className="glass-card px-3 py-4 md:px-5 md:py-6 flex flex-col items-center min-w-[60px] md:min-w-[80px] animate-glow-pulse"
+                  className="glass-card px-2.5 sm:px-3 md:px-5 py-3 sm:py-4 md:py-6 flex flex-col items-center min-w-[55px] sm:min-w-[60px] md:min-w-[80px] animate-glow-pulse"
                   whileHover={{ scale: 1.05 }}
                 >
                   <motion.span
                     key={unit.value}
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    className="text-2xl md:text-4xl font-display font-bold text-gradient-rose"
+                    className="text-xl sm:text-2xl md:text-4xl font-display font-bold text-gradient-rose"
                   >
                     {String(unit.value).padStart(2, "0")}
                   </motion.span>
-                  <span className="text-[10px] md:text-xs text-muted-foreground mt-1.5 font-body uppercase tracking-widest">
+                  <span className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground mt-1 sm:mt-1.5 font-body uppercase tracking-widest">
                     {unit.label}
                   </span>
                 </motion.div>
@@ -94,9 +94,8 @@ const Countdown = ({ targetDate, onComplete }: CountdownProps) => {
         ) : (
           <motion.button
             key="celebrate"
-            // الزرار ده هو الوحيد اللي هيشغل الـ onComplete لما تضغط عليه
             onClick={() => onComplete?.()} 
-            className="relative group"
+            className="relative group max-w-full"
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.3 }}
@@ -106,8 +105,8 @@ const Countdown = ({ targetDate, onComplete }: CountdownProps) => {
               animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.7, 0.4] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
-            <div className="relative glass-card px-10 py-5 md:px-14 md:py-6 rounded-full border border-primary/30 bg-primary/10 hover:bg-primary/20 transition-colors cursor-pointer">
-              <span className="text-xl md:text-2xl font-display font-bold text-gradient-rose">
+            <div className="relative glass-card px-6 sm:px-10 md:px-14 py-4 sm:py-5 md:py-6 rounded-full border border-primary/30 bg-primary/10 hover:bg-primary/20 transition-colors cursor-pointer">
+              <span className="text-base sm:text-xl md:text-2xl font-display font-bold text-gradient-rose whitespace-nowrap">
                 🎉 Let's Celebrate! 🎉
               </span>
             </div>
