@@ -11,9 +11,9 @@ const milestones = [
     icon: MessageCircle 
   },
   { 
-    date: "November 13, 2023", 
+    date: "2023", 
     title: "First Meeting", 
-    desc: "From pixels to a person; finally, my favorite notification is standing right here..", 
+    desc: "The day we finally met in person.", 
     icon: MapPin 
   },
   { 
