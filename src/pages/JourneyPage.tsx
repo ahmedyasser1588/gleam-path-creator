@@ -46,22 +46,22 @@ const TimelineItem = ({ item, index }: { item: typeof milestones[0]; index: numb
   return (
     <motion.div
       ref={ref}
-      className={`flex items-center gap-6 ${isLeft ? "flex-row" : "flex-row-reverse"}`}
+      className={`flex items-center gap-3 sm:gap-6 ${isLeft ? "flex-row" : "flex-row-reverse"}`}
       initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
       animate={inView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.6, delay: 0.2 }}
     >
-      <div className={`flex-1 ${isLeft ? "text-right" : "text-left"}`}>
-        <div className="glass-card p-5 inline-block">
-          <p className="text-xs text-accent font-body uppercase tracking-widest mb-1">{item.date}</p>
-          <h3 className="font-display text-lg font-semibold text-foreground mb-1">{item.title}</h3>
-          <p className="text-sm text-muted-foreground">{item.desc}</p>
+      <div className={`flex-1 min-w-0 ${isLeft ? "text-right" : "text-left"}`}>
+        <div className="glass-card p-3 sm:p-5 inline-block max-w-full">
+          <p className="text-[10px] sm:text-xs text-accent font-body uppercase tracking-widest mb-1">{item.date}</p>
+          <h3 className="font-display text-sm sm:text-lg font-semibold text-foreground mb-1">{item.title}</h3>
+          <p className="text-xs sm:text-sm text-muted-foreground">{item.desc}</p>
         </div>
       </div>
-      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center relative z-10">
-        <Icon className="w-4 h-4 text-accent" />
+      <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-accent/20 flex items-center justify-center relative z-10">
+        <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent" />
       </div>
-      <div className="flex-1" />
+      <div className="flex-1 min-w-0" />
     </motion.div>
   );
 };
