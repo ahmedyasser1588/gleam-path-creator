@@ -14,7 +14,8 @@ const DailyScratchCard = ({ day, title, message }: DailyScratchCardProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [revealed, setRevealed] = useState(false);
   const isDrawing = useRef(false);
-  const width = 320;
+  // Responsive size
+  const width = typeof window !== "undefined" && window.innerWidth < 380 ? 280 : 320;
   const height = 180;
 
   useEffect(() => {
@@ -92,7 +93,7 @@ const DailyScratchCard = ({ day, title, message }: DailyScratchCardProps) => {
 
   return (
     <motion.div
-      className="glass-card p-6 inline-block"
+      className="glass-card p-4 sm:p-6 inline-block max-w-full"
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ type: "spring", stiffness: 200 }}

@@ -27,17 +27,17 @@ const HeroPage = ({ onNext, birthday }: HeroPageProps) => {
   }, [birthday]);
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 bg-hero-gradient overflow-hidden">
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-20 pb-24 bg-hero-gradient overflow-hidden">
       
       <FloatingHearts intensity={intensity} />
 
-      <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-primary/20 blur-3xl animate-float" style={{ opacity: 0.3 + intensity * 0.5 }} />
-      <div className="absolute bottom-32 right-16 w-40 h-40 rounded-full bg-accent/10 blur-3xl animate-float-slow" style={{ opacity: 0.2 + intensity * 0.6 }} />
+      <div className="absolute top-20 left-4 sm:left-10 w-24 sm:w-32 h-24 sm:h-32 rounded-full bg-primary/20 blur-3xl animate-float pointer-events-none" style={{ opacity: 0.3 + intensity * 0.5 }} />
+      <div className="absolute bottom-32 right-4 sm:right-16 w-28 sm:w-40 h-28 sm:h-40 rounded-full bg-accent/10 blur-3xl animate-float-slow pointer-events-none" style={{ opacity: 0.2 + intensity * 0.6 }} />
       
       {Array.from({ length: Math.floor(3 + intensity * 7) }, (_, i) => (
         <div
           key={i}
-          className="absolute w-1.5 h-1.5 rounded-full bg-accent animate-sparkle"
+          className="absolute w-1.5 h-1.5 rounded-full bg-accent animate-sparkle pointer-events-none"
           style={{
             top: `${10 + Math.random() * 80}%`,
             left: `${10 + Math.random() * 80}%`,
@@ -47,24 +47,24 @@ const HeroPage = ({ onNext, birthday }: HeroPageProps) => {
       ))}
 
       <motion.div
-        className="relative z-10 text-center"
+        className="relative z-10 text-center w-full max-w-3xl mx-auto"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <motion.p
-  className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-body mb-4"
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ delay: 0.3 }}
->
-  🎉 Today is the Day! 🎉
-  <br />
-  Level 21 Unlocked! 🔓
-</motion.p>
+          className="text-[11px] sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] text-muted-foreground font-body mb-3 sm:mb-4 px-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          🎉 Today is the Day! 🎉
+          <br />
+          Level 21 Unlocked! 🔓
+        </motion.p>
 
         <motion.h1
-          className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-gradient-rose mb-6"
+          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold text-gradient-rose mb-4 sm:mb-6 leading-tight"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
@@ -73,7 +73,7 @@ const HeroPage = ({ onNext, birthday }: HeroPageProps) => {
         </motion.h1>
 
         <motion.p
-          className="text-lg md:text-xl text-muted-foreground font-body font-light mb-10 max-w-md mx-auto"
+          className="text-base sm:text-lg md:text-xl text-muted-foreground font-body font-light mb-8 sm:mb-10 max-w-md mx-auto px-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
