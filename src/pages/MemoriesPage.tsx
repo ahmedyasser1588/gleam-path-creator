@@ -41,6 +41,7 @@ const heartIcon = L.divIcon({
 const MemoriesPage = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
+  const markersRef = useRef<L.Marker[]>([]);
 
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
@@ -73,6 +74,7 @@ const MemoriesPage = () => {
         </div>`,
         { className: "romantic-popup", maxWidth: 260 }
       );
+      markersRef.current.push(marker);
     });
 
     mapInstanceRef.current = map;
