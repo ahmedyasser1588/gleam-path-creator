@@ -90,9 +90,16 @@ const MemoriesPage = () => {
     const map = mapInstanceRef.current;
     const marker = markersRef.current[i];
     if (!map || !marker) return;
-    map.flyTo(memories[i].coords, 15, { duration: 1.2 });
-    setTimeout(() => marker.openPopup(), 800);
+
     mapRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    // Open popup right away so it's visible during the fly animation,
+    // and re-open on moveend in case Leaflet closed it mid-flight.
+    marker.openPopup();
+    map.flyTo(memories[i].coords, 15, { duration: 1.2 });
+    map.once("moveend", () => {
+      marker.openPopup();
+    });
   };
 
   return (
