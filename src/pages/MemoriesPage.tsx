@@ -82,8 +82,18 @@ const MemoriesPage = () => {
     return () => {
       map.remove();
       mapInstanceRef.current = null;
+      markersRef.current = [];
     };
   }, []);
+
+  const flyToMemory = (i: number) => {
+    const map = mapInstanceRef.current;
+    const marker = markersRef.current[i];
+    if (!map || !marker) return;
+    map.flyTo(memories[i].coords, 15, { duration: 1.2 });
+    setTimeout(() => marker.openPopup(), 800);
+    mapRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
 
   return (
     <div className="min-h-screen bg-background pt-20 sm:pt-24">
@@ -127,16 +137,20 @@ const MemoriesPage = () => {
       >
         <div className="flex flex-wrap gap-3 justify-center">
           {memories.map((m, i) => (
-            <motion.div
+            <motion.button
               key={i}
-              className="flex items-center gap-1.5 bg-card border border-border rounded-full px-3 py-1.5 text-xs font-body text-foreground"
+              type="button"
+              onClick={() => flyToMemory(i)}
+              className="flex items-center gap-1.5 bg-card border border-border hover:border-accent hover:bg-accent/10 rounded-full px-3 py-1.5 text-xs font-body text-foreground transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/40"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               transition={{ delay: 0.7 + i * 0.05 }}
             >
               <MapPin className="w-3 h-3 text-accent" />
               {m.title}
-            </motion.div>
+            </motion.button>
           ))}
         </div>
       </motion.div>
