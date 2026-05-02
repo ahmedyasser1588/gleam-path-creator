@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import VirtualCake from "@/components/VirtualCake";
-import ScratchCard from "@/components/ScratchCard";
+import TypewriterMessage from "@/components/TypewriterMessage";
 import Envelope from "@/components/Envelope";
 import DreamCollector from "@/components/DreamCollector";
 import TimeMachineButton from "@/components/TimeMachineButton";
@@ -58,17 +58,25 @@ const CelebrationPage = () => {
           <DreamCollector />
         </div>
 
-        {/* Scratch Card */}
+        {/* A Message For You — typewriter letter */}
         <motion.div
-          className="text-center mb-20"
+          className="mb-20 px-2"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h3 className="font-display text-2xl font-semibold text-foreground mb-6">A Special Surprise</h3>
-          <div className="flex justify-center">
-            <ScratchCard message="🎁 You are loved more than you know! Here's a virtual hug from everyone who adores you. 💖" />
-          </div>
+          <TypewriterMessage
+            title="A Message For You"
+            subtitle="Words from my heart to yours"
+            paragraphs={[
+              "حبيبتي إيسو،",
+              "من اللحظة اللي دخلتي فيها حياتي، كل حاجة بقت ليها طعم تاني… ضحكتك، صوتك، حتى صمتك بقى يطمنّي.",
+              "كل يوم بحبك أكتر من اللي قبله، وكل سنة بتعدّي معاكي بحس إن قلبي لقى بيته جنبك.",
+              "في عيد ميلادك حبيت أقولك إنك أجمل حاجة حصلتلي، وإن وعدي ليكي إني أفضل جنبك مهما كانت الدنيا، أفرحك زي ما بتفرحيني، وأخليكي دايماً أميرتي. ❤️",
+              "كل سنة وانتي طيبة يا حب عمري 🌹",
+            ]}
+            speed={32}
+          />
         </motion.div>
 
         {/* Open When Envelopes */}
