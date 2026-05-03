@@ -21,7 +21,7 @@ const QUIZ = [
   {
     q: "Who sent more media (Photos & Videos & Links)?",
     options: ["Ahmed", "Esraa", "Equal"],
-    answer: 0,
+    answer: 1,
     hint: "من اول يوم 3 خمسه 2025 لحد 3 خمسه 2026",
   },
   {
