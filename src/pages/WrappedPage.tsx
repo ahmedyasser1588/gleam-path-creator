@@ -15,31 +15,31 @@ const QUIZ = [
   {
     q: "تتوقعي عملنا كام رساله في السنه دي سوا ؟",
     options: ["75,300","89,420", "160,718", "210,500"],
-    answer: 3,
+    answer: 2,
     hint: "من اول يوم 3 خمسه 2025 لحد 3 خمسه 2026",
   },
   {
     q: "Who sent more media (Photos & Videos & Links)?",
     options: ["Ahmed", "Esraa", "Equal"],
-    answer: 1,
+    answer: 0,
     hint: "من اول يوم 3 خمسه 2025 لحد 3 خمسه 2026",
   },
   {
     q: "خمني اكتر يوم اتكلمنا فيه علي مدار السنه طب؟",
     options: ["14-01-2026", "10-04-2026", "16-06-2025", "30-04-2025"],
-    answer: 3,
+    answer: 2,
     hint: "من اول يوم 3 خمسه 2025 لحد 3 خمسه 2026",
   },
   {
     q: "مين قال للتاني (بحبك -بعشقك -بموت فيك ) اكتر؟",
     options: ["Ahmed", "Esraa", "Equal"],
-    answer: 1,
+    answer: 0,
     hint: "ملحوظه احنا الاتنين قايلين لبعض اكتر من 700 مره",
   },
   {
     q: "تتوقعي اي اكتر يوم بنتكلم فيه واتس ",
     options: ["Friday", "Saturday", "Sunday", "thursday"],
-    answer: 2,
+    answer: 1,
     hint: "",
   },
 ];
@@ -481,7 +481,7 @@ const Dashboard = ({ score }: { score: number }) => {
       </Section>
 
       {/* DYNAMIC DUO */}
-      <Section title="The Dynamic Duo" subtitle="Behavioral analysis" icon={Users}>
+      <Section title="The Dynamic Numbers" subtitle="Behavioral analysis" icon={Users}>
         <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
           {/* Split */}
           <motion.div
@@ -506,7 +506,7 @@ const Dashboard = ({ score }: { score: number }) => {
               </motion.div>
             </div>
             <p className="text-amber-100/60 text-sm mt-5 leading-relaxed font-body">
-              Ahmed sends fewer messages — but each one carries <span className="text-amber-200">more weight & words</span>.
+              I am sends a fewer messages — but each one carries <span className="text-amber-200">more weight & words</span>.
             </p>
           </motion.div>
 
@@ -524,8 +524,7 @@ const Dashboard = ({ score }: { score: number }) => {
               Esraa
             </p>
             <p className="text-amber-100/70 font-body text-sm leading-relaxed">
-              The primary <span className="text-rose-200">initiator</span> — the one who breaks every silence and rekindles the chat.
-            </p>
+You are the one who always <span className="text-rose-200">starts our conversations.</span> You never let us stay silent and you always make our chat alive again</p>
           </motion.div>
 
           {/* Curiosity Gap */}
@@ -536,7 +535,7 @@ const Dashboard = ({ score }: { score: number }) => {
           >
             <div className="flex items-center gap-3 mb-6">
               <HelpCircle className="w-5 h-5 text-amber-300" />
-              <h3 className="font-display text-xl text-amber-50">The Curiosity Gap</h3>
+              <h3 className="font-display text-xl text-amber-50">who ask more?</h3>
             </div>
             <div className="grid grid-cols-2 gap-6">
               {[
@@ -664,12 +663,9 @@ const Dashboard = ({ score }: { score: number }) => {
         <p className="font-display italic text-xl sm:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-rose-200 to-amber-200">
           "Every message was a heartbeat. Every reply, a promise."
         </p>
-        <p className="text-amber-200/50 text-xs uppercase tracking-[0.3em] mt-4">— Wrapped with love, for Esraa</p>
+        <p className="text-amber-200/50 text-xs uppercase tracking-[0.3em] mt-4">— Makked with love, for Esraa</p>
 
-        <Link to="/" className="inline-flex items-center gap-2 mt-10 px-6 py-3 rounded-full border border-amber-200/30 bg-amber-300/10 text-amber-100 hover:bg-amber-300/20 transition-all font-body text-sm">
-          <ArrowRight className="w-4 h-4 rotate-180" />
-          Back home
-        </Link>
+       
       </motion.div>
     </div>
   );
