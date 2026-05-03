@@ -114,7 +114,7 @@ const CelebrationPage = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
         >
-          <p className="font-display text-lg text-foreground mb-1">Made with</p>
+          <p className="font-display text-lg text-foreground mb-1">Made with your Love</p>
           <Heart className="w-5 h-5 text-accent fill-accent mx-auto mb-1 animate-float" />
           <p className="text-xs text-muted-foreground font-body">For the most special person</p>
         </motion.footer>
