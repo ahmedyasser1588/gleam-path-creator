@@ -12,49 +12,47 @@ import { Link } from "react-router-dom";
 
 const QUIZ = [
   {
-    q: "How many messages did we exchange this year?",
-    options: ["89,420", "160,718", "210,500", "75,300"],
-    answer: 1,
-    hint: "More than a hundred thousand whispers ✨",
+    q: "تتوقعي عملنا كام رساله في السنه دي سوا ؟",
+    options: ["75,300","89,420", "160,718", "210,500"],
+    answer: 3,
+    hint: "من اول يوم 3 خمسه 2025 لحد 3 خمسه 2026",
   },
   {
-    q: "Who sent more media (Photos & Videos)?",
-    options: ["Ahmed", "Esraa", "Equal", "Neither"],
+    q: "Who sent more media (Photos & Videos & Links)?",
+    options: ["Ahmed", "Esraa", "Equal"],
     answer: 1,
-    hint: "She kept the camera roll alive 📸",
+    hint: "من اول يوم 3 خمسه 2025 لحد 3 خمسه 2026",
   },
   {
-    q: "What was our busiest day — with 1,924 messages?",
-    options: ["14-02-2026", "10-04-2026", "16-06-2025", "01-01-2026"],
+    q: "خمني اكتر يوم اتكلمنا فيه علي مدار السنه طب؟",
+    options: ["14-01-2026", "10-04-2026", "16-06-2025", "30-04-2025"],
+    answer: 3,
+    hint: "من اول يوم 3 خمسه 2025 لحد 3 خمسه 2026",
+  },
+  {
+    q: "مين قال للتاني (بحبك -بعشقك -بموت فيك ) اكتر؟",
+    options: ["Ahmed", "Esraa", "Equal"],
+    answer: 1,
+    hint: "ملحوظه احنا الاتنين قايلين لبعض اكتر من 700 مره",
+  },
+  {
+    q: "تتوقعي اي اكتر يوم بنتكلم فيه واتس ",
+    options: ["Friday", "Saturday", "Sunday", "thursday"],
     answer: 2,
-    hint: "A summer day to remember ☀️",
-  },
-  {
-    q: "How many times did Ahmed say 'I love you' vs Esraa?",
-    options: ["780 vs 900", "1000 vs 850", "900 vs 780", "650 vs 720"],
-    answer: 2,
-    hint: "Both above 700 ❤️",
-  },
-  {
-    q: "Which day of the week is our peak chatting day?",
-    options: ["Friday", "Saturday", "Sunday", "Wednesday"],
-    answer: 1,
-    hint: "Weekend energy 💬",
+    hint: "",
   },
 ];
 
 const EMOJIS: { e: string; n: number }[] = [
-  { e: "❤️", n: 4153 },
-  { e: "😂", n: 3556 },
-  { e: "🫂", n: 1620 },
-  { e: "🫠", n: 1525 },
-  { e: "😚", n: 1056 },
-  { e: "🥳", n: 950 },
-  { e: "🫣", n: 783 },
-  { e: "🫶", n: 486 },
-  { e: "🥰", n: 143 },
-  { e: "😍", n: 95 },
-  { e: "✅", n: 56 },
+  { e: "♥", n: 8143 },
+  { e: "😂", n: 5081 },
+  { e: "🫂", n: 2403 },
+  { e: "😘", n: 2006 },
+  { e: "😚", n: 486 },
+  { e: "🥰", n: 156 },
+  { e: "😍", n: 110 },
+  { e: "✨", n: 106 },
+  
 ];
 
 /* -------------------------------- HELPERS --------------------------------- */
@@ -331,12 +329,12 @@ const Dashboard = ({ score }: { score: number }) => {
           </div>
           <h1 className="font-display text-5xl sm:text-7xl md:text-8xl mb-4 leading-[1.05]">
             <span className="bg-gradient-to-br from-amber-200 via-rose-200 to-amber-300 bg-clip-text text-transparent">
-              The Vault of Us
+              The Year of Us
             </span>
           </h1>
           <p className="text-base sm:text-lg text-amber-100/70 font-body max-w-xl mx-auto leading-relaxed">
-            One year. Every message, every emoji, every silent 2 AM whisper —
-            wrapped into a single golden archive, just for Esraa.
+            One year. Every message, every emoji, every 10 PM Call —
+            wrapped into a single Page, just for You.
           </p>
           <p className="text-xs uppercase tracking-[0.3em] text-amber-200/50 mt-4">
             03 May 2025 — 03 May 2026
@@ -345,7 +343,7 @@ const Dashboard = ({ score }: { score: number }) => {
       </section>
 
       {/* VOLUME */}
-      <Section title="The Volume" subtitle="How much we said" icon={MessageCircle}>
+      <Section title="The Volume" subtitle="How much we Chat?" icon={MessageCircle}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           <Stat icon={MessageCircle} label="Total Messages" value={160718} accent="rose" />
           <Stat icon={Sparkles} label="Total Words" value={982711} delay={0.1} accent="gold" />
@@ -353,6 +351,9 @@ const Dashboard = ({ score }: { score: number }) => {
         </div>
         <p className="text-center text-amber-200/60 font-body italic text-sm mt-6">
           Zero downtime. Not a single day went silent. ✨
+        </p>
+          <p className="text-center text-amber-200/60 font-body italic text-sm mt-6">
+          we are close about Million Word!. ✨
         </p>
       </Section>
 
@@ -565,13 +566,12 @@ const WrappedPage = () => {
             <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
               className="font-display text-5xl sm:text-7xl md:text-8xl leading-[1.05] mb-6">
               <span className="bg-gradient-to-br from-amber-200 via-rose-200 to-amber-300 bg-clip-text text-transparent">
-                Our Year,<br />Wrapped.
+                Our Year,<br />In Numbers.
               </span>
             </motion.h1>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }}
               className="text-amber-100/70 font-body max-w-md mx-auto mb-10 leading-relaxed">
-              Before we open the vault — let's see how well you remember us.
-              A 5-question memory test awaits.
+              Before we open the page — let's see how well you know us.
             </motion.p>
             <motion.button
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.1 }}
