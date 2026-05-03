@@ -5,6 +5,7 @@ import {
   Heart, MessageCircle, Sparkles, Clock, Zap, Users,
   TrendingUp, Calendar, HelpCircle, Crown, ArrowRight,
   CheckCircle2, XCircle, Trophy, Flame, Star,
+  Phone, MapPin, Infinity as InfinityIcon, Car,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
