@@ -106,7 +106,7 @@ const HeroPage = ({ onNext, birthday }: HeroPageProps) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
           >
-            my dearest Eso
+            my Princess Eso
           </motion.span>
         </motion.h1>
 
