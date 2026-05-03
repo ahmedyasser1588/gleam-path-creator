@@ -624,6 +624,40 @@ const Dashboard = ({ score }: { score: number }) => {
         <EmojiCloud />
       </Section>
 
+      {/* ROADMAP CONNECTOR */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col items-center -mb-6">
+        <motion.div
+          initial={{ height: 0 }}
+          whileInView={{ height: 60 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          className="w-px bg-gradient-to-b from-transparent via-amber-300/60 to-amber-300"
+        />
+        <motion.div
+          initial={{ scale: 0 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, type: "spring" }}
+          className="w-10 h-10 rounded-full flex items-center justify-center border border-amber-200/40 bg-[#0e0a14]"
+        >
+          <Phone className="w-4 h-4 text-amber-300" />
+        </motion.div>
+      </div>
+
+      {/* COMMUTE / CALLS */}
+      <Section title="The Commute of Voices" subtitle="From texts to calls" icon={Phone}>
+        <CommuteSection />
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="text-center font-display italic text-xl sm:text-2xl mt-8 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-rose-200 to-amber-200"
+        >
+          "42,876 minutes later, and your voice is still my favorite sound."
+        </motion.p>
+      </Section>
+
       {/* FOOTER */}
       <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
         className="text-center px-4 mt-12">
