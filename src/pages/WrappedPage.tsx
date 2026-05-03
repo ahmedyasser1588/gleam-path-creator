@@ -5,6 +5,7 @@ import {
   Heart, MessageCircle, Sparkles, Clock, Zap, Users,
   TrendingUp, Calendar, HelpCircle, Crown, ArrowRight,
   CheckCircle2, XCircle, Trophy, Flame, Star,
+  Phone, MapPin, Infinity as InfinityIcon, Car,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -307,6 +308,128 @@ const EmojiCloud = () => {
   );
 };
 
+/* ----------------------------- COMMUTE JOURNEY ---------------------------- */
+
+const CommuteSection = () => {
+  const [inView, setInView] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!ref.current) return;
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && setInView(true), { threshold: 0.25 });
+    io.observe(ref.current);
+    return () => io.disconnect();
+  }, []);
+  const minutes = useCountUp(42876, 2200, inView);
+  const hours = useCountUp(715, 1800, inView);
+
+  return (
+    <div ref={ref} className="rounded-3xl p-6 sm:p-10 border border-amber-200/15 bg-white/[0.03] backdrop-blur-xl relative overflow-hidden">
+      {/* ambient glow */}
+      <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full blur-3xl opacity-25 pointer-events-none"
+        style={{ background: "radial-gradient(circle, #d4af37, transparent 65%)" }} />
+
+      {/* Stats row */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-10 relative">
+        <div className="rounded-2xl p-5 border border-amber-200/15 bg-white/[0.03] text-center">
+          <Phone className="w-6 h-6 text-amber-300 mx-auto mb-2" />
+          <div className="text-[10px] uppercase tracking-[0.25em] text-amber-100/60 mb-1">Total Minutes</div>
+          <div className="font-display text-3xl sm:text-4xl text-amber-50 tabular-nums">{minutes.toLocaleString()}</div>
+        </div>
+        <div className="rounded-2xl p-5 border border-amber-200/15 bg-white/[0.03] text-center">
+          <Clock className="w-6 h-6 text-amber-300 mx-auto mb-2" />
+          <div className="text-[10px] uppercase tracking-[0.25em] text-amber-100/60 mb-1">Total Hours</div>
+          <div className="font-display text-3xl sm:text-4xl text-amber-50 tabular-nums">{hours.toLocaleString()}<span className="text-amber-300/70 text-lg ml-1">h</span></div>
+        </div>
+        <div className="rounded-2xl p-5 border border-amber-300/40 text-center relative overflow-hidden"
+          style={{ background: "linear-gradient(135deg, rgba(212,175,55,0.18), rgba(245,163,199,0.12))" }}>
+          <InfinityIcon className="w-6 h-6 text-amber-200 mx-auto mb-2" />
+          <div className="text-[10px] uppercase tracking-[0.25em] text-amber-100/70 mb-1">Achievement</div>
+          <div className="font-display text-2xl sm:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-rose-200">
+            30 Days Non-Stop
+          </div>
+        </div>
+      </div>
+
+      {/* The Commute Path */}
+      <div className="relative h-48 sm:h-56 mb-6">
+        <svg viewBox="0 0 800 200" className="w-full h-full" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="goldPath" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#f5d97e" />
+              <stop offset="50%" stopColor="#d4af37" />
+              <stop offset="100%" stopColor="#f5a3c7" />
+            </linearGradient>
+            <filter id="goldGlow" x="-20%" y="-50%" width="140%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          {/* Dashed path */}
+          <motion.path
+            d="M 80 100 Q 250 20, 400 100 T 720 100"
+            fill="none"
+            stroke="url(#goldPath)"
+            strokeWidth="3"
+            strokeDasharray="8 8"
+            filter="url(#goldGlow)"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+            transition={{ duration: 2, ease: "easeInOut" }}
+          />
+
+          {/* Endpoint dots */}
+          <circle cx="80" cy="100" r="8" fill="#d4af37" filter="url(#goldGlow)" />
+          <circle cx="720" cy="100" r="8" fill="#f5a3c7" filter="url(#goldGlow)" />
+        </svg>
+
+        {/* Animated heart car along path */}
+        {inView && (
+          <motion.div
+            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2"
+            initial={{ left: "10%" }}
+            animate={{ left: ["10%", "90%", "10%"] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <div className="relative">
+              <div className="absolute inset-0 blur-lg bg-amber-300/60 rounded-full" />
+              <div className="relative w-10 h-10 rounded-full flex items-center justify-center"
+                style={{ background: "linear-gradient(135deg, #f5d97e, #d4af37)" }}>
+                <Heart className="w-5 h-5 text-rose-50 fill-rose-300" />
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Endpoints with tooltip */}
+        {[
+          { label: "New Cairo", side: "left-[6%]" },
+          { label: "Sheikh Zayed", side: "right-[6%]" },
+        ].map((p) => (
+          <div key={p.label} className={`absolute top-1/2 ${p.side} -translate-y-1/2 group`}>
+            <div className="flex flex-col items-center cursor-pointer">
+              <MapPin className="w-7 h-7 text-amber-200 drop-shadow-[0_0_10px_rgba(212,175,55,0.7)]" />
+              <span className="font-display text-sm sm:text-base text-amber-100 mt-1 whitespace-nowrap">{p.label}</span>
+            </div>
+            <div className="absolute -top-14 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <div className="px-3 py-2 rounded-xl bg-[#0e0a14] border border-amber-200/40 text-amber-100 text-xs whitespace-nowrap shadow-xl">
+                715 Hours of laughter and stories
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p className="text-center text-amber-100/70 font-body italic text-sm sm:text-base max-w-2xl mx-auto">
+        "All these minutes are like commuting from <span className="text-amber-200">New Cairo</span> to <span className="text-rose-200">Sheikh Zayed</span> every day for a whole year, back and forth!"
+      </p>
+    </div>
+  );
+};
+
 /* -------------------------------- DASHBOARD ------------------------------- */
 
 const Dashboard = ({ score }: { score: number }) => {
@@ -499,6 +622,40 @@ const Dashboard = ({ score }: { score: number }) => {
       {/* EMOJI ARCHIVE */}
       <Section title="The Visual Archive" subtitle="Our emotional fingerprint" icon={Star}>
         <EmojiCloud />
+      </Section>
+
+      {/* ROADMAP CONNECTOR */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col items-center -mb-6">
+        <motion.div
+          initial={{ height: 0 }}
+          whileInView={{ height: 60 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          className="w-px bg-gradient-to-b from-transparent via-amber-300/60 to-amber-300"
+        />
+        <motion.div
+          initial={{ scale: 0 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, type: "spring" }}
+          className="w-10 h-10 rounded-full flex items-center justify-center border border-amber-200/40 bg-[#0e0a14]"
+        >
+          <Phone className="w-4 h-4 text-amber-300" />
+        </motion.div>
+      </div>
+
+      {/* COMMUTE / CALLS */}
+      <Section title="The Commute of Voices" subtitle="From texts to calls" icon={Phone}>
+        <CommuteSection />
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="text-center font-display italic text-xl sm:text-2xl mt-8 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-rose-200 to-amber-200"
+        >
+          "42,876 minutes later, and your voice is still my favorite sound."
+        </motion.p>
       </Section>
 
       {/* FOOTER */}
