@@ -7,6 +7,7 @@ import HeroPage from "@/pages/HeroPage";
 import JourneyPage from "@/pages/JourneyPage";
 import CelebrationPage from "@/pages/CelebrationPage";
 import MemoriesPage from "@/pages/MemoriesPage";
+import WrappedPage from "@/pages/WrappedPage";
 
 import EsoBot from "@/components/EsoBot";
 import FlowerGarden from "@/components/FlowerGarden";
@@ -42,7 +43,7 @@ const Index = () => {
       <Navigation
         currentPage={currentPage}
         onNavigate={navigateTo}
-        lockedPages={!isBirthday ? [1, 2, 3] : []}
+        lockedPages={!isBirthday ? [1, 2, 3, 4] : []}
       />
       <MusicPlayer />
 
@@ -60,8 +61,10 @@ const Index = () => {
             <JourneyPage /> 
           ) : currentPage === 2 ? (
             <CelebrationPage />
-          ) : (
+          ) : currentPage === 3 ? (
             <MemoriesPage />
+          ) : (
+            <WrappedPage />
           )}
           
         </motion.div>
