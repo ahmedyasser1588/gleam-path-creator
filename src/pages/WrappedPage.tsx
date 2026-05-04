@@ -281,10 +281,10 @@ const LoveBars = () => {
 const EmojiCloud = () => {
   const max = Math.max(...EMOJIS.map((x) => x.n));
   return (
-    <div className="rounded-3xl p-6 sm:p-10 border border-amber-200/15 bg-white/[0.03] backdrop-blur-xl">
-      <div className="flex flex-wrap gap-4 sm:gap-6 items-end justify-center">
+    <div className="rounded-3xl p-4 sm:p-6 border border-amber-200/15 bg-white/[0.03] backdrop-blur-xl">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 sm:gap-3">
         {EMOJIS.map((x, i) => {
-          const scale = 0.7 + (x.n / max) * 1.8;
+          const intensity = 0.4 + (x.n / max) * 0.6;
           return (
             <motion.div
               key={i}
@@ -292,12 +292,17 @@ const EmojiCloud = () => {
               whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.05, type: "spring" }}
-              whileHover={{ scale: scale * 1.15, rotate: 5 }}
-              className="flex flex-col items-center group cursor-default"
+              whileHover={{ scale: 1.08, rotate: 5 }}
+              className="group cursor-default aspect-square rounded-2xl border border-amber-200/10 bg-gradient-to-br from-white/[0.04] to-white/[0.01] flex flex-col items-center justify-center p-2 relative overflow-hidden"
+              style={{ boxShadow: `inset 0 0 30px rgba(212,175,55,${intensity * 0.15})` }}
             >
-              <span style={{ fontSize: `${scale * 1.8}rem`, lineHeight: 1 }}
-                className="drop-shadow-[0_4px_20px_rgba(212,175,55,0.4)]">{x.e}</span>
-              <span className="text-[10px] sm:text-xs text-amber-200/60 font-body tabular-nums mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <span
+                className="drop-shadow-[0_4px_20px_rgba(212,175,55,0.4)] leading-none"
+                style={{ fontSize: "clamp(1.8rem, 5vw, 3rem)" }}
+              >
+                {x.e}
+              </span>
+              <span className="text-[10px] sm:text-xs text-amber-200/70 font-body tabular-nums mt-1.5">
                 {x.n.toLocaleString()}
               </span>
             </motion.div>
@@ -647,13 +652,14 @@ You are the one who always <span className="text-rose-200">starts our conversati
       <Section title="The Commute of Voices" subtitle="From texts to calls" icon={Phone}>
         <CommuteSection />
         <motion.p
+          dir="rtl"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-center font-display italic text-xl sm:text-2xl mt-8 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-rose-200 to-amber-200"
+          className="dir-rtl text-center font-display italic text-xl sm:text-2xl mt-8 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-rose-200 to-amber-200"
         >
-          "42,876 minutes later, and your voice is still my favorite sound."
+          "بعد 42,876 دقيقة، صوتك لسه أحلى صوت بسمعه."
         </motion.p>
       </Section>
 
