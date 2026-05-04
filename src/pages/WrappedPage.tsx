@@ -281,10 +281,10 @@ const LoveBars = () => {
 const EmojiCloud = () => {
   const max = Math.max(...EMOJIS.map((x) => x.n));
   return (
-    <div className="rounded-3xl p-6 sm:p-10 border border-amber-200/15 bg-white/[0.03] backdrop-blur-xl">
-      <div className="flex flex-wrap gap-4 sm:gap-6 items-end justify-center">
+    <div className="rounded-3xl px-3 sm:px-5 py-6 sm:py-8 border border-amber-200/15 bg-white/[0.03] backdrop-blur-xl">
+      <div className="flex flex-nowrap gap-1 sm:gap-2 items-end justify-between w-full">
         {EMOJIS.map((x, i) => {
-          const scale = 0.7 + (x.n / max) * 1.8;
+          const scale = 0.75 + (x.n / max) * 1.1;
           return (
             <motion.div
               key={i}
@@ -293,9 +293,9 @@ const EmojiCloud = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.05, type: "spring" }}
               whileHover={{ scale: scale * 1.15, rotate: 5 }}
-              className="flex flex-col items-center group cursor-default"
+              className="flex flex-col items-center group cursor-default flex-1 min-w-0"
             >
-              <span style={{ fontSize: `${scale * 1.8}rem`, lineHeight: 1 }}
+              <span style={{ fontSize: `clamp(1.2rem, ${scale * 2.2}vw + 0.6rem, ${scale * 2.4}rem)`, lineHeight: 1 }}
                 className="drop-shadow-[0_4px_20px_rgba(212,175,55,0.4)]">{x.e}</span>
               <span className="text-[10px] sm:text-xs text-amber-200/60 font-body tabular-nums mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
                 {x.n.toLocaleString()}
