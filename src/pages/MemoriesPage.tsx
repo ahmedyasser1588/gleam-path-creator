@@ -136,7 +136,8 @@ const MemoriesPage = () => {
         </div>
       </motion.div>
 
-      {/* Legend */}
+      {/* Places Wishlist */}
+      <PlacesWishlist />
       <motion.div
         className="pb-8 px-4 max-w-5xl mx-auto"
         initial={{ opacity: 0 }}
