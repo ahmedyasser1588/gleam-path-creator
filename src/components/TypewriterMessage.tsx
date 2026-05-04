@@ -124,10 +124,11 @@ const TypewriterMessage = ({
             transition={{ duration: 0.6 }}
            >
             {/* إذا أردت أن يظهر القلب بعد النص بدلاً من قبله، انقل الـ Heart تحت الـ span */}
-            <Heart className="w-4 h-4 fill-accent" />
             <span className="font-display italic text-sm sm:text-base">
               Yours forever, Ahmed
             </span>
+            <Heart className="w-4 h-4 fill-accent" />
+
           </motion.div>
         )}
       </motion.div>
