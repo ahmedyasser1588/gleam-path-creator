@@ -92,7 +92,7 @@ const TypewriterMessage = ({
 
       {/* Letter */}
       <motion.div
-        className="glass-card relative p-6 sm:p-8 md:p-10 text-left shadow-xl border border-accent/20"
+        className="glass-card relative p-6 sm:p-8 md:p-10 text-right shadow-xl border border-accent/20"
         initial={{ scale: 0.97 }}
         whileInView={{ scale: 1 }}
         viewport={{ once: true }}
