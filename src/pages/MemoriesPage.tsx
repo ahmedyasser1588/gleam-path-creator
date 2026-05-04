@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Heart, MapPin } from "lucide-react";
 import WhyILoveYouCard from "@/components/WhyILoveYou";
 import FlowerGarden from "@/components/FlowerGarden";
+import PlacesWishlist from "@/components/PlacesWishlist";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -134,6 +135,9 @@ const MemoriesPage = () => {
           <div ref={mapRef} className="w-full h-[60vh] md:h-[70vh]" />
         </div>
       </motion.div>
+
+      {/* Places Wishlist */}
+      <PlacesWishlist />
 
       {/* Legend */}
       <motion.div
