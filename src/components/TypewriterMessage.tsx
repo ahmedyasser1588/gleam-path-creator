@@ -116,12 +116,14 @@ const TypewriterMessage = ({
         </p>
 
         {done && (
-          <motion.div
-            className="mt-6 flex items-center justify-end gap-2 text-accent"
+         <motion.div
+            // تم تغيير justify-end إلى justify-start لجعلها على اليسار
+            className="mt-6 flex items-center justify-start gap-2 text-accent" 
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-          >
+           >
+            {/* إذا أردت أن يظهر القلب بعد النص بدلاً من قبله، انقل الـ Heart تحت الـ span */}
             <Heart className="w-4 h-4 fill-accent" />
             <span className="font-display italic text-sm sm:text-base">
               Yours forever, Ahmed

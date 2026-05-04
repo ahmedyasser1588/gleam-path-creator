@@ -97,7 +97,7 @@ const PlacesWishlist = () => {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="مثلاً: الساحل الشمالي، الإسكندرية، أسوان..."
+            placeholder="مثلا المعادي او ايا مكان جديد  عموما ممكن نبقي نحطه هنا علشان مننساش "
             className="flex-1 rounded-full bg-white/70 border border-border focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30 px-4 py-2.5 text-sm font-body text-foreground placeholder:text-muted-foreground transition-all"
           />
           <motion.button
@@ -122,7 +122,7 @@ const PlacesWishlist = () => {
                 exit={{ opacity: 0 }}
                 className="text-center py-8 text-sm text-muted-foreground italic"
               >
-                لسه ما ضفتيش أي مكان... ابدئي بحلم صغير 🌸
+                لسه ما ضفتيش أي مكان... 🌸
               </motion.li>
             ) : (
               places.map((p) => (
