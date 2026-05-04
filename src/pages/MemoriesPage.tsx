@@ -136,7 +136,9 @@ const MemoriesPage = () => {
         </div>
       </motion.div>
 
-      <motion.div
+      {/* Places Wishlist */}
+      <PlacesWishlist />
+
         className="pb-8 px-4 max-w-5xl mx-auto"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
