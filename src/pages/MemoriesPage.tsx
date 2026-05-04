@@ -142,11 +142,6 @@ const MemoriesPage = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6 }}
       >
-        className="pb-8 px-4 max-w-5xl mx-auto"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
-      >
         <div className="flex flex-wrap gap-3 justify-center">
           {memories.map((m, i) => (
             <motion.button
