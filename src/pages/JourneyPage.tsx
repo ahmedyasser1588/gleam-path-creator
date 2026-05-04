@@ -98,14 +98,16 @@ const JourneyPage = () => {
                 <p className="text-sm sm:text-base text-muted-foreground max-w-3xl mx-auto leading-6 sm:leading-7">{journeyVideo.description}</p>
               </div>
             </div>
-            <div className="aspect-video bg-black">
-              <iframe
-                title="Journey video"
-                src={journeyVideo.previewUrl}
-                className="w-full h-full"
-                allow="autoplay; fullscreen; picture-in-picture"
-                loading="lazy"
-              />
+            <div className="bg-black flex justify-center p-2 sm:p-4">
+              <div className="relative w-full max-w-[360px] sm:max-w-[400px] aspect-[9/16] rounded-2xl overflow-hidden shadow-2xl">
+                <iframe
+                  title="Journey video"
+                  src={journeyVideo.previewUrl}
+                  className="absolute inset-0 w-full h-full"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  loading="lazy"
+                />
+              </div>
             </div>
             <div className="p-5 sm:p-8 bg-background flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>
