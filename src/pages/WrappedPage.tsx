@@ -652,13 +652,14 @@ You are the one who always <span className="text-rose-200">starts our conversati
       <Section title="The Commute of Voices" subtitle="From texts to calls" icon={Phone}>
         <CommuteSection />
         <motion.p
+          dir="rtl"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-center font-display italic text-xl sm:text-2xl mt-8 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-rose-200 to-amber-200"
+          className="dir-rtl text-center font-display italic text-xl sm:text-2xl mt-8 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-rose-200 to-amber-200"
         >
-          "42,876 minutes later, and your voice is still my favorite sound."
+          "بعد 42,876 دقيقة، صوتك لسه أحلى صوت بسمعه."
         </motion.p>
       </Section>
 
