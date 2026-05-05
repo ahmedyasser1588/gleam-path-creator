@@ -17,66 +17,85 @@ const MusicPlayer = () => {
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const currentSongIndexRef = useRef(0);
-  const playingRef = useRef(false);
-
-  // Initialize audio element once
-  useEffect(() => {
-    const audio = new Audio();
-    audio.preload = "auto";
-    audio.src = SONGS[0];
-    audioRef.current = audio;
-
-    const handleEnded = () => {
-      const next = (currentSongIndexRef.current + 1) % SONGS.length;
-      currentSongIndexRef.current = next;
-      setCurrentSongIndex(next);
-      audio.src = SONGS[next];
-      audio.play().catch((err) => console.log("Auto-next failed:", err));
-    };
-
-    const handleError = () => {
-      const next = (currentSongIndexRef.current + 1) % SONGS.length;
-      currentSongIndexRef.current = next;
-      setCurrentSongIndex(next);
-      audio.src = SONGS[next];
-      audio.load();
-      if (playingRef.current) {
-        audio.play().catch((err) => console.log("Fallback song failed:", err));
-      }
-    };
-
-    audio.addEventListener("ended", handleEnded);
-    audio.addEventListener("error", handleError);
-
-    return () => {
-      audio.pause();
-      audio.removeEventListener("ended", handleEnded);
-      audio.removeEventListener("error", handleError);
-      audioRef.current = null;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const hasInteractedRef = useRef(false);
+  const errorCountRef = useRef(0);
+  const lastErrorTimeRef = useRef(0);
 
   useEffect(() => {
     currentSongIndexRef.current = currentSongIndex;
   }, [currentSongIndex]);
 
+  // Get or lazily create the audio element. Critical: first creation must happen
+  // inside a user gesture for mobile (iOS Safari / Chrome Android) autoplay rules.
+  const getAudio = (): HTMLAudioElement => {
+    if (!audioRef.current) {
+      const audio = new Audio();
+      audio.preload = "auto";
+      audio.crossOrigin = "anonymous";
+      audio.src = SONGS[currentSongIndexRef.current];
+
+      audio.addEventListener("ended", () => {
+        const next = (currentSongIndexRef.current + 1) % SONGS.length;
+        currentSongIndexRef.current = next;
+        setCurrentSongIndex(next);
+        audio.src = SONGS[next];
+        audio.play().catch((err) => console.log("Auto-next failed:", err));
+      });
+
+      audio.addEventListener("error", () => {
+        // Throttle: if we get a burst of errors, stop instead of looping forever
+        const now = Date.now();
+        if (now - lastErrorTimeRef.current < 3000) {
+          errorCountRef.current += 1;
+        } else {
+          errorCountRef.current = 1;
+        }
+        lastErrorTimeRef.current = now;
+
+        if (errorCountRef.current >= SONGS.length) {
+          console.log("Too many audio errors — stopping playback.");
+          setPlaying(false);
+          return;
+        }
+
+        const next = (currentSongIndexRef.current + 1) % SONGS.length;
+        currentSongIndexRef.current = next;
+        setCurrentSongIndex(next);
+        audio.src = SONGS[next];
+        audio.play().catch((err) => {
+          console.log("Fallback song failed:", err);
+          setPlaying(false);
+        });
+      });
+
+      audioRef.current = audio;
+    }
+    return audioRef.current;
+  };
+
   useEffect(() => {
-    playingRef.current = playing;
-  }, [playing]);
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
   const playSongAt = (index: number) => {
-    const audio = audioRef.current;
-    if (!audio) return;
+    const audio = getAudio();
     audio.src = SONGS[index];
-    audio.load();
-    audio
-      .play()
-      .then(() => setPlaying(true))
-      .catch((err) => {
-        console.log("Error playing:", err);
-        setPlaying(false);
-      });
+    // Don't call load() — setting src triggers load automatically.
+    // Calling load() then play() can cause AbortError on mobile.
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => setPlaying(true))
+        .catch((err) => {
+          console.log("Error playing:", err);
+          setPlaying(false);
+        });
+    }
   };
 
   const changeRandomSong = () => {
@@ -86,22 +105,43 @@ const MusicPlayer = () => {
       randomIndex = Math.floor(Math.random() * SONGS.length);
     } while (randomIndex === currentSongIndex);
     setCurrentSongIndex(randomIndex);
+    currentSongIndexRef.current = randomIndex;
     playSongAt(randomIndex);
   };
 
   const togglePlay = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
+    const audio = getAudio();
+
     if (playing) {
       audio.pause();
       setPlaying(false);
-    } else {
-      audio
-        .play()
-        .then(() => setPlaying(true))
+      return;
+    }
+
+    // First tap on mobile: just play current src directly (no reload)
+    // to keep inside the user-gesture chain.
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          hasInteractedRef.current = true;
+          errorCountRef.current = 0;
+          setPlaying(true);
+        })
         .catch((err) => {
-          console.log("Error playing, retrying:", err);
-          playSongAt(currentSongIndex);
+          console.log("Initial play blocked, retrying with explicit src:", err);
+          // Retry once with explicit src reset (still synchronous-ish)
+          audio.src = SONGS[currentSongIndexRef.current];
+          audio
+            .play()
+            .then(() => {
+              hasInteractedRef.current = true;
+              setPlaying(true);
+            })
+            .catch((err2) => {
+              console.log("Retry failed:", err2);
+              setPlaying(false);
+            });
         });
     }
   };
