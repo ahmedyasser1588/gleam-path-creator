@@ -1,9 +1,8 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Music, Pause, SkipForward, Heart } from "lucide-react";
 
 const MusicPlayer = () => {
-  // 1. قايمة الأغاني (تأكد إن الملفات دي في فولدر public)
   const songs = [
     "/Music/happy brithday to you.mp3",
     "/Music/3id milad elila.mp3",
@@ -13,49 +12,92 @@ const MusicPlayer = () => {
     "/Music/yalla 7alan balan.mp3",
     "/Music/sana 7elwa.mp3",
   ].map((p) => encodeURI(p));
-  
+
   const [playing, setPlaying] = useState(false);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-//
-  // وظيفة تغيير الأغنية بشكل عشوائي (لزرار السهم)
-  const changeRandomSong = () => {
-    if (audioRef.current) {
-      let randomIndex;
-      do {
-        randomIndex = Math.floor(Math.random() * songs.length);
-      } while (randomIndex === currentSongIndex && songs.length > 1);
 
-      setCurrentSongIndex(randomIndex);
-      audioRef.current.src = songs[randomIndex];
-      audioRef.current.play().catch(err => console.log("Error playing:", err));
-      setPlaying(true);
-    }
+  // Initialize audio element once
+  useEffect(() => {
+    const audio = new Audio();
+    audio.preload = "auto";
+    audio.src = songs[0];
+    audioRef.current = audio;
+
+    const handleEnded = () => {
+      const next = (currentSongIndexRef.current + 1) % songs.length;
+      currentSongIndexRef.current = next;
+      setCurrentSongIndex(next);
+      audio.src = songs[next];
+      audio.play().catch((err) => console.log("Auto-next failed:", err));
+    };
+
+    const handleError = (e: Event) => {
+      console.log("Audio error:", (e.target as HTMLAudioElement)?.error);
+    };
+
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("error", handleError);
+
+    return () => {
+      audio.pause();
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("error", handleError);
+      audioRef.current = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Keep an up-to-date ref of the current index for the ended handler
+  const currentSongIndexRef = useRef(0);
+  useEffect(() => {
+    currentSongIndexRef.current = currentSongIndex;
+  }, [currentSongIndex]);
+
+  const playSongAt = (index: number) => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.src = songs[index];
+    audio.load();
+    audio
+      .play()
+      .then(() => setPlaying(true))
+      .catch((err) => {
+        console.log("Error playing:", err);
+        setPlaying(false);
+      });
   };
 
-  // وظيفة الزرار الرئيسي: Play/Pause
+  const changeRandomSong = () => {
+    if (songs.length <= 1) return;
+    let randomIndex;
+    do {
+      randomIndex = Math.floor(Math.random() * songs.length);
+    } while (randomIndex === currentSongIndex);
+    setCurrentSongIndex(randomIndex);
+    playSongAt(randomIndex);
+  };
+
   const togglePlay = () => {
-    if (audioRef.current) {
-      if (playing) {
-        audioRef.current.pause();
-        setPlaying(false);
-      } else {
-        // لو لسه مفيش أغنية متحملة، بنحمل أول واحدة
-        if (!audioRef.current.src) {
-          audioRef.current.src = songs[currentSongIndex];
-        }
-        audioRef.current.play().then(() => setPlaying(true)).catch(() => changeRandomSong());
-      }
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (playing) {
+      audio.pause();
+      setPlaying(false);
+    } else {
+      audio
+        .play()
+        .then(() => setPlaying(true))
+        .catch((err) => {
+          console.log("Error playing, retrying:", err);
+          playSongAt(currentSongIndex);
+        });
     }
   };
 
   return (
     <>
-      <audio ref={audioRef} onEnded={changeRandomSong} />
-
       <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-center gap-3">
-        
-        {/* زرار الـ Skip العشوائي (بيظهر فوق الزرار الرئيسي لما الموسيقى تشتغل) */}
         <AnimatePresence>
           {playing && (
             <motion.button
@@ -70,21 +112,18 @@ const MusicPlayer = () => {
           )}
         </AnimatePresence>
 
-        {/* الزرار الرئيسي (نفس الشكل اللي في الصورة بالظبط) */}
         <motion.button
           onClick={togglePlay}
           className="relative glass-card p-4 rounded-full glow-pink shadow-lg border border-white/20 bg-white/10"
-          style={{ backdropFilter: 'blur(12px)' }}
+          style={{ backdropFilter: "blur(12px)" }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          {/* أيقونة القلب الصغيرة اللي على اليمين فوق */}
           <div className="absolute -top-1 -right-1">
             <Heart className="w-4 h-4 text-accent fill-accent animate-pulse" />
           </div>
 
           <div className="relative">
-            {/* الدائرة اللي بتدور */}
             <motion.div
               className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center border border-accent/20"
               animate={playing ? { rotate: 360 } : { rotate: 0 }}
@@ -92,8 +131,7 @@ const MusicPlayer = () => {
             >
               <div className="w-2.5 h-2.5 rounded-full bg-accent/40" />
             </motion.div>
-            
-            {/* أيقونة Music أو Pause في النص */}
+
             <div className="absolute inset-0 flex items-center justify-center">
               <AnimatePresence mode="wait">
                 {playing ? (
