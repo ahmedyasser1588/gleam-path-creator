@@ -2,15 +2,16 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Music, Pause, SkipForward, Heart } from "lucide-react";
 
+const BASE = import.meta.env.BASE_URL || "/";
+
 const SONGS = [
-  "/Music/happy brithday to you.mp3",
-  "/Music/3id milad elila.mp3",
-  "/Music/Kol Sana w enta.mp3",
-  "/Music/elwala wala.mp3",
-  "/Music/elyoum 3id.mp3",
-  "/Music/yalla 7alan balan.mp3",
-  "/Music/sana 7elwa.mp3",
-].map((path) => encodeURI(path));
+  "Music/3id milad elila.mp3",
+  "Music/Kol Sana w enta.mp3",
+  "Music/elwala wala.mp3",
+  "Music/elyoum 3id.mp3",
+  "Music/yalla 7alan balan.mp3",
+  "Music/sana 7elwa.mp3",
+].map((path) => encodeURI(`${BASE}${path}`));
 
 const MusicPlayer = () => {
   const [playing, setPlaying] = useState(false);
