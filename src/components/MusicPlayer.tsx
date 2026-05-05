@@ -2,38 +2,47 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Music, Pause, SkipForward, Heart } from "lucide-react";
 
-const MusicPlayer = () => {
-  const songs = [
-    "/Music/happy brithday to you.mp3",
-    "/Music/3id milad elila.mp3",
-    "/Music/Kol Sana w enta.mp3",
-    "/Music/elwala wala.mp3",
-    "/Music/elyoum 3id.mp3",
-    "/Music/yalla 7alan balan.mp3",
-    "/Music/sana 7elwa.mp3",
-  ].map((p) => encodeURI(p));
+const SONGS = [
+  "/Music/happy brithday to you.mp3",
+  "/Music/3id milad elila.mp3",
+  "/Music/Kol Sana w enta.mp3",
+  "/Music/elwala wala.mp3",
+  "/Music/elyoum 3id.mp3",
+  "/Music/yalla 7alan balan.mp3",
+  "/Music/sana 7elwa.mp3",
+].map((path) => encodeURI(path));
 
+const MusicPlayer = () => {
   const [playing, setPlaying] = useState(false);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const currentSongIndexRef = useRef(0);
+  const playingRef = useRef(false);
 
   // Initialize audio element once
   useEffect(() => {
     const audio = new Audio();
     audio.preload = "auto";
-    audio.src = songs[0];
+    audio.src = SONGS[0];
     audioRef.current = audio;
 
     const handleEnded = () => {
-      const next = (currentSongIndexRef.current + 1) % songs.length;
+      const next = (currentSongIndexRef.current + 1) % SONGS.length;
       currentSongIndexRef.current = next;
       setCurrentSongIndex(next);
-      audio.src = songs[next];
+      audio.src = SONGS[next];
       audio.play().catch((err) => console.log("Auto-next failed:", err));
     };
 
-    const handleError = (e: Event) => {
-      console.log("Audio error:", (e.target as HTMLAudioElement)?.error);
+    const handleError = () => {
+      const next = (currentSongIndexRef.current + 1) % SONGS.length;
+      currentSongIndexRef.current = next;
+      setCurrentSongIndex(next);
+      audio.src = SONGS[next];
+      audio.load();
+      if (playingRef.current) {
+        audio.play().catch((err) => console.log("Fallback song failed:", err));
+      }
     };
 
     audio.addEventListener("ended", handleEnded);
@@ -48,16 +57,18 @@ const MusicPlayer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Keep an up-to-date ref of the current index for the ended handler
-  const currentSongIndexRef = useRef(0);
   useEffect(() => {
     currentSongIndexRef.current = currentSongIndex;
   }, [currentSongIndex]);
 
+  useEffect(() => {
+    playingRef.current = playing;
+  }, [playing]);
+
   const playSongAt = (index: number) => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.src = songs[index];
+    audio.src = SONGS[index];
     audio.load();
     audio
       .play()
@@ -69,10 +80,10 @@ const MusicPlayer = () => {
   };
 
   const changeRandomSong = () => {
-    if (songs.length <= 1) return;
+    if (SONGS.length <= 1) return;
     let randomIndex;
     do {
-      randomIndex = Math.floor(Math.random() * songs.length);
+      randomIndex = Math.floor(Math.random() * SONGS.length);
     } while (randomIndex === currentSongIndex);
     setCurrentSongIndex(randomIndex);
     playSongAt(randomIndex);
