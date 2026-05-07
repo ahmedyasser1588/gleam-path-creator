@@ -43,7 +43,9 @@ const MusicPlayer = () => {
         const next = (currentSongIndexRef.current + 1) % SONGS.length;
         currentSongIndexRef.current = next;
         setCurrentSongIndex(next);
+        switchingRef.current = true;
         audio.src = SONGS[next];
+        switchingRef.current = false;
         audio.play().catch((err) => console.log("Auto-next failed:", err));
       });
 
@@ -67,7 +69,9 @@ const MusicPlayer = () => {
         const next = (currentSongIndexRef.current + 1) % SONGS.length;
         currentSongIndexRef.current = next;
         setCurrentSongIndex(next);
+        switchingRef.current = true;
         audio.src = SONGS[next];
+        switchingRef.current = false;
         audio.play().catch((err) => {
           console.log("Fallback song failed:", err);
           setPlaying(false);
