@@ -1,17 +1,21 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Music, Pause, SkipForward, Heart } from "lucide-react";
-
-const BASE = import.meta.env.BASE_URL || "/";
+import birthdayNight from "@/assets/music/birthday-night.mp3";
+import kolSana from "@/assets/music/kol-sana.mp3";
+import elwalaWala from "@/assets/music/elwala-wala.mp3";
+import elyoumEid from "@/assets/music/elyoum-eid.mp3";
+import yallaHalan from "@/assets/music/yalla-halan.mp3";
+import sanaHelwa from "@/assets/music/sana-helwa.mp3";
 
 const SONGS = [
-  "Music/3id milad elila.mp3",
-  "Music/Kol Sana w enta.mp3",
-  "Music/elwala wala.mp3",
-  "Music/elyoum 3id.mp3",
-  "Music/yalla 7alan balan.mp3",
-  "Music/sana 7elwa.mp3",
-].map((path) => encodeURI(`${BASE}${path}`));
+  birthdayNight,
+  kolSana,
+  elwalaWala,
+  elyoumEid,
+  yallaHalan,
+  sanaHelwa,
+];
 
 const MusicPlayer = () => {
   const [playing, setPlaying] = useState(false);
@@ -21,6 +25,7 @@ const MusicPlayer = () => {
   const hasInteractedRef = useRef(false);
   const errorCountRef = useRef(0);
   const lastErrorTimeRef = useRef(0);
+  const switchingRef = useRef(false);
 
   useEffect(() => {
     currentSongIndexRef.current = currentSongIndex;
@@ -31,19 +36,21 @@ const MusicPlayer = () => {
   const getAudio = (): HTMLAudioElement => {
     if (!audioRef.current) {
       const audio = new Audio();
-      audio.preload = "auto";
-      audio.crossOrigin = "anonymous";
+      audio.preload = "metadata";
       audio.src = SONGS[currentSongIndexRef.current];
 
       audio.addEventListener("ended", () => {
         const next = (currentSongIndexRef.current + 1) % SONGS.length;
         currentSongIndexRef.current = next;
         setCurrentSongIndex(next);
+        switchingRef.current = true;
         audio.src = SONGS[next];
+        switchingRef.current = false;
         audio.play().catch((err) => console.log("Auto-next failed:", err));
       });
 
       audio.addEventListener("error", () => {
+        if (switchingRef.current) return;
         // Throttle: if we get a burst of errors, stop instead of looping forever
         const now = Date.now();
         if (now - lastErrorTimeRef.current < 3000) {
@@ -62,7 +69,9 @@ const MusicPlayer = () => {
         const next = (currentSongIndexRef.current + 1) % SONGS.length;
         currentSongIndexRef.current = next;
         setCurrentSongIndex(next);
+        switchingRef.current = true;
         audio.src = SONGS[next];
+        switchingRef.current = false;
         audio.play().catch((err) => {
           console.log("Fallback song failed:", err);
           setPlaying(false);
@@ -85,7 +94,10 @@ const MusicPlayer = () => {
 
   const playSongAt = (index: number) => {
     const audio = getAudio();
+    switchingRef.current = true;
+    audio.pause();
     audio.src = SONGS[index];
+    switchingRef.current = false;
     // Don't call load() — setting src triggers load automatically.
     // Calling load() then play() can cause AbortError on mobile.
     const playPromise = audio.play();
