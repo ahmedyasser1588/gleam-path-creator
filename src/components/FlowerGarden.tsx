@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
-const STORAGE_KEY = "eso-garden-visits";
+const SESSION_KEY = "eso-garden-counted-session";
 
 const flowerColors = [
   "hsl(350, 40%, 65%)",
@@ -97,15 +98,36 @@ const FlowerGarden = () => {
   const hasTracked = useRef(false);
 
   useEffect(() => {
-    // Only track once per full site load (not per page navigation)
     if (hasTracked.current) return;
     hasTracked.current = true;
 
-    const prev = parseInt(localStorage.getItem(STORAGE_KEY) || "0", 10);
-    // One flower per visit; reset when phrase is complete
-    const next = prev >= MAX_FLOWERS ? 1 : prev + 1;
-    localStorage.setItem(STORAGE_KEY, String(next));
-    setVisitCount(next);
+    const run = async () => {
+      // Read current count first so the garden shows progress immediately
+      const { data: current } = await supabase
+        .from("visit_stats")
+        .select("count")
+        .eq("id", "flower_garden")
+        .maybeSingle();
+      const currentCount = current?.count ?? 0;
+
+      // Only count one visit per browser session (prevents inflating from refreshes)
+      const alreadyCounted = sessionStorage.getItem(SESSION_KEY) === "1";
+      if (alreadyCounted) {
+        setVisitCount(((currentCount - 1) % MAX_FLOWERS) + 1);
+        return;
+      }
+
+      sessionStorage.setItem(SESSION_KEY, "1");
+      const { data: incremented } = await supabase.rpc("increment_visit", {
+        stat_id: "flower_garden",
+      });
+      const total = (incremented as number) ?? currentCount + 1;
+      // Wrap so the phrase resets after it completes
+      const display = ((total - 1) % MAX_FLOWERS) + 1;
+      setVisitCount(display);
+    };
+
+    run();
   }, []);
 
   const visibleFlowers = allPositions.slice(0, visitCount);
