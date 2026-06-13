@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      places: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          visited: boolean
+          visited_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          visited?: boolean
+          visited_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          visited?: boolean
+          visited_at?: string | null
+        }
+        Relationships: []
+      }
+      visit_stats: {
+        Row: {
+          count: number
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          count?: number
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          count?: number
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       wishes: {
         Row: {
           content: string
@@ -43,7 +85,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      increment_visit: { Args: { stat_id: string }; Returns: number }
     }
     Enums: {
       [_ in never]: never
