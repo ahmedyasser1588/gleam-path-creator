@@ -1,53 +1,96 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Plus, Check, Trash2, Sparkles, Heart } from "lucide-react";
+import { MapPin, Plus, Check, Trash2, Sparkles, Heart, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 type Place = {
   id: string;
   name: string;
   visited: boolean;
-  createdAt: number;
+  created_at: string;
 };
-
-const STORAGE_KEY = "eso-places-wishlist";
 
 const PlacesWishlist = () => {
   const [places, setPlaces] = useState<Place[]>([]);
   const [input, setInput] = useState("");
   const [justChecked, setJustChecked] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [adding, setAdding] = useState(false);
 
+  // Initial load + realtime sync across devices
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setPlaces(JSON.parse(raw));
-    } catch {}
+    let mounted = true;
+
+    const load = async () => {
+      const { data, error } = await supabase
+        .from("places")
+        .select("id, name, visited, created_at")
+        .order("created_at", { ascending: false });
+      if (!mounted) return;
+      if (error) {
+        toast.error("مش قادرين نحمّل الأماكن");
+      } else {
+        setPlaces((data as Place[]) || []);
+      }
+      setLoading(false);
+    };
+    load();
+
+    const channel = supabase
+      .channel("places-changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "places" },
+        () => load()
+      )
+      .subscribe();
+
+    return () => {
+      mounted = false;
+      supabase.removeChannel(channel);
+    };
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(places));
-  }, [places]);
-
-  const addPlace = (e: React.FormEvent) => {
+  const addPlace = async (e: React.FormEvent) => {
     e.preventDefault();
     const name = input.trim();
-    if (!name) return;
-    setPlaces((p) => [
-      { id: crypto.randomUUID(), name, visited: false, createdAt: Date.now() },
-      ...p,
-    ]);
+    if (!name || adding) return;
+    setAdding(true);
     setInput("");
+    const { error } = await supabase.from("places").insert({ name });
+    if (error) {
+      toast.error("مش قادرين نضيف المكان");
+      setInput(name);
+    }
+    setAdding(false);
   };
 
-  const toggle = (id: string) => {
-    setPlaces((p) =>
-      p.map((pl) => (pl.id === id ? { ...pl, visited: !pl.visited } : pl))
-    );
-    setJustChecked(id);
-    setTimeout(() => setJustChecked((c) => (c === id ? null : c)), 900);
+  const toggle = async (id: string, current: boolean) => {
+    // Optimistic
+    setPlaces((p) => p.map((pl) => (pl.id === id ? { ...pl, visited: !current } : pl)));
+    if (!current) {
+      setJustChecked(id);
+      setTimeout(() => setJustChecked((c) => (c === id ? null : c)), 900);
+    }
+    const { error } = await supabase
+      .from("places")
+      .update({ visited: !current, visited_at: !current ? new Date().toISOString() : null })
+      .eq("id", id);
+    if (error) {
+      toast.error("مش قادرين نحدّث");
+      setPlaces((p) => p.map((pl) => (pl.id === id ? { ...pl, visited: current } : pl)));
+    }
   };
 
-  const remove = (id: string) => {
+  const remove = async (id: string) => {
+    const prev = places;
     setPlaces((p) => p.filter((pl) => pl.id !== id));
+    const { error } = await supabase.from("places").delete().eq("id", id);
+    if (error) {
+      toast.error("مش قادرين نمسح");
+      setPlaces(prev);
+    }
   };
 
   const visitedCount = places.filter((p) => p.visited).length;
@@ -71,7 +114,7 @@ const PlacesWishlist = () => {
           <Heart className="w-5 h-5 text-accent fill-accent" />
         </div>
         <p className="text-center text-sm text-muted-foreground mb-6">
-          اكتبي أي مكان نفسك نروحه يا إيسو 💕 ولما نروحه هنحط عليه ✓
+          اكتبي أي مكان نفسك نروحه يا إيسو 💕 محفوظ على طول وهيظهر من أي جهاز
         </p>
 
         {/* Progress */}
@@ -97,16 +140,17 @@ const PlacesWishlist = () => {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="مثلا المعادي او ايا مكان جديد  عموما ممكن نبقي نحطه هنا علشان مننساش "
+            placeholder="مثلا المعادي او ايا مكان جديد عموما ممكن نبقي نحطه هنا علشان مننساش"
             className="flex-1 rounded-full bg-white/70 border border-border focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30 px-4 py-2.5 text-sm font-body text-foreground placeholder:text-muted-foreground transition-all"
           />
           <motion.button
             type="submit"
+            disabled={adding}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[hsl(var(--rose-gold-light))] to-[hsl(var(--rose-gold))] text-white font-body font-semibold px-5 py-2.5 text-sm shadow-petal hover:shadow-glow transition-shadow"
+            className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[hsl(var(--rose-gold-light))] to-[hsl(var(--rose-gold))] text-white font-body font-semibold px-5 py-2.5 text-sm shadow-petal hover:shadow-glow transition-shadow disabled:opacity-60"
           >
-            <Plus className="w-4 h-4" />
+            {adding ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
             ضيفي
           </motion.button>
         </form>
@@ -114,7 +158,18 @@ const PlacesWishlist = () => {
         {/* List */}
         <ul className="space-y-2.5">
           <AnimatePresence initial={false}>
-            {places.length === 0 ? (
+            {loading ? (
+              <motion.li
+                key="loading"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="flex items-center justify-center py-8 text-sm text-muted-foreground"
+              >
+                <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                بنحمّل الأماكن...
+              </motion.li>
+            ) : places.length === 0 ? (
               <motion.li
                 key="empty"
                 initial={{ opacity: 0 }}
@@ -142,7 +197,7 @@ const PlacesWishlist = () => {
                   {/* Checkbox */}
                   <motion.button
                     type="button"
-                    onClick={() => toggle(p.id)}
+                    onClick={() => toggle(p.id, p.visited)}
                     whileTap={{ scale: 0.85 }}
                     className={`relative shrink-0 w-7 h-7 rounded-full flex items-center justify-center border-2 transition-colors ${
                       p.visited
@@ -164,7 +219,6 @@ const PlacesWishlist = () => {
                         </motion.span>
                       )}
                     </AnimatePresence>
-                    {/* burst effect */}
                     <AnimatePresence>
                       {justChecked === p.id && p.visited && (
                         <>
